@@ -83,22 +83,37 @@
             <div class="main-sidebar">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="{{ route('superadmin.dashboard') }}">Logo</a>
+                        <a href="{{ route('user.home') }}">Logo</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="{{ route('superadmin.dashboard') }}">LOGO</a>
+                        <a href="{{ route('user.home') }}">LOGO</a>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="nav-item">
-                            <a href="{{ route('superadmin.dashboard') }}" class="nav-link"><i class="fas fa-fire">
-                                </i><span>Dashboard</span>
+                            <a href="{{ route('user.home') }}" class="nav-link"><i class="fas fa-home">
+                                </i><span>Home</span>
                             </a>
                         </li>
-                        <li class="menu-header">User Management</li>
-                        <li>
-                            <a class="nav-link" href="{{ route('superadmin.user.index') }}">
-                                <i class="fas fa-users"></i>
-                                <span>Data User</span>
+                        <li class="menu-header">Data</li>
+                        <li class="nav-item">
+                            <a href="burung.html" class="nav-link"><i class="fas fa-map-marker-alt">
+                                </i><span>Koordinat</span>
+                            </a>
+                        </li>
+                        <li class="nav-item @if(Route::currentRouteName()==='user.burung.index') active @endif">
+                            <a href="{{ route('user.burung.index') }}" class="nav-link"><i class="fas fa-dove">
+                                </i><span>Burung</span>
+                            </a>
+                        </li>
+                        <li class="menu-header">Events</li>
+                        <li class="nav-item">
+                            <a href="dashboard.html" class="nav-link"><i class="fas fa-calendar-alt">
+                                </i><span>Akan Datang</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="dashboard.html" class="nav-link"><i class="fas fa-history">
+                                </i><span>Riwayat</span>
                             </a>
                         </li>
                     </ul>

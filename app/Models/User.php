@@ -28,6 +28,10 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    public function burung()
+    {
+        return $this->hasMany(Burung::class);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

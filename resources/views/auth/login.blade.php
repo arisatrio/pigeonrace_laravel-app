@@ -38,6 +38,14 @@
                             </div>
 
                             <div class="card-body">
+                                @if (session('error'))
+                                <div class="alert alert-danger alert-dismissible">
+                                    {{ session('error') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                @endif
                                 <form method="POST" action="{{ url('/login') }}" class="needs-validation" novalidate="">
                                     @csrf
                                     <div class="form-group">
@@ -71,6 +79,7 @@
                                         </button>
                                     </div>
                                 </form>
+                                <p class="text-center">TIdak Punya akun? <a href="{{ route('register')}}">Daftar</a></p>
                             </div>
                         </div>
                         <div class="simple-footer">

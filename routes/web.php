@@ -36,3 +36,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     });
 });
+
+// USER
+Route::middleware(['auth'])->group(function () {
+    Route::name('user.')->group(function (){
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'user'])->name('home');
+        //BURUNG CRUD
+        Route::resource('burung', App\Http\Controllers\BurungController::class);
+    });
+});

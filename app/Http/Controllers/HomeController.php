@@ -35,4 +35,9 @@ class HomeController extends Controller
     {
         return view('superadmin.dashboard');
     }
+
+    public function user()
+    {
+        return view('user.home');
+    }
 }

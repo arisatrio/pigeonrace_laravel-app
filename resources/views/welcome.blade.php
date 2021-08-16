@@ -37,11 +37,10 @@
                 <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
                     <li class="nav-item">
                         <a class="btn btn-outline-primary px-3 mb-2 mb-lg-0 nav-link text-primary me-lg-3"
-                            href="login.html">LOGIN</a>
+                            href="{{ route('login') }}">LOGIN</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-outline-primary px-3 mb-2 mb-lg-0 nav-link text-primary me-lg-3"" href="
-                            register.html">REGISTER</a>
+                        <a class="btn btn-outline-primary px-3 mb-2 mb-lg-0 nav-link text-primary me-lg-3" href="{{ route('register') }}">REGISTER</a>
                     </li>
                 </ul>
             </div>
@@ -59,7 +58,7 @@
                     Track, <br>
                     and Upload.
                 </h2>
-                <a class="btn btn-outline-light py-3 px-4 rounded-pill" href="register.html">REGISTER</a>
+                <a class="btn btn-outline-light py-3 px-4 rounded-pill" href="{{ route('register') }}">REGISTER</a>
             </div>
         </div>
     </section>
@@ -113,9 +112,6 @@
             </div>
         </div>
     </section>
-
-
-
 
 
     <!-- Footer-->
