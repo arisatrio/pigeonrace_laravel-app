@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'user'])->name('home');
         Route::resource('burung', App\Http\Controllers\User\BurungController::class);
         Route::resource('profile', App\Http\Controllers\User\ProfileController::class)->only(['edit', 'update']);
-
+        //
+        Route::resource('events', App\Http\Controllers\User\EventsController::class);
     });
 });

@@ -94,11 +94,27 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="nav-item @if(Route::currentRouteName()==='user.home') active @endif">
-                            <a href="{{ route('user.home') }}" class="nav-link"><i class="fas fa-home">
-                                </i><span>Home</span>
+                            <a href="{{ route('user.home') }}" class="nav-link"><i class="fas fa-home"></i>
+                                <span>Home</span>
                             </a>
                         </li>
-                        <li class="menu-header">Data</li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"><i class="fas fa-chart-bar"></i>
+                                <span>Statistik</span>
+                            </a>
+                        </li>
+                        <li class="menu-header">Events</li>
+                        <li class="nav-item @if(Route::currentRouteName()==='user.events.index') active @endif">
+                            <a href="{{ route('user.events.index') }}" class="nav-link"><i class="fas fa-calendar-alt"></i>
+                                <span>Akan Datang</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link"><i class="fas fa-history">
+                                </i><span>Riwayat</span>
+                            </a>
+                        </li>
+                        <li class="menu-header">Profil</li>
                         <li class="nav-item @if(Route::currentRouteName()==='user.profile.edit') active @endif">
                             <a href="{{ route('user.profile.edit', auth()->user()->id) }}" class="nav-link"><i class="fas fa-map-marker-alt">
                                 </i><span>Koordinat</span>
@@ -109,16 +125,18 @@
                                 </i><span>Burung</span>
                             </a>
                         </li>
-                        <li class="menu-header">Events</li>
                         <li class="nav-item">
-                            <a href="dashboard.html" class="nav-link"><i class="fas fa-calendar-alt">
-                                </i><span>Akan Datang</span>
+                            <a href="#" class="nav-link"><i class="fas fa-user">
+                                </i><span>Akun</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="dashboard.html" class="nav-link"><i class="fas fa-history">
-                                </i><span>Riwayat</span>
-                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <a href="{{ route('logout') }}" id="logout-form" class="dropdown-item has-icon text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt"></i><span>Logout</span> 
+                                </a>
+                            </form>
                         </li>
                     </ul>
                 </aside>

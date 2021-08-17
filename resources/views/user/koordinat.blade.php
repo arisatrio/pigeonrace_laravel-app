@@ -21,7 +21,7 @@
             @endif
             @if ($user->latitude == null)
             <div class="alert alert-danger alert-dismissible">
-                Anda belum setting Koordinat!.
+                Anda belum setting Koordinat.
             </div>
             @endif
             <div class="card">
