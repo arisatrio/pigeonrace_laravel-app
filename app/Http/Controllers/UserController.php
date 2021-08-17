@@ -50,7 +50,7 @@ class UserController extends Controller
         $data = $request->all();
         User::create($data);
 
-        return redirect()->route('superadmin.user.index')->with('message', 'User Berhasil Ditambahkan');
+        return redirect()->route('superadmin.user.index')->with('messages', 'User Berhasil Ditambahkan');
     }
 
     /**

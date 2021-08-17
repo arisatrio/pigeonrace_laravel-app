@@ -36,7 +36,7 @@
                                     <select name="city" class="form-control">
                                         <option selected disabled>--Pilih Kota--</option>
                                         @foreach ($city as $item)
-                                        <option value="{{ $item }}">{{ $item }}</option>
+                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('city')

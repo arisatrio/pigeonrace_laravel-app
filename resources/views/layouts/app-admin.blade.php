@@ -4,23 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Dashboard &mdash; Merpati Pos</title>
+    <title> &mdash; Merpati Pos</title>
 
     <!-- General CSS Files -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- CSS Libraries -->
-    <link rel="stylesheet" href="../node_modules/jqvmap/dist/jqvmap.min.css">
+    {{-- <link rel="stylesheet" href="../node_modules/jqvmap/dist/jqvmap.min.css">
     <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons.min.css">
     <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons-wind.min.css">
-    <link rel="stylesheet" href="../node_modules/summernote/dist/summernote-bs4.css">
+    <link rel="stylesheet" href="../node_modules/summernote/dist/summernote-bs4.css"> --}}
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 </head>
 
 <body>
@@ -97,23 +96,18 @@
                             </a>
                         </li>
                         <li class="menu-header">Events</li>
-                        
-                        <li>
+                        <li class="nav-item">
                             <a class="nav-link" href="events.html">
-                                <i class="far fa-calendar-alt"></i>
-                                <span>Events</span>
+                                <i class="far fa-plus"></i>
+                                <span>Buat Events</span>
                             </a>
                         </li>
-                        <li class="menu-header">Data</li>
-                        <li class="nav-item dropdown">
-                            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
-                                    class="fas fa-database"></i><span>Master Data</span></a>
-                            <ul class="dropdown-menu">
-                                <li><a class="nav-link" href="pomp.html">Data POMP</a></li>
-                                <li><a class="nav-link" href="kandang.html">Data Kandang</a></li>
-                                <li><a class="nav-link" href="burung.html">Data Burung</a></li>
-                                <li><a class="nav-link" href="lepasan.html">Data Lokasi Lepasan</a></li>
-                            </ul>
+                        <li class="menu-header">Master Data</li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.club.index') }}">
+                                <i class="far fa-users"></i>
+                                <span>Data Club</span>
+                            </a>
                         </li>
                     </ul>
                 </aside>
@@ -121,231 +115,11 @@
 
             <!-- Main Content -->
             <div class="main-content">
-                <section class="section">
-                    <div class="section-header">
-                        <h1>Dashboard</h1>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="card card-statistic-1">
-                                <div class="card-icon bg-primary">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="card-wrap">
-                                    <div class="card-header">
-                                        <h4>Total POPM</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        10
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="card card-statistic-1">
-                                <div class="card-icon bg-danger">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                <div class="card-wrap">
-                                    <div class="card-header">
-                                        <h4>TOTAL KANDANG</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        42
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="card card-statistic-1">
-                                <div class="card-icon bg-warning">
-                                    <i class="fas fa-dove"></i>
-                                </div>
-                                <div class="card-wrap">
-                                    <div class="card-header">
-                                        <h4>TOTAL BURUNG</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        1,201
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                            <div class="card card-statistic-1">
-                                <div class="card-icon bg-success">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div class="card-wrap">
-                                    <div class="card-header">
-                                        <h4>TOTAL LOKASI LEPASAN</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        47
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center mb-4">
-                        <div class="dropdown">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Recent Event
-                            </button>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Event 1</a>
-                                <a class="dropdown-item" href="#">Event 2</a>
-                                <a class="dropdown-item" href="#">Event 2</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-12 col-12 col-sm-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Rank</h4>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="list-unstyled list-unstyled-border">
-                                        <li class="media">
-                                            <div class="badge badge-secondary rounded-circle">1</div>
-                                            <div class="media-body">
-                                                <div class="float-right">1000mpm</div>
-                                                <div class="badge badge-danger">4121-2122-2019-BR-Red-J</div>
-                                            </div>
-                                        </li>
-                                        <li class="media">
-                                            <div class="badge badge-secondary rounded-circle">2</div>
-                                            <div class="media-body">
-                                                <div class="float-right">900mpm</div>
-                                                <div class="badge badge-primary">555-1212-2016-BR-Red-J</div>
-                                            </div>
-                                        </li>
-                                        <li class="media">
-                                            <div class="badge badge-secondary rounded-circle">3</div>
-                                            <div class="media-body">
-                                                <div class="float-right">890mpm</div>
-                                                <div class="badge badge-success">2322-7676-2018-BR-Red-J</div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="text-center pt-1 pb-1">
-                                        <a href="race-result.html" class="text-primary">
-                                            View All
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Top Kandang</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="summary">
-                                        <div class="summary-item">
-                                            <ul class="list-unstyled list-unstyled-border">
-                                                <li class="media">
-                                                    <a href="#">
-                                                        <img class="mr-3 rounded" width="50"
-                                                            src="../assets/img/avatar-1.png" alt="product">
-                                                    </a>
-                                                    <div class="media-body">
-                                                        <div class="media-right">5</div>
-                                                        <div class="media-title"><a href="#">Kandang Satu</a></div>
-                                                        <div class="text-muted text-small">PPOM <a href="#">Mataram</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="media">
-                                                    <a href="#">
-                                                        <img class="mr-3 rounded" width="50"
-                                                            src="../assets/img/avatar-1.png" alt="product">
-                                                    </a>
-                                                    <div class="media-body">
-                                                        <div class="media-right">3</div>
-                                                        <div class="media-title"><a href="#">Kandang Dua</a></div>
-                                                        <div class="text-muted text-small">PPOM <a href="#">Elang</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="media">
-                                                    <a href="#">
-                                                        <img class="mr-3 rounded" width="50"
-                                                            src="../assets/img/avatar-1.png" alt="product">
-                                                    </a>
-                                                    <div class="media-body">
-                                                        <div class="media-right">5</div>
-                                                        <div class="media-title"><a href="#">Kandang Tiga</a></div>
-                                                        <div class="text-muted text-small">PPOM <a href="#">Ababil</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Top POPM</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="summary">
-                                        <div class="summary-item">
-                                            <ul class="list-unstyled list-unstyled-border">
-                                                <li class="media">
-                                                    <a href="#">
-                                                        <img class="mr-3 rounded" width="50"
-                                                            src="../assets/img/avatar-1.png" alt="product">
-                                                    </a>
-                                                    <div class="media-body">
-                                                        <div class="media-right">55</div>
-                                                        <div class="media-title"><a href="#">Mataram</a></div>
-                                                    </div>
-                                                </li>
-                                                <li class="media">
-                                                    <a href="#">
-                                                        <img class="mr-3 rounded" width="50"
-                                                            src="../assets/img/avatar-1.png" alt="product">
-                                                    </a>
-                                                    <div class="media-body">
-                                                        <div class="media-right">35</div>
-                                                        <div class="media-title"><a href="#">Elang</a></div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-12 col-sm-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Race Statistics</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <iframe
-                                            src="https://www.google.com/maps/d/embed?mid=1Z5PHn-XMkUhC7cDcplybD82LX3A&hl=en"
-                                            width="100%" height="480">
-                                        </iframe>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                <section class="section">        
+                    @yield('content')
                 </section>
             </div>
+
             <footer class="main-footer">
                 <div class="footer-left">
                     Copyright &copy; 2021 <div class="bullet"></div> AFEDIGI</a>

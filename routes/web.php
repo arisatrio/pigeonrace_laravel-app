@@ -31,8 +31,8 @@ Route::middleware(['auth', 'superadmin'])->group(function () {
 // ADMIN / PANITIA
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function (){
-
         Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'admin'])->name('dashboard');
+        Route::resource('club', App\Http\Controllers\Admin\ClubController::class);
 
     });
 });

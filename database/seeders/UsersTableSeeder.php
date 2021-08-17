@@ -16,11 +16,11 @@ class UsersTableSeeder extends Seeder
     {
         //
         User::create([
-            'name' => 'Admin',
-            'email' => 'admin@mail.com',
-            'nohp' => '0812345678',
+            'name' => 'Super Admin',
+            'email' => 'superadmin@mail.com',
+            'nohp' => '08123456789',
             'password' => bcrypt('password'),
-            'role_id' => 2
+            'role_id' => 1
         ]);
     }
 }

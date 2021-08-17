@@ -48,7 +48,7 @@ class LoginController extends Controller
 
         if(is_numeric($request->input('username'))){
             $field = 'nohp';
-        } elseif (filter_var($request->input('login'), FILTER_VALIDATE_EMAIL)) {
+        } elseif (filter_var($request->input('username'), FILTER_VALIDATE_EMAIL)) {
             $field = 'email';
         } 
         $request->merge([$field => $request->input('username')]);
