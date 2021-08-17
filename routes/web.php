@@ -41,7 +41,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::name('user.')->group(function (){
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'user'])->name('home');
-        //BURUNG CRUD
-        Route::resource('burung', App\Http\Controllers\BurungController::class);
+        Route::resource('burung', App\Http\Controllers\User\BurungController::class);
+        Route::resource('profile', App\Http\Controllers\User\ProfileController::class)->only(['edit', 'update']);
+
     });
 });

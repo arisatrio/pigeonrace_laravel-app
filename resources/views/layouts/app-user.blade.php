@@ -12,6 +12,10 @@
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
     <!-- CSS Libraries -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
     {{-- <link rel="stylesheet" href="../node_modules/jqvmap/dist/jqvmap.min.css">
     <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons.min.css">
     <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons-wind.min.css">
@@ -89,14 +93,14 @@
                         <a href="{{ route('user.home') }}">LOGO</a>
                     </div>
                     <ul class="sidebar-menu">
-                        <li class="nav-item">
+                        <li class="nav-item @if(Route::currentRouteName()==='user.home') active @endif">
                             <a href="{{ route('user.home') }}" class="nav-link"><i class="fas fa-home">
                                 </i><span>Home</span>
                             </a>
                         </li>
                         <li class="menu-header">Data</li>
-                        <li class="nav-item">
-                            <a href="burung.html" class="nav-link"><i class="fas fa-map-marker-alt">
+                        <li class="nav-item @if(Route::currentRouteName()==='user.profile.edit') active @endif">
+                            <a href="{{ route('user.profile.edit', auth()->user()->id) }}" class="nav-link"><i class="fas fa-map-marker-alt">
                                 </i><span>Koordinat</span>
                             </a>
                         </li>
@@ -145,10 +149,14 @@
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
         
+    {{-- Leaflet --}}
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
+
 
     <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>

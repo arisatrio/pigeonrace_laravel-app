@@ -58,6 +58,16 @@
                                         </span>
                                         @enderror
                                     </div>
+                                    <div class="form-group">
+                                        <label for="nohp">No. Handphone</label>
+                                        <input id="nohp" type="text" class="form-control" name="nohp">
+                                        <div class="invalid-feedback"></div>
+                                        @error('nohp')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label for="password" class="d-block">Password</label>

@@ -49,11 +49,11 @@
                                 <form method="POST" action="{{ url('/login') }}" class="needs-validation" novalidate="">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input id="email" type="email" class="form-control" name="email" tabindex="1"
+                                        <label for="username">Email / No. Handphone</label>
+                                        <input id="username" type="username" class="form-control" name="username" tabindex="1"
                                             required autofocus>
                                         <div class="invalid-feedback">
-                                            Please fill in your email
+                                            Please fill in your email / no. handphone
                                         </div>
                                     </div>
 

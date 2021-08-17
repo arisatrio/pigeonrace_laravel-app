@@ -41,18 +41,25 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $inputVal = $request->all();
-   
         $this->validate($request, [
-            'email' => 'required|email',
+            'username' => 'required',
             'password' => 'required',
         ]);
+
+        if(is_numeric($request->input('username'))){
+            $field = 'nohp';
+        } elseif (filter_var($request->input('login'), FILTER_VALIDATE_EMAIL)) {
+            $field = 'email';
+        } 
+        $request->merge([$field => $request->input('username')]);
    
-        if(auth()->attempt(array('email' => $inputVal['email'], 'password' => $inputVal['password']))){
+        if(auth()->attempt($request->only($field, 'password'))){
             if (auth()->user()->role_id == 1) {
                 return redirect()->route('superadmin.dashboard');
-            }else if (auth()->user()->role_id == 2) {
+            } else if (auth()->user()->role_id == 2) {
                 return redirect()->route('admin.dashboard');
+            } else {
+                return redirect()->route('user.home');
             }
         }else{
             return redirect()->route('login')

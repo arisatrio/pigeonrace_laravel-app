@@ -18,14 +18,23 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'role_id',
         'email',
+        'nohp',
+        'city',
+        'latitude',
+        'longitude',
         'password',
-        'role_id'
     ];
 
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function koordinat()
+    {
+        return $this->hasOne(koordinat::class);
     }
 
     public function burung()

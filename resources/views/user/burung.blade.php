@@ -4,7 +4,7 @@
 <div class="section-header">
     <h1>Data Burung</h1>
     <div class="section-header-breadcrumb">
-        <div class="breadcrumb-item active"><a href="{{ route('superadmin.dashboard') }}">Dashboard</a></div>
+        <div class="breadcrumb-item active"><a href="{{ route('user.home') }}">Home</a></div>
         <div class="breadcrumb-item">Data Burung</div>
     </div>
 </div>
