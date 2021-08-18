@@ -44,7 +44,7 @@ class ProfileController extends Controller
     {
         $this->validate($request, 
             [
-                'kota'      => 'required',
+                'city'      => 'required',
                 'latitude'   => 'required',
                 'longitude'   => 'required',
                 'user_id'   => 'required'
@@ -54,6 +54,8 @@ class ProfileController extends Controller
         $data = $request->all();
         $user = User::find($id);
         $user->update($data);
+
+        
 
         return redirect()->back()->with('messages', 'Data Koordinat berhasil diperbaharui');
     }

@@ -1,5 +1,5 @@
-@extends('layouts.app-user')
-
+@extends('layouts.app')
+@section('title', 'Tambah Burung')
 @section('content')
 <div class="section-header">
     <h1>Tambah Data Burung</h1>

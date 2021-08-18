@@ -41,6 +41,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Burung::class);
     }
+
+    public function isAdmin(){
+        return (\Auth::user()->role_id == 2);
+    }
+
+    public function isUser(){
+        return (\Auth::user()->role_id == 3);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *

@@ -1,11 +1,11 @@
-@extends('layouts.app-user')
-
+@extends('layouts.app')
+@section('title', 'Race')
 @section('content')
 <div class="section-header">
-    <h1>Events</h1>
+    <h1>Race</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="{{ route('user.home') }}">Home</a></div>
-        <div class="breadcrumb-item">Events</div>
+        <div class="breadcrumb-item">Race</div>
     </div>
 </div>
 @if (auth()->user()->latitude == null)
@@ -22,7 +22,7 @@
 <div class="section-body">
     <div class="row">
         <div class="col-12">
-            Daftar Events
+            Daftar Race
         </div>
     </div>
 </div>

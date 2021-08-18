@@ -1,5 +1,5 @@
-@extends('layouts.app-user')
-
+@extends('layouts.app')
+@section('title', 'Home')
 @section('content')
 <div class="section-header">
     <h1>Home</h1>
@@ -16,7 +16,7 @@
             </div>
             @endif
             <div class="alert alert-danger alert-dismissible">
-                Tidak ada Event aktif.
+                Tidak ada Race aktif.
             </div>
         </div>
     </div>

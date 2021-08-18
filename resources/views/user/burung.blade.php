@@ -1,5 +1,5 @@
-@extends('layouts.app-user')
-
+@extends('layouts.app')
+@section('title', 'Data Burung')
 @section('content')
 <div class="section-header">
     <h1>Data Burung</h1>
@@ -46,9 +46,6 @@
                     @endforeach
                 </div> 
             </div>
-            
-            
-
         </div>
     </div>
 </div>
