@@ -67,8 +67,6 @@
                             if (lat == null) {
                                 latLong = @JSON($liveLoc);
                             };
-
-                            console.log(latLong);
                             
                             var mymap = L.map('mapid').setView(latLong, 13);
                             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

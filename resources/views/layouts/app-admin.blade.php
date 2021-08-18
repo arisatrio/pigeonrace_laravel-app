@@ -16,6 +16,10 @@
     <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons.min.css">
     <link rel="stylesheet" href="../node_modules/weathericons/css/weather-icons-wind.min.css">
     <link rel="stylesheet" href="../node_modules/summernote/dist/summernote-bs4.css"> --}}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -25,7 +29,7 @@
 <body>
     <div id="app">
         <div class="main-wrapper">
-            <div class="navbar-bg bg-dark"></div>
+            <div class="navbar-bg bg-danger"></div>
             <nav class="navbar navbar-expand-lg main-navbar">
                 <ul class="navbar-nav mr-auto">
                     <li>
@@ -90,16 +94,16 @@
                         <a href="dashboard.html">MP</a>
                     </div>
                     <ul class="sidebar-menu">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a href="dashboard.html" class="nav-link"><i class="fas fa-fire">
                                 </i><span>Dashboard</span>
                             </a>
                         </li>
-                        <li class="menu-header">Events</li>
+                        <li class="menu-header">Race</li>
                         <li class="nav-item">
-                            <a class="nav-link" href="events.html">
+                            <a class="nav-link" href="{{ route('admin.race.create') }}">
                                 <i class="far fa-plus"></i>
-                                <span>Buat Events</span>
+                                <span>Add Race</span>
                             </a>
                         </li>
                         <li class="menu-header">Master Data</li>
@@ -132,32 +136,30 @@
     </div>
 
     <!-- General JS Scripts -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="{{asset('assets/js/jquery.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+
+    {{-- Leaflet --}}
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+    <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="../assets/js/stisla.js"></script>
+    <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
     <!-- JS Libraies -->
-    <script src="../node_modules/simpleweather/jquery.simpleWeather.min.js"></script>
+    {{-- <script src="../node_modules/simpleweather/jquery.simpleWeather.min.js"></script>
     <script src="../node_modules/chart.js/dist/Chart.min.js"></script>
     <script src="../node_modules/jqvmap/dist/jquery.vmap.min.js"></script>
     <script src="../node_modules/jqvmap/dist/maps/jquery.vmap.world.js"></script>
     <script src="../node_modules/summernote/dist/summernote-bs4.js"></script>
-    <script src="../node_modules/chocolat/dist/js/jquery.chocolat.min.js"></script>
+    <script src="../node_modules/chocolat/dist/js/jquery.chocolat.min.js"></script> --}}
 
     <!-- Template JS File -->
-    <script src="../assets/js/scripts.js"></script>
-    <script src="../assets/js/custom.js"></script>
-
-    <!-- Page Specific JS File -->
-    <script src="../assets/js/page/index-0.js"></script>
+    <script src="{{ asset('assets/js/scripts.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
 </body>
 
 </html>
