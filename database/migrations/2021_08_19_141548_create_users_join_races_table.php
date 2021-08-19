@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBurungsTable extends Migration
+class CreateUsersJoinRacesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateBurungsTable extends Migration
      */
     public function up()
     {
-        Schema::create('burungs', function (Blueprint $table) {
+        Schema::create('users_join_races', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('club_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->string('tahun');
-            $table->string('no_ring')->unique();
-            $table->string('warna');
-            $table->string('jenkel');
-            $table->string('titipan')->nullable();
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('race_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ class CreateBurungsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('burungs');
+        Schema::dropIfExists('users_join_races');
     }
 }

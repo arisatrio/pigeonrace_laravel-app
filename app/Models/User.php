@@ -49,6 +49,16 @@ class User extends Authenticatable
     public function isUser(){
         return (\Auth::user()->role_id == 3);
     }
+
+    public function join()
+    {
+        return $this->belongsToMany(Race::class, 'users_join_races')
+        ->using(JoinRace::class)
+        ->as('join')
+        ->withPivot('status')
+        ->withTimestamps();
+    }
+    
     /**
      * The attributes that should be hidden for arrays.
      *

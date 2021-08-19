@@ -19,6 +19,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
+//CEK
+Route::get('/cek-distance', function () {
+    return view('cek-distance');
+});
+Route::post('/distance', [App\Http\Controllers\UserController::class, 'distance'])->name('distance');
+
 // SUPER ADMIN
 Route::middleware(['auth', 'superadmin'])->group(function () {
     Route::prefix('super-admin')->name('superadmin.')->group(function (){
@@ -35,16 +41,29 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('club', App\Http\Controllers\Admin\ClubController::class);
         //
         Route::resource('race', App\Http\Controllers\Admin\RaceController::class);
+        Route::resource('race-kelas', App\Http\Controllers\Admin\RaceKelasController::class)->except(['create', 'destroy']);
+        Route::get('/race/{race_id}/kelas/create', [App\Http\Controllers\Admin\RaceKelasController::class, 'create'])->name('race-kelas.create');
+        Route::delete('/race/{race_id}/kelas/{id}', [App\Http\Controllers\Admin\RaceKelasController::class, 'destroy'])->name('race-kelas.destroy');
+        // route edit dan update kelas
+        Route::resource('race-latihan', App\Http\Controllers\Admin\RaceLatihanController::class)->except(['create', 'destroy']);
+        Route::get('/race/{race_id}/latihan/create', [App\Http\Controllers\Admin\RaceLatihanController::class, 'create'])->name('race-latihan.create');
+        Route::delete('/race/{race_id}/latihan/{id}', [App\Http\Controllers\Admin\RaceLatihanController::class, 'destroy'])->name('race-latihan.destroy');
+        // route edit dan update latihan
+        Route::resource('race-pos', App\Http\Controllers\Admin\RacePosController::class)->except(['create', 'destroy']);
+        Route::get('/race/{race_id}/pos/create', [App\Http\Controllers\Admin\RacePosController::class, 'create'])->name('race-pos.create');
+        Route::delete('/race/{race_id}/pos/{id}', [App\Http\Controllers\Admin\RaceLatihanController::class, 'destroy'])->name('race-pos.destroy');
     });
 });
 
 // USER
 Route::middleware(['auth'])->group(function () {
     Route::name('user.')->group(function (){
-        Route::get('/home', [App\Http\Controllers\HomeController::class, 'user'])->name('home');
+        Route::get('/home', [App\Http\Controllers\User\UserHomeController::class, 'index'])->name('home');
         Route::resource('burung', App\Http\Controllers\User\BurungController::class);
         Route::resource('profile', App\Http\Controllers\User\ProfileController::class)->only(['edit', 'update']);
         //
         Route::resource('race', App\Http\Controllers\User\RaceController::class);
+        //
+        Route::post('/race/{id}/join', [App\Http\Controllers\User\RaceController::class, 'joinRace'])->name('join-race');
     });
 });

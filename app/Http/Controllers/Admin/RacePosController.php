@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Helper\Helper;
 
 use App\Models\Race;
+use App\Models\RaceKelas;
+use App\Models\RaceLatihan;
+use App\Models\RacePos;
+use App\Models\City;
 
-class RaceController extends Controller
+class RacePosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +20,7 @@ class RaceController extends Controller
      */
     public function index()
     {
-        return view('user.race');
+        //
     }
 
     /**
@@ -25,9 +28,12 @@ class RaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id_race)
     {
-        //
+        $race = Race::find($id_race);
+        $city = City::pluck('name');
+
+        return view('admin.race.pos-create', compact('race', 'city'));
     }
 
     /**
@@ -38,7 +44,22 @@ class RaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, 
+            [
+                'tgl_inkorv' => 'required',
+                'tgl_lepasan'     => 'required',
+                'city'  => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
+                'jarak' => 'required',
+                'biaya_inkorv' => 'required'
+            ]
+        );
+
+        $data = $request->all();
+        $racePos = RacePos::create($data);
+
+        return redirect()->route('admin.race.show', $racePos->race_id)->with('messages', 'Data Pos berhasil ditambahkan.');
     }
 
     /**
@@ -49,21 +70,7 @@ class RaceController extends Controller
      */
     public function show($id)
     {
-        $race = Race::find($id);
-
-        return view('user.race-show', compact('race'));
-    }
-
-    public function joinRace($race_id)
-    {
-        $race = Race::find($race_id);
-        $user = auth()->user();
-
-        if (!$race->join->contains($user)) {
-            $race->join()->attach($user, ['status' => 1]);
-        }
-
-        return redirect()->route('user.home')->with('messages', 'Anda telah mengikuti race');
+        //
     }
 
     /**

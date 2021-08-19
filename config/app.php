@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'id',
 
     /*
     |--------------------------------------------------------------------------
@@ -232,6 +232,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         //
         'Location' => Stevebauman\Location\LocationServiceProvider::class,
+        'Helper' => App\Helper\Helper::class
     ],
 
 ];

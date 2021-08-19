@@ -114,4 +114,28 @@ class UserController extends Controller
 
         return redirect()->route('superadmin.user.index')->with('message', 'User Berhasiil Dihapus');
     }
+
+    public function distance(Request $request)
+    {
+        if (($request->input('lat1') == $request->input('lat2')) && ($request->input('long1') == $request->input('long2') )) {
+            return 0;
+          }
+          else {
+            $theta = $request->input('long1') - $request->input('long2');
+            $dist = sin(deg2rad($request->input('lat1'))) * sin(deg2rad($request->input('lat2'))) +  cos(deg2rad($request->input('lat1'))) * cos(deg2rad($request->input('lat2'))) * cos(deg2rad($theta));
+            $dist = acos($dist);
+            $dist = rad2deg($dist);
+            $miles = $dist * 60 * 1.1515;
+            $km = $miles * 1.609344;
+            // $unit = strtoupper($unit);
+            return 
+            "Lat awal : " . $request->input('lat1')."<br>".
+            "Long awal : " . $request->input('long1'). "<br>".
+            "<br>".
+            "Lat akhir : ".$request->input('lat2')."<br>".
+            "Long akhir : ".$request->input('long2')."<br>".
+            "<br>".
+            "Jarak : ".number_format($km, 3). " KM";
+          }
+    }
 }

@@ -132,6 +132,10 @@
                         </li>
                         <li class="menu-header">Race</li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.race.index') }}">
+                                <i class="far fa-plus"></i>
+                                <span>Data Race</span>
+                            </a>
                             <a class="nav-link" href="{{ route('admin.race.create') }}">
                                 <i class="far fa-plus"></i>
                                 <span>Add Race</span>
@@ -143,6 +147,14 @@
                                 <i class="far fa-users"></i>
                                 <span>Data Club</span>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <a href="{{ route('logout') }}" id="logout-form" class="dropdown-item has-icon text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt"></i><span>Keluar</span> 
+                                </a>
+                            </form>
                         </li>
                     </ul>
                 </aside>
@@ -207,6 +219,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js" crossorigin="anonymous"></script>
 
     <!-- Template JS File -->
     <script src="{{ asset('assets/js/stisla.js') }}"></script>

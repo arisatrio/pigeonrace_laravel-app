@@ -3,7 +3,11 @@
     <select name="city" class="form-control select2" id="city">
         <option selected disabled>--Pilih Kota--</option>
         @foreach ($city as $item)
-        <option @if ($item === $user->city) selected @endif value="{{ $item }}">{{ $item }}</option>
+        <option 
+            @isset($user)
+                @if ($item === $user->city) selected @endif
+            @endisset
+            value="{{ $item }}">{{ $item }}</option>
         @endforeach
     </select>
     @error('city')

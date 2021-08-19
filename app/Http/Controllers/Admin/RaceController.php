@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Race;
+use App\Models\RaceKelas;
+
 class RaceController extends Controller
 {
     /**
@@ -14,7 +17,9 @@ class RaceController extends Controller
      */
     public function index()
     {
-        //
+        $race = Race::all();
+
+        return view('admin.race.race', compact('race'));
     }
 
     /**
@@ -24,7 +29,7 @@ class RaceController extends Controller
      */
     public function create()
     {
-        return view('admin.race-create');
+        return view('admin.race.race-create');
     }
 
     /**
@@ -35,7 +40,28 @@ class RaceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, 
+            [
+                'nama_race' => 'required',
+                'tgl_race'  => 'required',
+                'poster'    => 'required',
+                'deskripsi'  => 'required'
+            ]
+        );
+
+        $image              = $request->file('poster');
+        $imageName          = time().'.'.$image->getClientOriginalExtension();
+        $destinationPath    = public_path('assets/img/poster');
+        $image->move($destinationPath, $imageName);
+        
+        $race = Race::create([
+            'nama_race' => $request->nama_race,
+            'tgl_race' => $request->tgl_race,
+            'poster' => $imageName,
+            'deskripsi' => $request->deskripsi
+        ]);
+
+        return redirect()->route('admin.race.show', $race->id)->with('messages', 'Race Berhasil Dibuat. Silahkan lengkapi data Race');
     }
 
     /**
@@ -46,7 +72,9 @@ class RaceController extends Controller
      */
     public function show($id)
     {
-        //
+        $race = Race::find($id);
+
+        return view('admin.race.race-show', compact('race'));
     }
 
     /**
@@ -69,7 +97,13 @@ class RaceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $race = Race::find($id);
+        $data = $request->all();
+        $race->update($data);
+
+        $messages = '{{ $race->nama_race }} telah Aktif.';
+
+        return redirect()->route('admin.race.index')->with('messages');
     }
 
     /**
@@ -80,6 +114,9 @@ class RaceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $race = Race::find($id);
+        $race->delete();
+
+        return redirect()->route('admin.race.index')->with('messages', 'Data Race Berhasil Dihapus');
     }
 }
