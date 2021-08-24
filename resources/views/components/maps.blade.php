@@ -2,7 +2,7 @@
 @push('css_script')
     @include('layouts.leaflet-assets')
 @endpush
-@push('js_script')
+{{-- @push('js_script')
 @isset($user)
     <script>
         var lat = @JSON($user->latitude);
@@ -15,12 +15,23 @@
 @endisset
 <script>
     var latLong = [-7.25792351, 112.79242516];
+    var latLong2 = @JSON([$posActive->latitude, $posActive->longitude]);
+    var point = [latLong, latLong2];
+    console.log(point);
     
     var mymap = L.map('mapid').setView(latLong, 15);
     L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(mymap);
+
+    var firstpolyline = new L.Polyline(point, {
+        color: 'red',
+        weight: 3,
+        opacity: 0.5,
+        smoothFactor: 1
+    });
+    firstpolyline.addTo(mymap);
 
     var marker = L.marker(latLong).addTo(mymap);
     marker.bindPopup("<b>Koordinat Anda : </b><br>."+latLong+".").openPopup();
@@ -40,4 +51,4 @@
         .openPopup();
     });
 </script>
-@endpush
+@endpush --}}

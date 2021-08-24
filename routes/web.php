@@ -51,6 +51,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         // route edit dan update latihan
         Route::resource('race-pos', App\Http\Controllers\Admin\RacePosController::class)->except(['create', 'destroy']);
         Route::get('/race/{race_id}/pos/create', [App\Http\Controllers\Admin\RacePosController::class, 'create'])->name('race-pos.create');
+        Route::get('/race/{race_id}/pos/{id}/edit', [App\Http\Controllers\Admin\RacePosController::class, 'edit'])->name('race-pos.edit');
         Route::delete('/race/{race_id}/pos/{id}', [App\Http\Controllers\Admin\RaceLatihanController::class, 'destroy'])->name('race-pos.destroy');
     });
 });
@@ -65,5 +66,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('race', App\Http\Controllers\User\RaceController::class);
         //
         Route::post('/race/{id}/join', [App\Http\Controllers\User\RaceController::class, 'joinRace'])->name('join-race');
+        Route::post('/race/{id}/', [App\Http\Controllers\User\UserHomeController::class, 'stopJoin'])->name('stop-join');
+        Route::get('/race/{id}/basketing/{race_pos_id}', [App\Http\Controllers\User\UserHomeController::class, 'basketing'])->name('add-basketing');
+        Route::post('/race/basketing/{race_pos_id}/', [App\Http\Controllers\User\UserHomeController::class, 'basketingStore'])->name('store-basketing');
+        Route::post('/race/clock/{race_pos_id}/', [App\Http\Controllers\User\UserHomeController::class, 'clockStore'])->name('store-clock');
     });
 });

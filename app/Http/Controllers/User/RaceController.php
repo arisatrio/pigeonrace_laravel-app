@@ -17,7 +17,9 @@ class RaceController extends Controller
      */
     public function index()
     {
-        return view('user.race');
+        $race = Race::where('status', 'AKTIF')->get();
+
+        return view('user.race', compact('race'));
     }
 
     /**

@@ -18,12 +18,13 @@
                     <h5>Data Pos</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.race-pos.store') }}" method="POST">
+                    <form action="{{ route('admin.race-pos.update', $pos->id) }}" method="POST">
                         @csrf
+                        @method('PUT')
                         
                         <div class="form-group">
                             <label for="no_pos">No Pos</label>
-                            <input type="number" class="form-control" name="no_pos">
+                            <input type="number" class="form-control" name="no_pos" value="{{ $pos->no_pos }}">
                             @error('no_pos')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -35,7 +36,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="tgl_inkorv">Tanggal Inkorv</label>
-                                    <input type="datetime-local" class="form-control" name="tgl_inkorv">
+                                    <input type="datetime-local" class="form-control" name="tgl_inkorv" value="{{ $pos->tgl_inkorv->format('Y-m-d').'T'.$pos->tgl_inkorv->format('H:i:s') }}">
                                     @error('tgl_inkorv')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -46,7 +47,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="tgl_lepasan">Tanggal Lepasan</label>
-                                    <input type="datetime-local" class="form-control" name="tgl_lepasan">
+                                    <input type="datetime-local" class="form-control" name="tgl_lepasan" id="tgl_lepasan" value="{{ $pos->tgl_lepasan->format('Y-m-d').'T'.$pos->tgl_lepasan->format('H:i:s') }}">
                                     @error('tgl_lepasan')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -63,7 +64,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="latitude">Latitude</label>
-                                    <input type="text" class="form-control" name="latitude" id="latitude">
+                                    <input type="text" class="form-control" name="latitude" id="latitude" value="{{ $pos->latitude }}">
                                     @error('latitude')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -74,7 +75,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="longitude">Longitude</label>
-                                    <input type="text" class="form-control" name="longitude" id="longitude">
+                                    <input type="text" class="form-control" name="longitude" id="longitude" value=" {{ $pos->longitude }}">
                                     @error('longitude')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -89,7 +90,7 @@
 
                         <div class="form-group">
                             <label for="jarak">Jarak</label>
-                            <input type="number" class="form-control" name="jarak">
+                            <input type="number" class="form-control" name="jarak" value="{{ $pos->jarak }}">
                             @error('jarak')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -99,7 +100,7 @@
 
                         <div class="form-group">
                             <label for="biaya_inkorv">Biaya Inkorv</label>
-                            <input type="number" class="form-control" name="biaya_inkorv">
+                            <input type="number" class="form-control" name="biaya_inkorv" value="{{ $pos->biaya_inkorv }}">
                             @error('biaya_inkorv')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -116,3 +117,32 @@
     </div>
 </div>
 @endsection
+@push('js_script')
+    <script>
+    var latLong = [@JSON($pos->latitude), @JSON($pos->longitude)];
+    
+    var mymap = L.map('mapid').setView(latLong, 15);
+    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(mymap);
+
+    var marker = L.marker(latLong).addTo(mymap);
+    marker.bindPopup("<b>Koordinat Tersimpan : </b><br>."+latLong+".").openPopup();
+
+    var markerr;
+    mymap.on('click', function(e) {
+        let latitude = e.latlng.lat.toString().substring(0, 15);
+        let longitude = e.latlng.lng.toString().substring(0, 15);
+        $('#latitude').val(latitude);
+        $('#longitude').val(longitude);
+        if (markerr != undefined) {
+            mymap.removeLayer(markerr);
+        };
+        var popupContent = "<b>Koordinat : </b><br>." + latitude + ", " + longitude + ".";
+        markerr = L.marker([latitude, longitude]).addTo(mymap);
+        markerr.bindPopup(popupContent)
+        .openPopup();
+    });
+    </script>
+@endpush

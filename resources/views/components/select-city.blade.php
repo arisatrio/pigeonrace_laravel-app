@@ -4,8 +4,8 @@
         <option selected disabled>--Pilih Kota--</option>
         @foreach ($city as $item)
         <option 
-            @isset($user)
-                @if ($item === $user->city) selected @endif
+            @isset($selectedCity)
+                @if ($item === $selectedCity) selected @endif
             @endisset
             value="{{ $item }}">{{ $item }}</option>
         @endforeach

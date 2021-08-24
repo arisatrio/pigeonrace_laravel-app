@@ -46,6 +46,7 @@ class RacePosController extends Controller
     {
         $this->validate($request, 
             [
+                'no_pos' => 'required',
                 'tgl_inkorv' => 'required',
                 'tgl_lepasan'     => 'required',
                 'city'  => 'required',
@@ -79,9 +80,14 @@ class RacePosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($race_id, $id)
     {
-        //
+        $pos = RacePos::find($id);
+        $selectedCity = $pos->city;
+        $race = Race::find($race_id);
+        $city = City::pluck('name');
+
+        return view('admin.race.pos-edit', compact('pos', 'race', 'city', 'selectedCity'));
     }
 
     /**
@@ -93,7 +99,24 @@ class RacePosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, 
+            [
+                'no_pos' => 'required|unique:race_pos',
+                'tgl_inkorv' => 'required',
+                'tgl_lepasan'     => 'required',
+                'city'  => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
+                'jarak' => 'required',
+                'biaya_inkorv' => 'required'
+            ]
+        );
+
+        $data = $request->all();
+        $pos = RacePos::find($id);
+        $pos->update($data);
+
+        return redirect()->route('admin.race.show', $pos->race_id)->with('messages', 'Data Pos berhasil diperbaharui.');
     }
 
     /**

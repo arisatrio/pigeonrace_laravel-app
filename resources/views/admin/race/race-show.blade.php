@@ -165,13 +165,13 @@
                                             <td>{{ $item->city }}</td>
                                             <td>{{ $item->jarak }}</td>
                                             <td>
-                                                <a href="{{ route('admin.race-pos.edit', $item->id) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
+                                                <a href="{{ route('admin.race-pos.edit', ['id' => $item->id, 'race_id' => $race->id]) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
                                                 <form class="btn" action="{{ route('admin.race-pos.destroy', ['id' => $item->id, 'race_id' => $race->id]) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-icon btn-danger"><i class="far fa-trash-alt"></i></button>
                                                 </form>
-                                                <a href="{{ route('admin.race-latihan.show', $item->id) }}" class="btn btn-icon btn-secondary"><i class="fas fa-info-circle"></i></a>
+                                                <a href="{{ route('admin.race-pos.show', $item->id) }}" class="btn btn-icon btn-secondary"><i class="fas fa-info-circle"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach
