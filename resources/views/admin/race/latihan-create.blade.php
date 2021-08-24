@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Tambah Latihan')
 @section('content')
 <div class="section-header">
     <h1>Tambah Data Latihan</h1>
@@ -106,3 +106,32 @@
     </div>
 </div>
 @endsection
+@push('js_script')
+    <script>
+    var latLong = [-7.25792351, 112.79242516];
+    
+    var mymap = L.map('mapid').setView(latLong, 15);
+    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(mymap);
+
+    var marker = L.marker(latLong).addTo(mymap);
+    marker.bindPopup("<b>Koordinat Tersimpan : </b><br>."+latLong+".").openPopup();
+
+    var markerr;
+    mymap.on('click', function(e) {
+        let latitude = e.latlng.lat.toString().substring(0, 15);
+        let longitude = e.latlng.lng.toString().substring(0, 15);
+        $('#latitude').val(latitude);
+        $('#longitude').val(longitude);
+        if (markerr != undefined) {
+            mymap.removeLayer(markerr);
+        };
+        var popupContent = "<b>Koordinat : </b><br>." + latitude + ", " + longitude + ".";
+        markerr = L.marker([latitude, longitude]).addTo(mymap);
+        markerr.bindPopup(popupContent)
+        .openPopup();
+    });
+    </script>
+@endpush

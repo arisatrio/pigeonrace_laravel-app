@@ -17,74 +17,46 @@ class UserHomeController extends Controller
 {
     public function index()
     {
-        // INSTANSIASI OBJ
-
-
-        //$burung = 
-
-
-       
-        $race = Race::where('status', 'AKTIF')->get();
-
+        $now = Carbon::now();
         $user = auth()->user();
         $isUserJoin = $user->join()->whereHas('join', function ($query) use($user) {
             $query->where('user_id', $user->id);
             $query->where('users_join_races.status', 1);
         })->exists();
 
+
+        if (!$isUserJoin) {
+            $race = Race::where('status', 'AKTIF')->get();
+
+            return view('user.home', compact('race'));
+        }
+
+
         $r = $user->join()->whereHas('join', function ($query) use($user) {
             $query->where('user_id', $user->id);
             $query->where('users_join_races.status', 1);
         })->first();
+        $posActive = $r->pos()->orderBy('tgl_inkorv', 'DESC')->first();
 
-        // if ($r != null){
-            
-        // }
-        // INSTANSIASI OBJ
-        //$burung = new Burung;
-        $now = Carbon::now();
-
-        if ($isUserJoin != true) {
-            $posActive = [];
-            $basketing= [];
-            $jarak = [];
-            $burungClock = [];
-            $hasilClock = [];
-
-
-        } else {
-            $posActive = $r->pos()->whereDate('tgl_lepasan', '<=', Carbon::now())->orderBy('tgl_inkorv', 'ASC')->first();
-
-            $jarak = Helper::calculateDistance($user->latitude, $user->longitude, $posActive->latitude, $posActive->longitude);
-
-            $basketing = Burung::whereHas('user', function ($q){
-                $q->where('user_id', auth()->user()->id);
-            })->whereHas('basketing')->get();
-
-            $burungClock = Burung::whereHas('user', function ($q){
-                $q->where('user_id', auth()->user()->id);
-            })->whereHas('basketing')->doesntHave('clock')->get();
-
-            $hasilClock = Burung::with('clock')->whereHas('user', function ($q){
-                $q->where('user_id', auth()->user()->id);
-            })->whereHas('clock')->get();
-           
-            
+        if (!$posActive) {
+            return view('user.home-race', compact('posActive', 'r'));
         }
 
-        //dd($posActive);
+        $jarak = Helper::calculateDistance($user->latitude, $user->longitude, $posActive->latitude, $posActive->longitude);
 
-        //dd(Helper::flyingTime($posActive->tgl_lepasan, Carbon::now()));
-        // foreach($hasilClock as $item){
-        //     foreach($item->clock as $clock){
-        //         dd($clock);
-        //     }
-        // };
+        $basketing = Burung::whereHas('user', function ($q) use($user) {
+            $q->where('user_id', $user->id);
+        })->whereHas('basketing')->get();
 
-        //dd($basketing);
-        
+        $burungClock = Burung::whereHas('user', function ($q) use($user) {
+            $q->where('user_id', $user->id);
+        })->whereHas('basketing')->doesntHave('clock')->get();
 
-        return view('user.home', compact('race', 'isUserJoin', 'r', 'posActive', 'jarak', 'basketing', 'burungClock', 'hasilClock', 'now'));
+        $hasilClock = Burung::with('clock')->whereHas('user', function ($q) use($user) {
+            $q->where('user_id', $user->id);
+        })->whereHas('clock')->get();
+    
+        return view('user.home-race', compact('posActive', 'jarak', 'basketing', 'burungClock', 'hasilClock', 'now', 'r'));
     }
 
 
@@ -127,9 +99,11 @@ class UserHomeController extends Controller
         $pos = RacePos::find($race_pos_id);
         $burung = Burung::find($request->burung_id);
         $distance = Helper::calculateDistance($user->latitude, $user->longitude, $pos->latitude, $pos->longitude);
-        $flying_time = Helper::flyingTime($pos->tgl_lepasan, $now);
-        $velocity = Helper::calculateVelocity($distance, $pos->tgl_lepasan->diffInMinutes($now));
+        $flying_time = $request->flying_time;
+        $velocity = Helper::calculateVelocity($distance, $request->fly);
         $no_stiker = $request->no_stiker;
+
+        //dd($velocity);
         
         $pos->clock()->attach($burung, [
             'distance'      => $distance,

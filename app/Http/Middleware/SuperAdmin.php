@@ -19,6 +19,6 @@ class SuperAdmin
         if(auth()->user()->role_id === 1) {
             return $next($request);
         }
-        return redirect()->route('login')->with('error', 'Tidak ada hak akses');
+        return redirect()->back()->with('error', 'Tidak ada hak akses');
     }
 }

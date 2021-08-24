@@ -29,12 +29,12 @@
                     </a>
 
                     <div class="table-responsive">
-                        <table class="dttable table table-striped" id="table-1">
+                        <table class="table table-striped text-center" id="table-1">
                             <thead>
                                 <tr>
                                     <th style="width: 5%">No</th>
                                     <th>Nama Race</th>
-                                    <th>Deskripsi</th>
+                                    <th>Tanggal Race</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -45,16 +45,28 @@
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_race }}</td>
-                                    <td>{{ $item->deskripsi }}</td>
-                                    <td>{{ $item->status }}</td>
+                                    <td>{{ $item->tgl_race->format('d F Y') }}</td>
                                     <td>
-                                        <a href="{{ route('admin.race.edit', $item->id) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
+                                        <span class="badge @if($item->status === 'AKTIF') badge-primary @elseif($item->status === 'SELESAI') badge-success @else badge-warning @endif">{{ $item->status }}</span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.race.edit', $item->id) }}" class="btn btn-icon btn-info" data-toggle="tooltip" title="Edit Race"><i class="far fa-edit"></i></a>
+                                        <a href="{{ route('admin.race.show', $item->id) }}" class="btn btn-icon btn-secondary ml-3" data-toggle="tooltip" title="Edit Detail Race"><i class="fas fa-info-circle"></i></a>
                                         <form class="btn" action="{{ route('admin.race.destroy', $item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-icon btn-danger"><i class="far fa-trash-alt"></i></button>
+                                            <button type="submit" class="btn btn-icon btn-danger" data-toggle="tooltip" title="Hapus Race">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>    
                                         </form>
-                                        <a href="{{ route('admin.race.show', $item->id) }}" class="btn btn-icon btn-secondary"><i class="fas fa-info-circle"></i></a>
+                                        <form class="btn" action="{{ route('admin.race-finish', $item->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button href="#" class="btn btn-icon btn-success" data-toggle="tooltip" title="Tandai Selesai">
+                                                <i class="fas fa-check"></i>
+                                                 Selesai
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -68,3 +80,14 @@
     </div>
 </div>
 @endsection
+@push('css_script')
+    @include('layouts.datatable-css-assets')
+@endpush
+@push('js_script')
+    @include('layouts.datatable-js-assets')
+    <script>
+        $(document).ready(function() {
+            $('#table-1').DataTable();
+        } );
+    </script>
+@endpush

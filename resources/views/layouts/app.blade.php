@@ -96,32 +96,32 @@
             <div class="main-sidebar">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="dashboard.html">Merpati Pos</a>
+                        <a href="#">Merpati Pos</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="dashboard.html">MP</a>
+                        <a href="#">MP</a>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="nav-item">
-                            <a href="dashboard.html" class="nav-link"><i class="fas fa-fire">
+                            <a href="#" class="nav-link"><i class="fas fa-fire">
                                 </i><span>Dashboard</span>
                             </a>
                         </li>
                         <li class="menu-header">Race</li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.race.index') }}">
-                                <i class="far fa-plus"></i>
-                                <span>Data Race</span>
-                            </a>
-                            <a class="nav-link" href="{{ route('admin.race.create') }}">
-                                <i class="far fa-plus"></i>
-                                <span>Add Race</span>
+                                <i class="fas fa-flag-checkered"></i>
+                                <span>Hasil Race</span>
                             </a>
                         </li>
                         <li class="menu-header">Master Data</li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.race.index') }}">
+                                <i class="fas fa-database"></i>
+                                <span>Data Race</span>
+                            </a>
                             <a class="nav-link" href="{{ route('admin.club.index') }}">
-                                <i class="far fa-users"></i>
+                                <i class="fas fa-users"></i>
                                 <span>Data Club</span>
                             </a>
                         </li>
@@ -197,9 +197,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js" crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
     <!-- Template JS File -->
-    <script src="{{ asset('assets/js/stisla.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-advanced-forms.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     @stack('js_script')

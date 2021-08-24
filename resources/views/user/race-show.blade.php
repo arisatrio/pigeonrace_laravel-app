@@ -14,7 +14,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <img src="{{ asset('assets/img/poster'.$race->poster) }}" class="img-fluid">
+                    <img src="{{ asset('assets/img/poster/'.$race->poster) }}" class="img-fluid">
                 </div>
             </div>
 

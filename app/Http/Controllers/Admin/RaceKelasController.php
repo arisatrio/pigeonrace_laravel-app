@@ -11,16 +11,6 @@ use App\Models\RaceKelas;
 class RaceKelasController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -53,25 +43,17 @@ class RaceKelasController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($race_id, $id)
     {
-        //
+        $kelas = RaceKelas::find($id);
+        $race = Race::find($race_id);
+
+        return view('admin.race.kelas-edit', compact('kelas', 'race'));
     }
 
     /**
@@ -83,7 +65,18 @@ class RaceKelasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, 
+            [
+                'nama_kelas' => 'required',
+                'biaya'     => 'required',
+            ]
+        );
+
+        $data = $request->all();
+        $raceKelas = RaceKelas::find($id);
+        $raceKelas->update($data);
+
+        return redirect()->route('admin.race.show', $raceKelas->race_id)->with('messages', 'Data Kelas Lomba berhasil diperpaharui.');
     }
 
     /**

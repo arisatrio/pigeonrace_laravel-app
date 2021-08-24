@@ -85,7 +85,9 @@ class RaceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $race = Race::find($id);
+
+        return view('admin.race.race-edit', compact('race'));
     }
 
     /**
@@ -97,13 +99,32 @@ class RaceController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, 
+            [
+                'nama_race' => 'required',
+                'tgl_race'  => 'required',
+                'deskripsi'  => 'required'
+            ]
+        );
+
         $race = Race::find($id);
-        $data = $request->all();
-        $race->update($data);
 
-        $messages = '{{ $race->nama_race }} telah Aktif.';
+        $imageName = $race->poster;
+        if ($request->hasFile('poster')) {
+            $image              = $request->file('poster');
+            $imageName          = time().'.'.$image->getClientOriginalExtension();
+            $destinationPath    = public_path('assets/img/poster');
+            $image->move($destinationPath, $imageName);
+        }
 
-        return redirect()->route('admin.race.index')->with('messages');
+        $race->update([
+            'nama_race' => $request->nama_race,
+            'tgl_race' => $request->tgl_race,
+            'poster' => $imageName,
+            'deskripsi' => $request->deskripsi
+        ]);
+
+        return redirect()->route('admin.race.index')->with('messages', 'Race telah diperbaharui');
     }
 
     /**
@@ -118,5 +139,21 @@ class RaceController extends Controller
         $race->delete();
 
         return redirect()->route('admin.race.index')->with('messages', 'Data Race Berhasil Dihapus');
+    }
+
+    public function activated(Request $request, $id)
+    {
+        $race = Race::find($id);
+        $race->update($request->all());
+
+        return redirect()->route('admin.race.index')->with('messages', 'Race telah aktif');
+    }
+
+    public function finish(Request $request, $id)
+    {
+        $race = Race::find($id);
+        $race->update(['status' => 'SELESAI']);
+
+        return redirect()->route('admin.race.index')->with('messages', 'Race telah selesai');
     }
 }

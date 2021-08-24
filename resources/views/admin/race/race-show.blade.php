@@ -26,7 +26,7 @@
                     @if ($race->status != 'AKTIF')
                     <div class="row">
                         <div class="col">
-                            <form action="{{ route('admin.race.update', $race->id) }}" method="POST">
+                            <form action="{{ route('admin.race-active', $race->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="status" value="AKTIF">
@@ -36,8 +36,8 @@
                             </form>
                         </div>
                         <div class="col-12">
-                            <div class="alert alert-secondary alert-dismissible">
-                                Kirim untuk mengaktifkan Race !
+                            <div class="alert alert-danger alert-dismissible">
+                                Lengkapi data Race dan Kirim untuk mengaktifkan Race !
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -73,13 +73,12 @@
                                             <td>{{ $item->nama_kelas }}</td>
                                             <td>{{ $item->biaya }}</td>
                                             <td>
-                                                <a href="{{ route('admin.race-kelas.edit', $item->id) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
+                                                <a href="{{ route('admin.race-kelas.edit',  ['id' => $item->id, 'race_id' => $race->id]) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
                                                 <form class="btn" action="{{ route('admin.race-kelas.destroy', ['id' => $item->id, 'race_id' => $race->id]) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-icon btn-danger"><i class="far fa-trash-alt"></i></button>
                                                 </form>
-                                                <a href="{{ route('admin.race-kelas.show', $item->id) }}" class="btn btn-icon btn-secondary"><i class="fas fa-info-circle"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -119,13 +118,12 @@
                                             <td>{{ $item->city }}</td>
                                             <td>{{ $item->jarak }}</td>
                                             <td>
-                                                <a href="{{ route('admin.race-latihan.edit', $item->id) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
+                                                <a href="{{ route('admin.race-latihan.edit', ['id' => $item->id, 'race_id' => $race->id]) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
                                                 <form class="btn" action="{{ route('admin.race-latihan.destroy', ['id' => $item->id, 'race_id' => $race->id]) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-icon btn-danger"><i class="far fa-trash-alt"></i></button>
                                                 </form>
-                                                <a href="{{ route('admin.race-latihan.show', $item->id) }}" class="btn btn-icon btn-secondary"><i class="fas fa-info-circle"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach

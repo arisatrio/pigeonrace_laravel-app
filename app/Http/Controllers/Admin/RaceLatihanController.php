@@ -13,16 +13,6 @@ use App\Models\City;
 class RaceLatihanController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -60,27 +50,20 @@ class RaceLatihanController extends Controller
 
         return redirect()->route('admin.race.show', $raceLatihan->race_id)->with('messages', 'Data Latihan berhasil ditambahkan.');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($race_id, $id)
     {
-        //
+        $lat = RaceLatihan::find($id);
+        $race = Race::find($race_id);
+        $city = City::pluck('name');
+
+        return view('admin.race.latihan-edit', compact('lat', 'race', 'city'));
     }
 
     /**
@@ -92,7 +75,23 @@ class RaceLatihanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, 
+            [
+                'tgl_inkorv' => 'required',
+                'tgl_lepasan'     => 'required',
+                'city'  => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required',
+                'jarak' => 'required',
+                'biaya_inkorv' => 'required'
+            ]
+        );
+
+        $data = $request->all();
+        $lat = RaceLatihan::find($id);
+        $lat->update($data);
+
+        return redirect()->route('admin.race.show', $lat->race_id)->with('messages', 'Data Latihan berhasil diperbaharui.');
     }
 
     /**
@@ -107,6 +106,6 @@ class RaceLatihanController extends Controller
         $latihan = RaceLatihan::find($latihan);
         $latihan->delete();
 
-        return redirect()->route('admin.race.show', $race)->with('messages', 'Kelas Lomba Berhasil Dihapus');
+        return redirect()->route('admin.race.show', $race)->with('messages', 'Data Latihan Berhasil Dihapus');
     }
 }

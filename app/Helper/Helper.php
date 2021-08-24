@@ -2,6 +2,7 @@
 namespace App\Helper;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 
 class Helper
 {
@@ -29,16 +30,10 @@ class Helper
         return $fly->locale('id')->isoFormat('LLLL');
     }
 
-    public static function flyingTime($start, $end)
-    {
-        $fly = $start->diffInHours($end).':'.$start->diff($end)->format('%I:%S');
-    
-        return $fly;
-    }
-
     public static function calculateVelocity($jarak, $waktu)
     {
-        $kecepatan = ($jarak * 1000) / $waktu;
+        $waktu = CarbonInterval::fromString($waktu);
+        $kecepatan = ($jarak * 1000) / $waktu->totalMinutes;
 
         return number_format($kecepatan, 2);
     }

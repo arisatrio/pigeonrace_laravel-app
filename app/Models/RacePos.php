@@ -15,6 +15,8 @@ class RacePos extends Model
         'no_pos',
         'tgl_inkorv',
         'tgl_lepasan',
+        'close_time',
+        'restart_time',
         'city',
         'latitude',
         'longitude',
@@ -22,7 +24,7 @@ class RacePos extends Model
         'biaya_inkorv',
     ];
 
-    protected $dates = ['tgl_inkorv', 'tgl_lepasan'];
+    protected $dates = ['tgl_inkorv', 'tgl_lepasan', 'close_time', 'restart_time'];
 
     // public function getJarakAttribute($value)
     // {

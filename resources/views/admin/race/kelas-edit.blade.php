@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Tambah Kelas')
+@section('title', 'Edit Kelas')
 @section('content')
 <div class="section-header">
     <h1>Tambah Data Kelas Lomba</h1>
@@ -18,13 +18,15 @@
                     <h5>Data Kelas Lomba</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.race-kelas.store') }}" method="POST">
+                    <form action="{{ route('admin.race-kelas.update', $kelas->id) }}" method="POST">
                         @csrf
+                        @method('PUT')
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="nama_kelas">Nama Kelas</label>
-                                    <input type="text" class="form-control" name="nama_kelas">
+                                    <input type="text" class="form-control" name="nama_kelas" value="{{ $kelas->nama_kelas }}">
                                     @error('nama_kelas')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -35,7 +37,7 @@
                         </div>
                         <div class="form-group">
                             <label for="biaya">Biaya Lomba</label>
-                            <input type="text" class="form-control" name="biaya">
+                            <input type="text" class="form-control" name="biaya" value="{{ $kelas->biaya}}">
                             @error('biaya')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                @include('components.select-city')
+                                @include('components.select-city', ['selectedCity' => $user->city])
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
