@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Helper\Helper;
 
 use App\Models\Race;
 
-class RaceController extends Controller
+class RaceResultsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +16,9 @@ class RaceController extends Controller
      */
     public function index()
     {
-        $race = Race::where('status', 'AKTIF')->get();
+        $race = Race::where('status', 'AKTIF')->orderBy('tgl_race', 'DESC')->get();
 
-        return view('user.race', compact('race'));
+        return view('admin.race-results', compact('race'));
     }
 
     /**
@@ -49,23 +48,9 @@ class RaceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
-        $race = Race::where('slug', $slug)->first();
-
-        return view('user.race-show', compact('race'));
-    }
-
-    public function joinRace($race_id)
-    {
-        $race = Race::find($race_id);
-        $user = auth()->user();
-
-        if (!$race->join->contains($user)) {
-            $race->join()->attach($user, ['status' => 1]);
-        }
-
-        return redirect()->route('user.home')->with('messages', 'Anda telah mengikuti race');
+        //
     }
 
     /**

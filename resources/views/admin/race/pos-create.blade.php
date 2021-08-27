@@ -18,6 +18,9 @@
                     <h5>Data Pos</h5>
                 </div>
                 <div class="card-body">
+
+                    @include('layouts.messages-alert')
+                    
                     <form action="{{ route('admin.race-pos.store') }}" method="POST">
                         @csrf
                         

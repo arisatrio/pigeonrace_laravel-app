@@ -102,24 +102,26 @@
                         <a href="#">MP</a>
                     </div>
                     <ul class="sidebar-menu">
-                        <li class="nav-item">
+                        <li class="nav-item @if(Route::currentRouteName()==='admin.dashboard') active @endif">
                             <a href="#" class="nav-link"><i class="fas fa-fire">
                                 </i><span>Dashboard</span>
                             </a>
                         </li>
                         <li class="menu-header">Race</li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.race.index') }}">
+                        <li class="nav-item @if(Route::currentRouteName()==='admin.race-results.index') active @endif">
+                            <a class="nav-link" href="{{ route('admin.race-results.index') }}">
                                 <i class="fas fa-flag-checkered"></i>
                                 <span>Hasil Race</span>
                             </a>
                         </li>
                         <li class="menu-header">Master Data</li>
-                        <li class="nav-item">
+                        <li class="nav-item @if(Route::currentRouteName()==='admin.race.index') active @endif">
                             <a class="nav-link" href="{{ route('admin.race.index') }}">
                                 <i class="fas fa-database"></i>
                                 <span>Data Race</span>
                             </a>
+                        </li>
+                        <li class="nav-item @if(Route::currentRouteName()==='admin.club.index') active @endif">
                             <a class="nav-link" href="{{ route('admin.club.index') }}">
                                 <i class="fas fa-users"></i>
                                 <span>Data Club</span>
@@ -200,7 +202,6 @@
     <script src="{{ asset('assets/js/stisla.js') }}"></script>
 
     <!-- Template JS File -->
-    <script src="{{ asset('assets/js/forms-advanced-forms.js') }}"></script>
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     @stack('js_script')

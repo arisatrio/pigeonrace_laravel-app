@@ -92,40 +92,6 @@
                 </div>
             </div>
 
-            
-            {{-- <div class="card text-center">
-                <div class="card-header">
-                    <h4>Waktu Lepasan / flying time ketika mulai lepasan</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row" id="clockdiv">
-                        <div class="col-3">
-                            <div class="bg-primary">
-                                <span class="days bg-primary"></span>
-                                <div class="smalltext">Hari</div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="bg-primary">
-                                <span class="hours bg-primary"></span>
-                                <div class="smalltext">Jam</div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="bg-primary">
-                                <span class="minutes bg-primary"></span>
-                                <div class="smalltext">Menit</div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="bg-primary">
-                                <span class="seconds bg-primary"></span>
-                                <div class="smalltext">Detik</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
             @if ($now->greaterThanOrEqualTo($posActive->tgl_lepasan))
             <div class="card">
                 <div class="card-header">
@@ -193,13 +159,26 @@
                 </div>
                 <div class="collapse" id="basketing">
                     <div class="card-body">
-                        <p><b>Total Burung :</b>{{ $basketing->count() }}</p>
-                        @foreach ($basketing as $item)
-                        <div class="accordion">
-                            <div class="accordion-header">
-                                <h4>{{ Helper::birdName($item, auth()->user()->name) }}</h4>
+                        <span><b>Total Burung : </b>{{ $basketing->count() }}</span>
+                        @foreach ($posActive->basketingKelas as $item)
+                        <div id="accordion">
+                            <div class="accordion mt-4">
+                                <div class="accordion-header bg-primary text-white" role="button" data-toggle="collapse" data-target="#panel-body-">
+                                    <b>{{ $item->nama_kelas }}</b>
+                                </div>
+                                <div class="accordion-body show" id="panel-body-" data-parent="#accordion">
+                                    @foreach ($basketing as $item)
+                                    <div id="accordion">
+                                        <div class="accordion">
+                                            <div class="accordion-header">
+                                                <b class="form-check-label">{{ Helper::birdName($item, auth()->user()->name) }}</b>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
+                        </div>             
                         @endforeach
                         @if ($now->lessThan($posActive->tgl_lepasan))
                         <a href="{{ route('user.add-basketing', ['id' => $r->id, 'race_pos_id' => $posActive->id]) }}" class="btn btn-success float-right mt-3 mb-3"><i class="fas fa-plus"></i></a>
@@ -321,6 +300,7 @@
 
     </script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    @if ($now->greaterThanOrEqualTo($posActive->tgl_lepasan))
     <script>
         $(document).ready(function() {
             $('#city').select2();
@@ -331,40 +311,57 @@
         });
 
         var span = document.getElementById('span');
-        
-        setInterval(function () {
-            // Get Date
+
+        clock = setInterval (function () {
             var now = new Date();
             var tgl_lepasan = new Date('{{$posActive->tgl_lepasan}}');
-            var close_time = new Date('{{$posActive->close_time}}')
-            var restart_time = new Date('{{$posActive->restart_time}}')
+            var close_time = new Date('{{$posActive->close_time}}');
+            var restart_time = new Date('{{$posActive->restart_time}}');
 
-            // Get off time per day
+            var distance = now - tgl_lepasan;
             var off_time =  close_time - restart_time;
 
-            // Find the distance 
-            var distance = now - tgl_lepasan;
+            var jamSekarang   = now.toTimeString().split(' ')[0];
 
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            if (jamSekarang <= '{{$posActive->close_time->format('H:i:s')}}' && jamSekarang >= '{{$posActive->restart_time->format('H:i:s')}}') {
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                if (days === 0) {
+                    var sisa = distance % (1000 * 60 * 60 * 24); // SISA BAGI DENGAN HARI
+                    var openClock = toTime(sisa - off_time);
+                } else {
+                    var clockDays = off_time * days;
+                    var sisa = distance % (1000 * 60 * 60 * 24); // SISA BAGI DENGAN HARI
+                    var openClock = toTime(sisa + clockDays);
+                }
 
-            distance -= off_time * days
-            // Time calculations for days, hours, minutes and seconds
-            var hours = Math.floor((distance / (1000 * 60 * 60)));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                var fly = openClock[0] + " hours " + openClock[1] + " minutes " + openClock[2] + ' seconds';
+                var flying_time = openClock[0] + ":" + openClock[1] + ":" + openClock[2];
+                $('#fly').val(fly);
+                $('#flying_time').val(flying_time);
+                span.textContent = flying_time;
+            }  else {
+                clearInterval(clock);
 
-            // Output the result in an element with id="demo"
-            var fly = hours + " hours " + minutes + " minutes " + seconds + ' seconds';
-            var flying_time = hours + ":" + minutes + ":" + seconds;
-            span.textContent = hours + ":" + minutes + ":" + seconds;
-            
-            $('#flying_time').val(flying_time);
-            $('#fly').val(fly);
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var openClock = toTime(off_time * days);
+
+                var fly = openClock[0] + " hours " + openClock[1] + " minutes " + openClock[2] + ' seconds';
+                var flying_time = openClock[0] + ":" + openClock[1] + ":" + openClock[2];
+                $('#fly').val(fly);
+                $('#flying_time').val(flying_time);
+                span.textContent = "CLOSE TIME";
+            }
         }, 1000);
+
+        function toTime (time) {
+            var hours = Math.floor((time / (1000 * 60 * 60)));
+            var minutes = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((time % (1000 * 60)) / 1000);
+
+            return [hours, minutes ,seconds];
+        }
     </script>
-    <script>
-        
-    </script>
+    @endif
 @endpush
 
 @endif

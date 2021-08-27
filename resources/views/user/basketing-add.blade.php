@@ -9,36 +9,50 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Basketing Pos {{ $pos->no_po }} - {{ $pos->city }}</h4>
+                    <h4>Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}</h4>
                 </div>
                 <div class="card-body">
-                    @if (!$burung->isEmpty())
+
                     <form action="{{ route('user.store-basketing', $pos->id) }}" method="POST">
                         @csrf
-                        @foreach ($burung as $item)
-                        <div id="accordion">
-                            <div class="accordion">
-                                <div class="accordion-header">
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="burung_id[]" value="{{ $item->id }}">
-                                            <b class="form-check-label">{{ Helper::birdName($item, auth()->user()->name) }}</b>
-                                        </div>
-                                    </div>         
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label>Tambah Burung Basketing</label>
+                            <select name="burung_id" class="form-control select2" id="burung" required>
+                                <option selected disabled>--Pilih Burung--</option>
+                                @foreach ($burung as $item)
+                                <option value="{{ $item->id }}">{{ Helper::birdName($item, auth()->user()->name) }}</option>
+                                @endforeach 
+                            </select>
                         </div>
-                        @endforeach
-                        <button class="btn btn-md btn-success float-right">Kirim</button>
+                        <div class="form-group">
+                            <select name="kelas_id" class="form-control select2" id="kelas" required>
+                                <option selected disabled>--Pilih Kelas--</option>
+                                @foreach ($pos->race->kelas as $item)
+                                <option value="{{ $item->id }}">{{ $item->nama_kelas }}</option>
+                                @endforeach 
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-icon float-right mb-4" id="btn" hidden>Tambah Burung</button>
                     </form>
-                    @else
-                    <div class="alert alert-danger alert-dismissible">
-                        Anda belum menambahkan data burung !
-                    </div>
-                    @endif
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 @endsection
+@push('css_script')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endpush
+@push('js_script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#burung').select2();
+            $('#kelas').select2();
+            $('#kelas').change(function() {
+                $('#btn').prop('hidden', false);
+            });
+        });
+    </script>
+@endpush

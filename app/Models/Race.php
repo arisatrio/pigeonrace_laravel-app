@@ -9,7 +9,7 @@ class Race extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_race', 'tgl_race', 'deskripsi', 'poster', 'status'];
+    protected $fillable = ['nama_race', 'slug', 'tgl_race', 'deskripsi', 'poster', 'status'];
     protected $dates = ['tgl_race'];
 
     public function kelas()

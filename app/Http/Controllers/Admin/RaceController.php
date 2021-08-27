@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use App\Models\Race;
 use App\Models\RaceKelas;
@@ -56,8 +57,9 @@ class RaceController extends Controller
         
         $race = Race::create([
             'nama_race' => $request->nama_race,
-            'tgl_race' => $request->tgl_race,
-            'poster' => $imageName,
+            'slug'      => Str::slug($request->nama_race),
+            'tgl_race'  => $request->tgl_race,
+            'poster'    => $imageName,
             'deskripsi' => $request->deskripsi
         ]);
 

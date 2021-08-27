@@ -48,7 +48,7 @@
                         <small><b> {{ $item->tgl_race->diffForHumans() }} </b></small>
                         <p>{{ $item->deskripsi }}</p>
                         <div class="article-cta">
-                            <a href="{{ route('user.race.show', $item->id) }}" class="btn btn-lg btn-primary">Lihat Detail Lomba</a>
+                            <a href="{{ route('user.race.show', $item->slug) }}" class="btn btn-lg btn-primary">Lihat Detail Lomba</a>
                         </div>
                     </div>
                 </article>

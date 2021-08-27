@@ -39,7 +39,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function (){
         Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'admin'])->name('dashboard');
         Route::resource('club', App\Http\Controllers\Admin\ClubController::class);
-        //
+        
+        Route::resource('race-results', App\Http\Controllers\Admin\RaceResultsController::class);
+
         Route::resource('race', App\Http\Controllers\Admin\RaceController::class);
         Route::put('/race/{id}/activated', [App\Http\Controllers\Admin\RaceController::class, 'activated'])->name('race-active');
         Route::put('/race/{id}/finish', [App\Http\Controllers\Admin\RaceController::class, 'finish'])->name('race-finish');
@@ -68,7 +70,8 @@ Route::middleware(['auth', 'user'])->group(function () {
         Route::resource('burung', App\Http\Controllers\User\BurungController::class);
         Route::resource('profile', App\Http\Controllers\User\ProfileController::class)->only(['edit', 'update']);
         //
-        Route::resource('race', App\Http\Controllers\User\RaceController::class);
+        Route::resource('race', App\Http\Controllers\User\RaceController::class)->except(['show']);
+        Route::get('race/{slug}', [App\Http\Controllers\User\RaceController::class, 'show'])->name('race.show');
         //
         Route::post('/race/{id}/join', [App\Http\Controllers\User\RaceController::class, 'joinRace'])->name('join-race');
         Route::post('/race/{id}/', [App\Http\Controllers\User\UserHomeController::class, 'stopJoin'])->name('stop-join');

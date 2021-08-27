@@ -37,6 +37,14 @@ class Burung extends Model
             ->withTimestamps();
     }
 
+    public function basketingKelas()
+    {
+        return $this->belongsToMany(RaceKelas::class, 'race_basketings')
+            ->using(RaceBasketing::class)
+            ->as('basketing')
+            ->withTimestamps();
+    }
+
     public function clock()
     {
         return $this->belongsToMany(RacePos::class, 'race_clocks')

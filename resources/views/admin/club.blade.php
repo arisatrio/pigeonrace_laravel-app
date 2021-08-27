@@ -12,11 +12,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('admin.club.create') }}" class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Data">
-                        <i class="fas fa-plus"></i> Add Data
-                    </a>
+                    <h4>Data Club</h4>
                 </div>
                 <div class="card-body">
+                    
                     @if (session('messages'))
                     <div class="alert alert-success alert-dismissible">
                         {{ session('messages') }}
@@ -25,8 +24,13 @@
                         </button>
                     </div>
                     @endif
+
+                    <a href="{{ route('admin.club.create') }}" class="btn btn-success btn-md mb-4" data-toggle="tooltip" title="Tambah Club">
+                        <i class="fas fa-plus"></i> Tambah Club
+                    </a>
+
                     <div class="table-responsive">
-                        <table class="dttable table table-striped" id="table-1">
+                        <table class="table table-striped" id="table-1">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -37,9 +41,10 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @php $no = 1 @endphp
                                 @foreach ($club as $item)
                                 <tr>
-                                    <td>11</td>
+                                    <td>{{ $no++ }}</td>
                                     <td>{{ $item->nama_club }}</td>
                                     <td>{{ $item->city }}</td>
                                     <td>{{ $item->no_center }}</td>
@@ -62,3 +67,14 @@
     </div>
 </div>
 @endsection
+@push('css_script')
+    @include('layouts.datatable-css-assets')
+@endpush
+@push('js_script')
+    @include('layouts.datatable-js-assets')
+    <script>
+        $(document).ready(function() {
+            $('#table-1').DataTable();
+        } );
+    </script>
+@endpush

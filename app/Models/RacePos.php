@@ -26,11 +26,6 @@ class RacePos extends Model
 
     protected $dates = ['tgl_inkorv', 'tgl_lepasan', 'close_time', 'restart_time'];
 
-    // public function getJarakAttribute($value)
-    // {
-    //     return $value.' KM';
-    // }
-
     public function race()
     {
         return $this->belongsTo(Race::class);
@@ -39,6 +34,14 @@ class RacePos extends Model
     public function basketing()
     {
         return $this->belongsToMany(Burung::class, 'race_basketings')
+            ->using(RaceBasketing::class)
+            ->as('basketing')
+            ->withTimestamps();
+    }
+
+    public function basketingKelas()
+    {
+        return $this->belongsToMany(RaceKelas::class, 'race_basketings')
             ->using(RaceBasketing::class)
             ->as('basketing')
             ->withTimestamps();

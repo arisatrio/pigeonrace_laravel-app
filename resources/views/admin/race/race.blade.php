@@ -21,7 +21,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h5>Data Race</h5>
+                    <h4>Data Race</h4>
                 </div>
                 <div class="card-body">
                     <a href="{{ route('admin.race.create') }}" class="btn btn-success btn-md mb-4">
@@ -29,7 +29,7 @@
                     </a>
 
                     <div class="table-responsive">
-                        <table class="table table-striped text-center" id="table-1">
+                        <table class="table table-striped" id="table-1">
                             <thead>
                                 <tr>
                                     <th style="width: 5%">No</th>
@@ -59,6 +59,7 @@
                                                 <i class="far fa-trash-alt"></i>
                                             </button>    
                                         </form>
+                                        @if ($item->status === 'AKTIF')
                                         <form class="btn" action="{{ route('admin.race-finish', $item->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
@@ -66,7 +67,8 @@
                                                 <i class="fas fa-check"></i>
                                                  Selesai
                                             </button>
-                                        </form>
+                                        </form>                                      
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach

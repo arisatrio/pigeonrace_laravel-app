@@ -36,7 +36,7 @@ class UserHomeController extends Controller
             $query->where('user_id', $user->id);
             $query->where('users_join_races.status', 1);
         })->first();
-        $posActive = $r->pos()->orderBy('tgl_inkorv', 'DESC')->first();
+        $posActive = $r->pos()->whereDate('tgl_inkorv', '<=', $now)->orderBy('tgl_inkorv', 'DESC')->first();
 
         if (!$posActive) {
             return view('user.home-race', compact('posActive', 'r'));
@@ -82,13 +82,11 @@ class UserHomeController extends Controller
 
     public function basketingStore($race_pos_id, Request $request)
     {
-        $input = $request->input('burung_id');
+        $input = $request->only(['burung_id', 'kelas_id']);
         $pos = RacePos::find($race_pos_id);
         
-        for($i=0; $i<count($input); $i++){
-            $pos->basketing()->attach($input[$i]);
-        }
-
+        $pos->basketing()->attach($request->burung_id, ['race_kelas_id' => $request->kelas_id]);
+        
         return redirect()->route('user.home')->with('messages', 'Burung telah ditambahkan ke dalam Basketing');
     }
 
@@ -102,8 +100,6 @@ class UserHomeController extends Controller
         $flying_time = $request->flying_time;
         $velocity = Helper::calculateVelocity($distance, $request->fly);
         $no_stiker = $request->no_stiker;
-
-        //dd($velocity);
         
         $pos->clock()->attach($burung, [
             'distance'      => $distance,

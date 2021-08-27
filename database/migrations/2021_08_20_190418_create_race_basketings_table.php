@@ -17,6 +17,7 @@ class CreateRaceBasketingsTable extends Migration
             $table->id();
             $table->foreignId('race_pos_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('burung_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('race_kelas_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -46,7 +46,6 @@ class RacePosController extends Controller
     {
         $this->validate($request, 
             [
-                'no_pos' => 'required|unique:race_pos',
                 'tgl_inkorv' => 'required|date|after:today',
                 'tgl_lepasan'     => 'required|date|after:tgl_inkorv',
                 'city'  => 'required',
