@@ -41,6 +41,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('club', App\Http\Controllers\Admin\ClubController::class);
         
         Route::resource('race-results', App\Http\Controllers\Admin\RaceResultsController::class);
+        Route::get('/race-results/{race_id}/basketing/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketing'])->name('basketing.index');
 
         Route::resource('race', App\Http\Controllers\Admin\RaceController::class);
         Route::put('/race/{id}/activated', [App\Http\Controllers\Admin\RaceController::class, 'activated'])->name('race-active');
@@ -66,16 +67,25 @@ Route::middleware(['auth', 'admin'])->group(function () {
 // USER
 Route::middleware(['auth', 'user'])->group(function () {
     Route::name('user.')->group(function (){
-        Route::get('/home', [App\Http\Controllers\User\UserHomeController::class, 'index'])->name('home');
+        Route::get('/home', [App\Http\Controllers\User\UserHomeController::class, 'home'])->name('home');
         Route::resource('burung', App\Http\Controllers\User\BurungController::class);
         Route::resource('profile', App\Http\Controllers\User\ProfileController::class)->only(['edit', 'update']);
+
+        Route::get('/profile/{id}/akun', [App\Http\Controllers\User\ProfileController::class, 'editProfile'])->name('edit-profile');
+        Route::put('/profile/{id}/update', [App\Http\Controllers\User\ProfileController::class, 'profileStore'])->name('edit-profile-store');
         //
         Route::resource('race', App\Http\Controllers\User\RaceController::class)->except(['show']);
         Route::get('race/{slug}', [App\Http\Controllers\User\RaceController::class, 'show'])->name('race.show');
+        Route::get('/riwayat', [App\Http\Controllers\User\RaceController::class, 'indexRiwayat'])->name('riwayat-index');
         //
         Route::post('/race/{id}/join', [App\Http\Controllers\User\RaceController::class, 'joinRace'])->name('join-race');
+
+        Route::get('/home/race/{id}', [App\Http\Controllers\User\UserHomeController::class, 'raceMode'])->name('race-mode');
+        Route::get('/home/race/pos/{id}', [App\Http\Controllers\User\UserHomeController::class, 'posMode'])->name('pos-mode');
+        Route::get('/race/basketing/{race_pos_id}', [App\Http\Controllers\User\UserHomeController::class, 'basketing'])->name('add-basketing');
+        
         Route::post('/race/{id}/', [App\Http\Controllers\User\UserHomeController::class, 'stopJoin'])->name('stop-join');
-        Route::get('/race/{id}/basketing/{race_pos_id}', [App\Http\Controllers\User\UserHomeController::class, 'basketing'])->name('add-basketing');
+        
         Route::post('/race/basketing/{race_pos_id}/', [App\Http\Controllers\User\UserHomeController::class, 'basketingStore'])->name('store-basketing');
         Route::post('/race/clock/{race_pos_id}/', [App\Http\Controllers\User\UserHomeController::class, 'clockStore'])->name('store-clock');
     });

@@ -22,33 +22,15 @@ class RaceController extends Controller
         return view('user.race', compact('race'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function indexRiwayat()
     {
-        //
+        $race = Race::whereHas('join', function ($query) {
+            $query->where('user_id', auth()->user()->id);
+        })->get();
+
+        return view('user.riwayat', compact('race'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($slug)
     {
         $race = Race::where('slug', $slug)->first();

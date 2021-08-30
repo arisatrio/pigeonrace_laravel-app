@@ -18,7 +18,7 @@ class Helper
             $miles  = $dist * 60 * 1.1515;
             $km     = $miles * 1.609344;
 
-            return number_format($km, 3);
+            return number_format($km, 2);
         }
     }
 

@@ -1,29 +1,18 @@
 @extends('layouts.app')
-@section('title', 'Jadwal Race')
+@section('title', 'Riwayat Race')
 @section('content')
 <div class="section-header">
-    <h1>Jadwal Race</h1>
+    <h1>Riwayat Race</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item active"><a href="{{ route('user.home') }}">Home</a></div>
-        <div class="breadcrumb-item">Jadwal Race</div>
+        <div class="breadcrumb-item">Riwayat Race</div>
     </div>
 </div>
-@if (auth()->user()->latitude == null)
-<div class="section-body">
-    <div class="row">
-        <div class="col-12">
-            <div class="alert alert-danger alert-dismissible">
-                Anda belum setting Koordinat!.
-            </div>
-        </div>
-    </div>
-</div>
-@else
 <div class="section-body">
     <div class="row">
         <div class="col-12">
             <h2 class="section-title">
-                Jadwal Race
+                Riwayat Race
             </h2>
             @foreach ($race as $item)
             <div class="row">
@@ -49,5 +38,4 @@
         </div>
     </div>
 </div>
-@endif
 @endsection

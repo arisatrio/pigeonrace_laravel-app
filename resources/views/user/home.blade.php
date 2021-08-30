@@ -24,11 +24,41 @@
                 Anda belum setting Koordinat. Setting Koordinat untuk melihat dan mengikuti lomba.
             </div>
             @endif
-            <div class="alert alert-danger alert-dismissible">
-                Tidak ada Race di ikuti.
-            </div>
+            
         </div>
     </div>
+
+    <h2 class="section-title">
+        Race Di Ikuti
+    </h2>
+    @foreach ($raceJoined as $item)
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-6">
+            <article class="article">
+                <div class="article-header">
+                    <div class="article-image" data-background="{{ asset('assets/img/poster/'.$item->poster) }}"></div>
+                    <div class="article-title">
+                        <h2><a href="#">{{ $item->nama_race }}</a></h2>
+                    </div>
+                </div>
+                <div class="article-details">
+                    <small><b> {{ $item->tgl_race->diffForHumans() }} </b></small>
+                    <p>{{ $item->deskripsi }}</p>
+                    <div class="article-cta">
+                        <a href="{{ route('user.race-mode', $item->id) }}" class="btn btn-lg btn-primary">Buka</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+    @endforeach
+
+    @if(!$raceJoined)
+    <div class="alert alert-danger alert-dismissible">
+        Tidak ada Race di ikuti.
+    </div>
+    @endif
+
     <hr>
     <h2 class="section-title">
         Jadwal Race
@@ -56,5 +86,6 @@
         </div>
         @endforeach
     @endif
+
 </div>
 @endsection

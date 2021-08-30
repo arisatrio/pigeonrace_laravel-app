@@ -15,49 +15,92 @@ use App\Models\Basketing;
 
 class UserHomeController extends Controller
 {
-    public function index()
+    public function home()
+    {
+        $race = Race::where('status', 'AKTIF')->whereDoesntHave('join', function ($query){
+            $query->where('user_id', auth()->user()->id);
+        })->get();
+
+        $raceJoined = Race::whereHas('join', function ($query) {
+            $query->where('user_id', auth()->user()->id);
+        })->get();
+
+        return view('user.home', compact('race', 'raceJoined'));
+    }
+
+    public function raceMode($id)
+    {
+        $race = Race::with('pos')->find($id);
+    
+        return view('user.home-race-mode', compact('race'));
+    }
+
+    public function posMode($id)
     {
         $now = Carbon::now();
-        $user = auth()->user();
-        $isUserJoin = $user->join()->whereHas('join', function ($query) use($user) {
-            $query->where('user_id', $user->id);
-            $query->where('users_join_races.status', 1);
-        })->exists();
-
-
-        if (!$isUserJoin) {
-            $race = Race::where('status', 'AKTIF')->get();
-
-            return view('user.home', compact('race'));
-        }
-
-
-        $r = $user->join()->whereHas('join', function ($query) use($user) {
-            $query->where('user_id', $user->id);
-            $query->where('users_join_races.status', 1);
-        })->first();
-        $posActive = $r->pos()->whereDate('tgl_inkorv', '<=', $now)->orderBy('tgl_inkorv', 'DESC')->first();
-
-        if (!$posActive) {
-            return view('user.home-race', compact('posActive', 'r'));
-        }
-
-        $jarak = Helper::calculateDistance($user->latitude, $user->longitude, $posActive->latitude, $posActive->longitude);
-
-        $basketing = Burung::whereHas('user', function ($q) use($user) {
-            $q->where('user_id', $user->id);
+        $pos = RacePos::with('basketing', 'basketingKelas')->find($id);
+        $basketing = Burung::whereHas('user', function ($q) {
+            $q->where('user_id', auth()->user()->id);
         })->whereHas('basketing')->get();
-
-        $burungClock = Burung::whereHas('user', function ($q) use($user) {
-            $q->where('user_id', $user->id);
+        $burung = Burung::whereHas('user', function ($q){
+            $q->where('user_id', auth()->user()->id);
+        })->doesntHave('basketing')->get();
+        $burungClock = Burung::whereHas('user', function ($q) {
+            $q->where('user_id', auth()->user()->id);
         })->whereHas('basketing')->doesntHave('clock')->get();
-
-        $hasilClock = Burung::with('clock')->whereHas('user', function ($q) use($user) {
-            $q->where('user_id', $user->id);
+        $hasilClock = Burung::with('clock')->whereHas('user', function ($q) {
+            $q->where('user_id', auth()->user()->id);
         })->whereHas('clock')->get();
-    
-        return view('user.home-race', compact('posActive', 'jarak', 'basketing', 'burungClock', 'hasilClock', 'now', 'r'));
+
+        $jarak = Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $pos->latitude, $pos->longitude);
+
+
+        return view('user.home-race-pos', compact('now','pos', 'basketing', 'burung', 'burungClock', 'hasilClock', 'jarak'));
     }
+
+    // public function index()
+    // {
+    //     $now = Carbon::now();
+    //     $user = auth()->user();
+    //     $isUserJoin = $user->join()->whereHas('join', function ($query) use($user) {
+    //         $query->where('user_id', $user->id);
+    //         $query->where('users_join_races.status', 1);
+    //     })->exists();
+
+
+    //     if (!$isUserJoin) {
+    //         $race = Race::where('status', 'AKTIF')->get();
+
+    //         return view('user.home', compact('race'));
+    //     }
+
+
+    //     $r = $user->join()->whereHas('join', function ($query) use($user) {
+    //         $query->where('user_id', $user->id);
+    //         $query->where('users_join_races.status', 1);
+    //     })->first();
+    //     $posActive = $r->pos()->with('basketingKelas')->orderBy('tgl_inkorv', 'ASC')->first();
+
+    //     if (!$posActive) {
+    //         return view('user.home-race', compact('posActive', 'r'));
+    //     }
+
+    //     $jarak = Helper::calculateDistance($user->latitude, $user->longitude, $posActive->latitude, $posActive->longitude);
+
+    //     $basketing = Burung::whereHas('user', function ($q) use($user) {
+    //         $q->where('user_id', $user->id);
+    //     })->whereHas('basketing')->get();
+
+    //     $burungClock = Burung::whereHas('user', function ($q) use($user) {
+    //         $q->where('user_id', $user->id);
+    //     })->whereHas('basketing')->doesntHave('clock')->get();
+
+    //     $hasilClock = Burung::with('clock')->whereHas('user', function ($q) use($user) {
+    //         $q->where('user_id', $user->id);
+    //     })->whereHas('clock')->get();
+    
+    //     return view('user.home-race', compact('posActive', 'jarak', 'basketing', 'burungClock', 'hasilClock', 'now', 'r'));
+    // }
 
 
     public function stopJoin($race_id)
@@ -70,7 +113,7 @@ class UserHomeController extends Controller
         return redirect()->route('user.home')->with('messages', 'Anda telah berhenti mengikuti Race !.');
     }
 
-    public function basketing($id, $race_pos_id)
+    public function basketing($race_pos_id)
     {
         $pos = RacePos::find($race_pos_id);
         $burung = Burung::whereHas('user', function ($q){
@@ -87,7 +130,7 @@ class UserHomeController extends Controller
         
         $pos->basketing()->attach($request->burung_id, ['race_kelas_id' => $request->kelas_id]);
         
-        return redirect()->route('user.home')->with('messages', 'Burung telah ditambahkan ke dalam Basketing');
+        return redirect()->back()->with('messages', 'Burung telah ditambahkan ke dalam Basketing');
     }
 
     public function clockStore($race_pos_id, Request $request)
@@ -111,6 +154,6 @@ class UserHomeController extends Controller
             'no_stiker'     => $request->no_stiker
         ]);
 
-        return redirect()->route('user.home')->with('messages', 'Clock telah dikirim');
+        return redirect()->back()->with('messages', 'Clock telah dikirim');
     }
 }

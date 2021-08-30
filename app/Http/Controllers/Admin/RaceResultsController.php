@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Race;
+use App\Models\RacePos;
 
 class RaceResultsController extends Controller
 {
@@ -18,7 +19,7 @@ class RaceResultsController extends Controller
     {
         $race = Race::where('status', 'AKTIF')->orderBy('tgl_race', 'DESC')->get();
 
-        return view('admin.race-results', compact('race'));
+        return view('admin.race-results.index', compact('race'));
     }
 
     /**
@@ -50,7 +51,18 @@ class RaceResultsController extends Controller
      */
     public function show($id)
     {
-        //
+        $race = Race::with(['pos', 'join'])->find($id);
+
+        return view('admin.race-results.show', compact('race'));
+    }
+
+    public function basketing($race_id, $id)
+    {
+        $race = Race::with('pos')->find($race_id);
+        $pos = RacePos::find($id);
+
+
+        return view('admin.race-results.basketing', compact('race', 'pos'));
     }
 
     /**

@@ -17,7 +17,7 @@ class CreateBurungsTable extends Migration
             $table->id();
             $table->foreignId('club_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('tahun');
-            $table->string('no_ring')->unique();
+            $table->string('no_ring');
             $table->string('warna');
             $table->string('jenkel');
             $table->string('titipan')->nullable();

@@ -13,12 +13,12 @@
         
         @foreach ($race as $item)
         <div class="col-4">
-            <a href="#">
+            <a href="{{ route('admin.race-results.show', $item->id) }}" class="text-white">
                 <article class="article">
                     <div class="article-header">
                         <div class="article-image" data-background="{{ asset('assets/img/poster/'.$item->poster) }}"></div>
                         <div class="article-title">
-                            <h2><a href="#">{{ $item->nama_race }}</a></h2>
+                            <h2>{{ $item->nama_race }}</h2>
                         </div>
                     </div>
                 </article>

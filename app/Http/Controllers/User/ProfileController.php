@@ -11,6 +11,42 @@ use App\Models\City;
 
 class ProfileController extends Controller
 {
+
+    public function editProfile($id)
+    {
+        $user = User::find($id);
+
+        return view('user.profile-edit', compact('user'));
+    }
+
+    public function profileStore(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        $this->validate($request, 
+            [
+                'name'      => 'required',
+                'email'   => 'required|unique:users,email,'.$user->id,
+                'nohp'   => 'required|unique:users,nohp,'.$user->id
+            ]
+        );
+
+        $data =$request->all();
+        $user->update($data);
+
+        return redirect()->back()->with('messages', 'Data Profile Akun telah diperbaharui');
+    }
+
+    public function passwordUpdate(Request $request)
+    {
+        $this->validate($request, 
+            [
+                'password'      => 'required',
+                'new_password'   => 'required',
+                'nohp'   => 'required'
+            ]
+        );
+    }
     /**
      * Show the form for editing the specified resource.
      *

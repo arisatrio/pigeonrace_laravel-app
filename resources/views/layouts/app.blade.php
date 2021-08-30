@@ -28,9 +28,11 @@
                         <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a>
                     </li>
                 </ul>
+                @if (Auth::user()->isAdmin())
                 <ul class="navbar-nav navbar-right">
                     <h6 class="text-white text-uppercase">{{ auth()->user()->name }}</h6>
                 </ul>
+                @endif
             </nav>
 
             {{-- SIDE BAR --}}
@@ -38,20 +40,15 @@
             <div class="main-sidebar">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="{{ route('user.home') }}">Logo</a>
+                        <a href="{{ route('user.home') }}">{{ auth()->user()->name }}</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="{{ route('user.home') }}">LOGO</a>
+                        <a href="{{ route('user.home') }}">{{ auth()->user()->name }}</a>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="nav-item @if(Route::currentRouteName()==='user.home') active @endif">
                             <a href="{{ route('user.home') }}" class="nav-link"><i class="fas fa-home"></i>
                                 <span>Home</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="fas fa-chart-bar"></i>
-                                <span>Statistik</span>
                             </a>
                         </li>
                         <li class="menu-header">Race</li>
@@ -61,7 +58,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="fas fa-history">
+                            <a href="{{ route('user.riwayat-index') }}" class="nav-link"><i class="fas fa-history">
                                 </i><span>Riwayat</span>
                             </a>
                         </li>
@@ -76,8 +73,8 @@
                                 </i><span>Burung</span>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link"><i class="fas fa-user">
+                        <li class="nav-item @if(Route::currentRouteName()==='user.edit-profile') active @endif">
+                            <a href="{{ route('user.edit-profile', auth()->user()->id) }}" class="nav-link"><i class="fas fa-user">
                                 </i><span>Akun</span>
                             </a>
                         </li>
@@ -103,8 +100,8 @@
                     </div>
                     <ul class="sidebar-menu">
                         <li class="nav-item @if(Route::currentRouteName()==='admin.dashboard') active @endif">
-                            <a href="#" class="nav-link"><i class="fas fa-fire">
-                                </i><span>Dashboard</span>
+                            <a href="#" class="nav-link"><i class="fas fa-home"></i>
+                                <span>Dashboard</span>
                             </a>
                         </li>
                         <li class="menu-header">Race</li>
@@ -130,8 +127,9 @@
                         <li class="nav-item">
                             <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <a href="{{ route('logout') }}" id="logout-form" class="dropdown-item has-icon text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="fas fa-sign-out-alt"></i><span>Keluar</span> 
+                                <a href="{{ route('logout') }}" id="logout-form" class="nav-link text-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Keluar</span> 
                                 </a>
                             </form>
                         </li>

@@ -1,80 +1,26 @@
 @extends('layouts.app')
-@section('title', 'Home')
+@section('title', 'Race')
 @section('content')
-
-{{-- @if ($isUserJoin === false)
-    <div class="section-header">
-        <h1>Home</h1>
-        <div class="section-header-breadcrumb">
-            <div class="breadcrumb-item">Home</div>
-        </div>
-    </div>
-    <div class="section-body">
-        <div class="row">
-            <div class="col-12">
-                @if (session('messages'))
-                <div class="alert alert-success alert-dismissible">
-                    {{ session('messages') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
-                @if (auth()->user()->latitude == null)
-                <div class="alert alert-danger alert-dismissible">
-                    Anda belum setting Koordinat. Setting Koordinat untuk melihat dan mengikuti lomba.
-                </div>
-                @endif
-                <div class="alert alert-danger alert-dismissible">
-                    Tidak ada Race di ikuti.
-                </div>
-            </div>
-        </div>
-        <hr>
-        <h2 class="section-title">
-            Jadwal Race
-        </h2>
-        @if (auth()->user()->latitude != null)
-            @foreach ($race as $item)
-            <div class="row">
-                <div class="col-12 col-sm-6 col-md-6">
-                    <article class="article">
-                        <div class="article-header">
-                            <div class="article-image" data-background="{{ asset('assets/img/poster/'.$item->poster) }}"></div>
-                            <div class="article-title">
-                                <h2><a href="#">{{ $item->nama_race }}</a></h2>
-                            </div>
-                        </div>
-                        <div class="article-details">
-                            <small><b> {{ $item->tgl_race->diffForHumans() }} </b></small>
-                            <p>{{ $item->deskripsi }}</p>
-                            <div class="article-cta">
-                                <a href="{{ route('user.race.show', $item->id) }}" class="btn btn-lg btn-primary">Lihat Detail Lomba</a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-            @endforeach
-        @endif
-    </div>
-@else --}}
-@if (!$posActive)
 <div class="section-header">
-    <h1>{{ $r->nama_race }}</h1>
-</div>
-<div class="section-body">
-    <div class="alert alert-danger alert-dismissible">
-        Race telah selesai.
-    </div>
-</div>
-@else
-<div class="section-header">
-    <h1>{{ $r->nama_race }}</h1>
+    <h1>POS {{ $pos->no_pos }} - {{ $pos->city }}</h1>
 </div>
 <div class="section-body">
     <div class="row">
         <div class="col">
+
+            <ul class="nav nav-pills mb-3">
+                <li class="nav-item">
+                  <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#home3">
+                    <i class="fas fa-arrow-left"></i> 
+                  </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white btn-primary btn-sm btn-icon mr-2" href="#home3">
+                      <i class="fas fa-home"></i> 
+                    </a>
+                </li>
+            </ul>
+
             @if (session('messages'))
             <div class="alert alert-success alert-dismissible">
                 {{ session('messages') }}
@@ -84,29 +30,22 @@
             </div>
             @endif
 
-            <div class="row justify-content-center">
-                <div class="col-12 text-center">
-                    <div class="dropdown mb-4">
-                        <button class="btn btn-warning">POS {{ $posActive->no_pos }} - {{ $posActive->city }}</button>
-                    </div>
-                </div>
-            </div>
-
-            @if ($now->greaterThanOrEqualTo($posActive->tgl_lepasan))
             <div class="card">
                 <div class="card-header">
                     <h4>Clock</h4>
                 </div>
                 <div class="card-body">
+                    @if ($now->greaterThanOrEqualTo($pos->tgl_lepasan))
                     <p class="mb-0 text-center">Waktu Terbang</p>
                     <h2 id="span" class="text-center mb-4"></h2>
                     <p class="mb-0"><b>Tanggal dan Jam Lepasan</b> :</p>
-                    <p>{{ $posActive->tgl_lepasan->isoFormat('LLLL') }}</p>
+                    <p>{{ $pos->tgl_lepasan->isoFormat('LLLL') }}</p>
                     <p class="mb-0"><b>Close Time</b></p>
-                    <p>{{ $posActive->close_time->format('H:i') }}</p>
+                    <p>{{ $pos->close_time->format('H:i') }}</p>
                     <p class="mb-0"><b>Re Start Time</b></p>
-                    <p>{{ $posActive->restart_time->format('H:i') }}</p>
-                    <form action="{{ route('user.store-clock', $posActive->id) }}" method="POST">
+                    <p>{{ $pos->restart_time->format('H:i') }}</p>
+
+                    <form action="{{ route('user.store-clock', $pos->id) }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <select name="burung_id" class="form-control select2" required id="clock">
@@ -124,34 +63,16 @@
                         <input type="hidden" name="fly" id="fly">
                         <button class="btn btn-success btn-icon float-right mt-2 mb-3" id="btn-clock" hidden>Input Angka</button>
                     </form>
-                </div>
-            </div>
-            @else
-            <div class="alert alert-danger alert-dismissible">
-                Clock belum dibuka
-            </div>
-            @endif
-            
-            <div class="card">
-                <div class="card-header">
-                    <a data-collapse="#pos" class="btn btn-icon btn-secondary mr-3" href="#"><i class="fas fa-plus"></i></a>
-                    <h4>Detail Pos</h4>
-                </div>
-                <div class="collapse show" id="pos" style="">
-                    <div class="card-body">
-                        <p class="mb-0"><b>Tanggal Inkorv</b> :</p>
-                        <p>{{ $posActive->tgl_inkorv->isoFormat('LLLL') }}</p>
-                        <p class="mb-0"><b>Tanggal Lepasan</b> :</p>
-                        <p>{{ $posActive->tgl_lepasan->isoFormat('LLLL') }}</p>
-                        <p class="mb-0"><b>Koordinat :</b></p>
-                        <p>{{ $posActive->latitude }}, {{ $posActive->longitude }}</p>
-                        <p class="mb-0"><b>Jarak Pos ke Kandang</b> :</p>
-                        <p>{{ $jarak }} KM</p>
-                        @include('components.maps')
+                    @else
+                    <div class="alert alert-danger alert-dismissible">
+                        Clock belum dibuka
                     </div>
+                    @endif
                 </div>
             </div>
-                
+            
+
+            {{-- BASKETING --}}
             <div class="card">
                 <div class="card-header">
                     <a data-collapse="#basketing" class="btn btn-icon btn-secondary mr-3" href="#"><i class="fas fa-plus"></i></a>
@@ -159,15 +80,44 @@
                 </div>
                 <div class="collapse" id="basketing">
                     <div class="card-body">
-                        <span><b>Total Burung : </b>{{ $basketing->count() }}</span>
-                        @foreach ($posActive->basketingKelas as $item)
+                        @if ($now->lessThan($pos->tgl_lepasan))
+                        <form action="{{ route('user.store-basketing', $pos->id) }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label>Tambah Burung Basketing</label>
+                                <select name="burung_id" class="form-control select2" id="burung" required>
+                                    <option selected disabled>--Pilih Burung--</option>
+                                    @foreach ($burung as $item)
+                                    <option value="{{ $item->id }}">{{ Helper::birdName($item, auth()->user()->name) }}</option>
+                                    @endforeach 
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select name="kelas_id" class="form-control select2" id="kelas" required>
+                                    <option selected disabled>--Pilih Kelas--</option>
+                                    @foreach ($pos->race->kelas as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_kelas }}</option>
+                                    @endforeach 
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success btn-icon float-right mb-4" id="btn" hidden>Tambah Burung</button>
+                            </div>
+                        </form>
+                        @endif
+                        
+                        <br><br>
+                        <hr>
+
+                        <span><b>Total Burung : </b>{{ $pos->basketing->count() }}</span>
+                        @foreach ($pos->race->kelas as $item)
                         <div id="accordion">
                             <div class="accordion mt-4">
-                                <div class="accordion-header bg-primary text-white" role="button" data-toggle="collapse" data-target="#panel-body-">
+                                <div class="accordion-header bg-primary text-white" role="button" data-toggle="collapse" data-target="#panel-body-{{$item->id}}">
                                     <b>{{ $item->nama_kelas }}</b>
                                 </div>
-                                <div class="accordion-body show" id="panel-body-" data-parent="#accordion">
-                                    @foreach ($basketing as $burung)
+                                <div class="accordion-body show" id="panel-body-{{$item->id}}" data-parent="#accordion">
+                                    @foreach ($pos->basketing as $burung)
                                     <div id="accordion">
                                         <div class="accordion">
                                             <div class="accordion-header">
@@ -178,16 +128,13 @@
                                     @endforeach
                                 </div>
                             </div>
-                        </div>             
+                        </div>        
                         @endforeach
-                        
-                        @if ($now->lessThan($posActive->tgl_lepasan))
-                        <a href="{{ route('user.add-basketing', ['id' => $r->id, 'race_pos_id' => $posActive->id]) }}" class="btn btn-success float-right mt-3 mb-3"><i class="fas fa-plus"></i></a>
-                        @endif
                     </div>
                 </div>
             </div>
 
+            {{-- ESTIMASI --}}
             <div class="card">
                 <div class="card-header">
                     <a data-collapse="#estimasi" class="btn btn-icon btn-secondary mr-3" href="#"><i class="fas fa-plus"></i></a>
@@ -198,30 +145,31 @@
                         <p class="mb-0"><b>Jarak Pos ke Kandang : </b></p>
                         <p>{{ $jarak }} KM</p>
                         <p class="mb-0"><b>Waktu Lepasan : </b></p>
-                        <p>{{ $posActive->tgl_lepasan->locale('id')->isoFormat('LLLL') }} KM</p>
+                        <p>{{ $pos->tgl_lepasan->locale('id')->isoFormat('LLLL') }} KM</p>
                         <hr>
                         <p class="mb-0"><b>1300 M/M :</b></p>
-                        <p>{{ Helper::estimateArrival($jarak, 1300, $posActive->tgl_lepasan) }}</p>
+                        <p>{{ Helper::estimateArrival($jarak, 1300, $pos->tgl_lepasan) }}</p>
                         <p class="mb-0"><b>1200 M/M : </b></p>
-                        <p>{{ Helper::estimateArrival($jarak, 1200, $posActive->tgl_lepasan) }}</p>
+                        <p>{{ Helper::estimateArrival($jarak, 1200, $pos->tgl_lepasan) }}</p>
                         <p class="mb-0"><b> 1100 M/M : </b></p>
-                        <p>{{ Helper::estimateArrival($jarak, 1100, $posActive->tgl_lepasan) }}</p>
+                        <p>{{ Helper::estimateArrival($jarak, 1100, $pos->tgl_lepasan) }}</p>
                         <p class="mb-0"><b>1000 M/M : </b></p>
-                        <p>{{ Helper::estimateArrival($jarak, 1000, $posActive->tgl_lepasan) }}</p>
+                        <p>{{ Helper::estimateArrival($jarak, 1000, $pos->tgl_lepasan) }}</p>
                         <p class="mb-0"><b>900 M/M : </b></p>
-                        <p>{{ Helper::estimateArrival($jarak, 900, $posActive->tgl_lepasan) }}</p>
+                        <p>{{ Helper::estimateArrival($jarak, 900, $pos->tgl_lepasan) }}</p>
                         <p class="mb-0"><b>800 M/M : </b></p>
-                        <p>{{ Helper::estimateArrival($jarak, 800, $posActive->tgl_lepasan) }}</p>
+                        <p>{{ Helper::estimateArrival($jarak, 800, $pos->tgl_lepasan) }}</p>
                         <p class="mb-0"><b>700 M/M : </b></p>
-                        <p>{{ Helper::estimateArrival($jarak, 700, $posActive->tgl_lepasan) }}</p>
+                        <p>{{ Helper::estimateArrival($jarak, 700, $pos->tgl_lepasan) }}</p>
                         <p class="mb-0"><b>600 M/M : </b></p>
-                        <p>{{ Helper::estimateArrival($jarak, 600, $posActive->tgl_lepasan) }}</p>
-                        <p><b>500 M/M : </b></p>
-                        <p>{{ Helper::estimateArrival($jarak, 500, $posActive->tgl_lepasan) }}</p>
+                        <p>{{ Helper::estimateArrival($jarak, 600, $pos->tgl_lepasan) }}</p>
+                        <p class="mb-0"><b>500 M/M : </b></p>
+                        <p>{{ Helper::estimateArrival($jarak, 500, $pos->tgl_lepasan) }}</p>
                     </div>
                 </div>
-            </div>   
-            
+            </div>
+
+            {{-- HASIL --}}
             <div class="card">
                 <div class="card-header">
                     <a data-collapse="#mycard-collapse" class="btn btn-icon btn-secondary mr-3" href="#"><i class="fas fa-plus"></i></a>
@@ -229,7 +177,7 @@
                 </div>
                 <div class="collapse" id="mycard-collapse" style="">
                     <div class="card-body">
-                        @if ($now->greaterThanOrEqualTo($posActive->tgl_lepasan))
+                        @if ($now->greaterThanOrEqualTo($pos->tgl_lepasan))
                         <p><b>Total Burung Clock : </b> {{ $hasilClock->count() }}</p>
                         @foreach ($hasilClock as $burung)
                         <div id="accordion">
@@ -240,7 +188,7 @@
                                 <div class="accordion-body collapse" id="panel-body-{{$burung->id}}" data-parent="#accordion">
                                     @foreach ($burung->clock as $item)
                                     <p class="mb-0"><b>Tanggal dan Jam Kedatangan : </b></p>
-                                    <p>{{ $item->clock->arrival_date }} {{ $item->clock->arrival_clock}}</p>
+                                    <p>{{ $item->clock->arrival_clock->locale('id')->isoFormat('LLLL') }}</p>
                                     <p class="mb-0"><b>H+ : </b></p>
                                     <p>{{ $item->clock->arrival_day }}</p>
                                     <p class="mb-0"><b>Waktu Terbang : </b></p>
@@ -261,47 +209,27 @@
                 </div>
             </div>
 
-            @if($basketing->isEmpty())
-            <form action="{{ route('user.stop-join', $r->id) }}" method="POST">
-                @csrf
-                <button class="btn btn-block btn-danger">Berhenti Ikuti Race</button>
-            </form>
-            @endif
+            
 
         </div>
     </div>
 </div>
-
 @push('css_script')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
-
 @push('js_script')
-    <script>
-        var userLoc = @JSON([auth()->user()->latitude, auth()->user()->longitude]);
-        var posLoc  = @JSON([$posActive->latitude, $posActive->longitude]);
-        var points  = [userLoc, posLoc];
 
-        var mymap = L.map('mapid').setView(userLoc, 6);
-        L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
-            subdomains:['mt0','mt1','mt2','mt3']
-        }).addTo(mymap);
-
-        var firstpolyline = new L.Polyline(points, {
-            color: 'red',
-            weight: 4,
-            opacity: 0.5,
-            smoothFactor: 1
-        });
-        firstpolyline.addTo(mymap);
-
-        var start = L.marker(userLoc).addTo(mymap).bindPopup("<b>Koordinat Anda : </b><br>."+userLoc+".", {closeOnClick: false, autoClose: false});
-        var end = L.marker(posLoc).addTo(mymap).bindPopup("<b> POS {{ $posActive->no_pos }} - {{ $posActive->city }} : </b><br>."+posLoc+".", {closeOnClick: false, autoClose: false});
-
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    @if ($now->greaterThanOrEqualTo($posActive->tgl_lepasan))
+    <script>
+        $(document).ready(function() {
+            $('#burung').select2();
+            $('#kelas').select2();
+            $('#kelas').change(function() {
+                $('#btn').prop('hidden', false);
+            });
+        });
+    </script>
+    @if ($now->greaterThanOrEqualTo($pos->tgl_lepasan))
     <script>
         $(document).ready(function() {
             $('#city').select2();
@@ -315,16 +243,16 @@
 
         clock = setInterval (function () {
             var now = new Date();
-            var tgl_lepasan = new Date('{{$posActive->tgl_lepasan}}');
-            var close_time = new Date('{{$posActive->close_time}}');
-            var restart_time = new Date('{{$posActive->restart_time}}');
+            var tgl_lepasan = new Date('{{$pos->tgl_lepasan}}');
+            var close_time = new Date('{{$pos->close_time}}');
+            var restart_time = new Date('{{$pos->restart_time}}');
 
             var distance = now - tgl_lepasan;
             var off_time =  close_time - restart_time;
 
             var jamSekarang   = now.toTimeString().split(' ')[0];
 
-            if (jamSekarang <= '{{$posActive->close_time->format('H:i:s')}}' && jamSekarang >= '{{$posActive->restart_time->format('H:i:s')}}') {
+            if (jamSekarang <= '{{$pos->close_time->format('H:i:s')}}' && jamSekarang >= '{{$pos->restart_time->format('H:i:s')}}') {
                 var days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 if (days === 0) {
                     var sisa = distance % (1000 * 60 * 60 * 24); // SISA BAGI DENGAN HARI
@@ -342,9 +270,20 @@
                 span.textContent = flying_time;
             }  else {
                 clearInterval(clock);
-
                 var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var openClock = toTime(off_time * days);
+
+                if (days === 0) {
+                    var openClock = toTime(off_time);
+                } else {
+                    var oneday = off_time*2;
+                    var cekdays = distance % oneday;
+                    var sisadays = Math.floor(cekdays / (1000 * 60 * 60 * 24));
+                    if (sisadays === 0){
+                        var sisa = off_time;
+                    }
+                    var clockDays = off_time * days;
+                    var openClock = toTime(sisa + clockDays);
+                }
 
                 var fly = openClock[0] + " hours " + openClock[1] + " minutes " + openClock[2] + ' seconds';
                 var flying_time = openClock[0] + ":" + openClock[1] + ":" + openClock[2];
@@ -364,7 +303,5 @@
     </script>
     @endif
 @endpush
-
-@endif
 
 @endsection
