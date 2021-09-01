@@ -19,12 +19,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//CEK
-Route::get('/cek-distance', function () {
-    return view('cek-distance');
-});
-Route::post('/distance', [App\Http\Controllers\UserController::class, 'distance'])->name('distance');
-
 // SUPER ADMIN
 Route::middleware(['auth', 'superadmin'])->group(function () {
     Route::prefix('super-admin')->name('superadmin.')->group(function (){
