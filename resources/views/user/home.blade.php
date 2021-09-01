@@ -31,6 +31,7 @@
     <h2 class="section-title">
         Race Di Ikuti
     </h2>
+    @isset($raceJoined)
     @foreach ($raceJoined as $item)
     <div class="row">
         <div class="col-12 col-sm-6 col-md-6">
@@ -52,6 +53,7 @@
         </div>
     </div>
     @endforeach
+    @endisset
 
     @if(!$raceJoined)
     <div class="alert alert-danger alert-dismissible">
