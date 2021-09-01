@@ -55,12 +55,6 @@
     @endforeach
     @endisset
 
-    @if(!$raceJoined)
-    <div class="alert alert-danger alert-dismissible">
-        Tidak ada Race di ikuti.
-    </div>
-    @endif
-
     <hr>
     <h2 class="section-title">
         Jadwal Race

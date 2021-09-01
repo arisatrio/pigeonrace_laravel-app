@@ -31,9 +31,9 @@
                             <h1>Merpati Pos</h1>
                         </div>
 
-                        <div class="card card-primary">
+                        <div class="card card-dark">
                             <div class="card-header">
-                                <h4>Register</h4>
+                                <h5>REGISTER</h5>
                             </div>
 
                             <div class="card-body">
@@ -94,12 +94,12 @@
                                     </div>
                                     <input type="hidden" value="3" name="role_id">
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                        <button type="submit" class="btn btn-dark btn-lg btn-block" tabindex="4">
                                             Register
                                         </button>
                                     </div>
                                 </form>
-                                <p class="text-center">Sudah Punya akun? <a href="{{ route('login')}}">Masuk</a></p>
+                                <p class="text-center">Sudah Punya akun? <a href="{{ route('login')}}">LOGIN</a></p>
                             </div>
                         </div>
                         <div class="simple-footer">

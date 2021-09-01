@@ -29,9 +29,9 @@
                             <h1>Merpati Pos</h1>
                         </div>
 
-                        <div class="card card-primary">
+                        <div class="card card-dark">
                             <div class="card-header">
-                                <h4>LOGIN</h4>
+                                <h5>LOGIN</h5>
                             </div>
 
                             <div class="card-body">
@@ -58,7 +58,7 @@
                                         <div class="d-block">
                                             <label for="password" class="control-label">Password</label>
                                             <div class="float-right">
-                                                <a href="auth-forgot-password.html" class="text-small">
+                                                <a href="#" class="text-small">
                                                     Lupa Password?
                                                 </a>
                                             </div>
@@ -71,12 +71,12 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <button href="dashboard.html" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                        <button type="submit"class="btn btn-dark btn-lg btn-block" tabindex="4">
                                             Login
                                         </button>
                                     </div>
                                 </form>
-                                <p class="text-center">TIdak Punya akun? <a href="{{ route('register')}}">Daftar</a></p>
+                                <p class="text-center">TIdak Punya akun? <a href="{{ route('register')}}">REGISTER</a></p>
                             </div>
                         </div>
                         <div class="simple-footer">
