@@ -61,8 +61,15 @@ class RaceResultsController extends Controller
         $race = Race::with('pos')->find($race_id);
         $pos = RacePos::find($id);
 
-
         return view('admin.race-results.basketing', compact('race', 'pos'));
+    }
+
+    public function pos($race_id, $id)
+    {
+        $race = Race::with('pos')->find($race_id);
+        $pos = RacePos::find($id);
+
+        return view('admin.race-results.pos', compact('race', 'pos'));
     }
 
     /**

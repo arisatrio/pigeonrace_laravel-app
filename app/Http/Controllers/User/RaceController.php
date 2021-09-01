@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helper\Helper;
 
 use App\Models\Race;
+use App\Models\RacePos;
 
 class RaceController extends Controller
 {
@@ -29,6 +30,28 @@ class RaceController extends Controller
         })->get();
 
         return view('user.riwayat', compact('race'));
+    }
+
+    public function riwayatPos($id)
+    {
+        $race = Race::with('pos')->find($id);
+
+        $pos = RacePos::whereHas('clock', function ($query) {
+            $query->orderBy('velocity');
+        })->first();
+
+        //dd($pos->clock()->orderBy('race_clocks.velocity')->get());
+
+
+        return view('user.riwayat-pos', compact('race'));
+    }
+
+    public function posRank($id)
+    {
+        $pos = RacePos::with('clock')->find($id);
+        $rank = $pos->clock()->orderBy('race_clocks.velocity')->get();
+
+        return view('user.riwayat-pos-rank', compact('pos', 'rank'));
     }
 
     public function show($slug)

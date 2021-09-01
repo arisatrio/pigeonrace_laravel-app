@@ -18,23 +18,35 @@
                 
                 <ul class="nav nav-pills mb-3">
                     <li class="nav-item">
-                      <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#home3">
+                      <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#home3">
                         <i class="fas fa-arrow-left"></i>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link text-white btn-primary btn-sm mr-2" href="#home3">
-                        <i class="fas fa-home"></i>
+                        <i class="fas fa-dove"></i>
+                        Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}
                       </a>
                     </li>
                 </ul>
 
                 <ul class="nav nav-pills mb-3">
                   <li class="nav-item">
-                    <a class="nav-link text-white btn-primary btn-sm mr-2" href="#home3">
-                      <i class="fas fa-dove"></i>
-                      Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}
+                    <a class="nav-link text-white btn-info btn-sm mr-2" href="#home3">
+                      <i class="fas fa-users"></i>
+                      Data Peserta
                     </a>
+                  </li>
+                  @foreach ($race->pos as $item)
+                  <li class="nav-item">
+                      <a class="nav-link text-white btn-warning btn-sm mr-2" href="{{ route('admin.basketing.index', ['race_id' => $race->id, 'id' => $item->id]) }}">Basketing {{ $item->no_pos }}</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white btn-success btn-sm mr-2" href="{{ route('admin.pos.index', ['race_id' => $race->id, 'id' => $item->id]) }}">POS {{ $item->no_pos }}</a>
+                  </li>
+                  @endforeach
+                  <li class="nav-item">
+                    <a class="nav-link text-white btn-danger btn-sm" href="#home3">TOTAL POS</a>
                   </li>
                 </ul>
                 
@@ -51,14 +63,14 @@
                               </tr>
                           </thead>
                           <tbody>
-                              {{-- @php $no = 1 @endphp
-                              @foreach($race->join as $item)
+                              @php $no = 1 @endphp
+                              @foreach($pos->basketing as $item)
                               <tr>
                                   <td>{{ $no++ }}</td>
-                                  <td>{{ Helper::birdName($item->name, auth()->user()->name) }}</td>
-                                  <td>{{ $item->name }}</td>
+                                  <td>{{ Helper::birdName($item, $item->user->name) }}</td>
+                                  <td>{{ $item->user->name }}</td>
                               </tr>
-                              @endforeach --}}
+                              @endforeach
                           </tbody>
                       </table>
                     </div>
@@ -81,6 +93,10 @@
     <script>
         $(document).ready(function() {
             $('#table-1').DataTable();
-        } );
+        });
+
+        function goBack() {
+          window.history.back();
+        }
     </script>
 @endpush

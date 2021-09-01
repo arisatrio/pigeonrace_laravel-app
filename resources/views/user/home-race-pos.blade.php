@@ -10,9 +10,9 @@
 
             <ul class="nav nav-pills mb-3">
                 <li class="nav-item">
-                  <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#home3">
-                    <i class="fas fa-arrow-left"></i> 
-                  </a>
+                    <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#home3">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white btn-primary btn-sm btn-icon mr-2" href="#home3">
@@ -109,7 +109,7 @@
                         <br><br>
                         <hr>
 
-                        <span><b>Total Burung : </b>{{ $pos->basketing->count() }}</span>
+                        <span><b>Total Burung : </b>{{ $basketing->count() }}</span>
                         @foreach ($pos->race->kelas as $item)
                         <div id="accordion">
                             <div class="accordion mt-4">
@@ -117,7 +117,7 @@
                                     <b>{{ $item->nama_kelas }}</b>
                                 </div>
                                 <div class="accordion-body show" id="panel-body-{{$item->id}}" data-parent="#accordion">
-                                    @foreach ($pos->basketing as $burung)
+                                    @foreach ($basketing as $burung)
                                     <div id="accordion">
                                         <div class="accordion">
                                             <div class="accordion-header">
@@ -228,6 +228,9 @@
                 $('#btn').prop('hidden', false);
             });
         });
+        function goBack() {
+          window.history.back();
+        }
     </script>
     @if ($now->greaterThanOrEqualTo($pos->tgl_lepasan))
     <script>
@@ -256,7 +259,7 @@
                 var days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 if (days === 0) {
                     var sisa = distance % (1000 * 60 * 60 * 24); // SISA BAGI DENGAN HARI
-                    var openClock = toTime(sisa - off_time);
+                    var openClock = toTime(sisa);
                 } else {
                     var clockDays = off_time * days;
                     var sisa = distance % (1000 * 60 * 60 * 24); // SISA BAGI DENGAN HARI

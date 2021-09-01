@@ -42,6 +42,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         
         Route::resource('race-results', App\Http\Controllers\Admin\RaceResultsController::class);
         Route::get('/race-results/{race_id}/basketing/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketing'])->name('basketing.index');
+        Route::get('/race-results/{race_id}/pos/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'pos'])->name('pos.index');
 
         Route::resource('race', App\Http\Controllers\Admin\RaceController::class);
         Route::put('/race/{id}/activated', [App\Http\Controllers\Admin\RaceController::class, 'activated'])->name('race-active');
@@ -77,6 +78,8 @@ Route::middleware(['auth', 'user'])->group(function () {
         Route::resource('race', App\Http\Controllers\User\RaceController::class)->except(['show']);
         Route::get('race/{slug}', [App\Http\Controllers\User\RaceController::class, 'show'])->name('race.show');
         Route::get('/riwayat', [App\Http\Controllers\User\RaceController::class, 'indexRiwayat'])->name('riwayat-index');
+        Route::get('/riwayat/{id}', [App\Http\Controllers\User\RaceController::class, 'riwayatPos'])->name('riwayat-pos');
+        Route::get('/riwayat/pos/{id}/rank', [App\Http\Controllers\User\RaceController::class, 'posRank'])->name('pos-rank');
         //
         Route::post('/race/{id}/join', [App\Http\Controllers\User\RaceController::class, 'joinRace'])->name('join-race');
 

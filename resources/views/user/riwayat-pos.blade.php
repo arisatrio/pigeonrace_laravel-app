@@ -33,7 +33,7 @@
             @foreach ($race->pos as $item)
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('user.pos-mode', $item->id) }}" class="text-primary"><h6>POS {{ $item->no_pos }} - {{ $item->city }}</h6></a>
+                    <a href="{{ route('user.pos-rank', $item->id) }}" class="text-primary"><h6>POS {{ $item->no_pos }} - {{ $item->city }}</h6></a>
                 </div>
             </div>
             @endforeach
@@ -42,7 +42,11 @@
     </div>
 </div>
 @endsection
+@push('css_script')
+    @include('layouts.datatable-css-assets')
+@endpush
 @push('js_script')
+    @include('layouts.datatable-js-assets')
     <script>
         function goBack() {
           window.history.back();
