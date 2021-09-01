@@ -60,6 +60,7 @@
         Jadwal Race
     </h2>
     @if (auth()->user()->latitude != null)
+        @isset($raceJoined)
         @foreach ($race as $item)
         <div class="row">
             <div class="col-12 col-sm-6 col-md-6">
@@ -81,6 +82,7 @@
             </div>
         </div>
         @endforeach
+        @endisset
     @endif
 
 </div>

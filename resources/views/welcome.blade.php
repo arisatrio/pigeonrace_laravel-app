@@ -39,7 +39,7 @@
                 <h2 class="text-white display-1 lh-1 mb-4">
                     Aplikasi <br> Lomba <br> Merpati <br> Pos<br />
                 </h2>
-                <a class="btn btn-outline-light py-3 px-4 rounded" href="{{ route('login') }}">LOGIN</a>
+                <a class="btn btn-outline-light py-3 px-4 rounded" href="{{ route('login') }}">LOGIN</a> <div class="m-2"></div>
                 <a class="btn btn-outline-light py-3 px-4 rounded" href="{{ route('register') }}">REGISTER</a>
             </div>
         </div>
