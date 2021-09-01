@@ -57,7 +57,7 @@
                                 <span>Jadwal Race</span>
                             </a>
                         </li>
-                        <li class="nav-item @if(Route::currentRouteName()==='user.riwayat.index') active @endif">
+                        <li class="nav-item @if(Route::currentRouteName()==='user.riwayat-index') active @endif">
                             <a href="{{ route('user.riwayat-index') }}" class="nav-link"><i class="fas fa-history">
                                 </i><span>Riwayat</span>
                             </a>
