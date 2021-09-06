@@ -11,6 +11,7 @@
     
     <!-- CSS Libraries -->
     @stack('css_script')
+    @livewireStyles
     
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -57,7 +58,7 @@
                                 <span>Jadwal Race</span>
                             </a>
                         </li>
-                        <li class="nav-item ">
+                        <li class="nav-item @if(Route::currentRouteName()==='user.riwayat-index') active @endif">
                             <a href="{{ route('user.riwayat-index') }}" class="nav-link"><i class="fas fa-history">
                                 </i><span>Riwayat</span>
                             </a>
@@ -93,14 +94,14 @@
             <div class="main-sidebar">
                 <aside id="sidebar-wrapper">
                     <div class="sidebar-brand">
-                        <a href="#">Merpati Pos</a>
+                        <a href="{{ route('admin.dashboard') }}">Merpati Pos</a>
                     </div>
                     <div class="sidebar-brand sidebar-brand-sm">
-                        <a href="#">MP</a>
+                        <a href="{{ route('admin.dashboard') }}">MP</a>
                     </div>
                     <ul class="sidebar-menu">
                         <li class="nav-item @if(Route::currentRouteName()==='admin.dashboard') active @endif">
-                            <a href="#" class="nav-link"><i class="fas fa-home"></i>
+                            <a href="{{ route('admin.dashboard') }}" class="nav-link"><i class="fas fa-home"></i>
                                 <span>Dashboard</span>
                             </a>
                         </li>
@@ -191,6 +192,7 @@
     </div>
 
     <!-- General JS Scripts -->
+    @livewireScripts
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

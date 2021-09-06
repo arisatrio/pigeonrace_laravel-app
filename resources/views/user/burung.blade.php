@@ -25,26 +25,51 @@
                 </div>
                 <div class="card-body">
                     <a href="{{ route('user.burung.create') }}" class="btn btn-success btn-md mb-4" data-toggle="tooltip" title="Tambah Burung"><i class="fas fa-plus"></i> Tambah Burung</a>
-                    @foreach ($burung as $item)
-                    <div id="accordion">
-                        <div class="accordion">
-                            <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-{{$item->id}}">
-                                <b>{{ Helper::birdName($item, auth()->user()->name) }}</b>
-                            </div>
-                            <div class="accordion-body collapse" id="panel-body-{{$item->id}}" data-parent="#accordion">
-                                <a href="{{ route('user.burung.edit', $item->id) }}" class="btn btn-icon btn-primary">Edit</a>
-                                <form class="btn" action="{{ route('user.burung.destroy', $item->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-icon btn-danger">Hapus</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
+                    {{-- @foreach ($burung as $item) --}}
+                    <table class="table table-striped display-nowrap" id="table-1">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">No</th>
+                                <th>Club</th>
+                                <th>Ring</th>
+                                <th>Tahun</th>
+                                <th>Warna</th>
+                                <th>Jenis Kelamin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $no = 1 @endphp
+                            @foreach($burung as $item)
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td>{{ $item->club->nama_club }}</td>
+                                <td>{{ $item->no_ring }}</td>
+                                <td>{{ $item->tahun }}</td>
+                                <td>{{ $item->warna }}</td>
+                                <td>{{ $item->jenkel }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div> 
             </div>
         </div>
     </div>
 </div>
 @endsection
+@push('css_script')
+    @include('layouts.datatable-css-assets')
+@endpush
+@push('js_script')
+    @include('layouts.datatable-js-assets')
+    <script>
+        $(document).ready(function() {
+            $('#table-1').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(1)'
+                },
+                responsive: true
+            });
+        });
+    </script>
+@endpush

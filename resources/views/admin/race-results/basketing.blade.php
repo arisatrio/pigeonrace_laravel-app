@@ -2,11 +2,11 @@
 @section('title', 'Hasil Race')
 @section('content')
 <div class="section-header">
-    <h1>{{ $race->nama_race }}</h1>
+    <h1>{{ $pos->race->nama_race }}</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
         <div class="breadcrumb-item"><a href="{{ route('admin.race-results.index') }}">Hasil Race</a></div>
-        <div class="breadcrumb-item">{{ $race->nama_race }}</div>
+        <div class="breadcrumb-item">{{ $pos->race->nama_race }}</div>
     </div>
 </div>
 <div class="section-body">
@@ -23,7 +23,7 @@
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link text-white btn-primary btn-sm mr-2" href="#home3">
+                      <a class="nav-link text-white btn-primary btn-sm mr-2" href="#">
                         <i class="fas fa-dove"></i>
                         Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}
                       </a>
@@ -31,12 +31,6 @@
                 </ul>
 
                 <ul class="nav nav-pills mb-3">
-                  <li class="nav-item">
-                    <a class="nav-link text-white btn-info btn-sm mr-2" href="#home3">
-                      <i class="fas fa-users"></i>
-                      Data Peserta
-                    </a>
-                  </li>
                   @foreach ($race->pos as $item)
                   <li class="nav-item">
                       <a class="nav-link text-white btn-warning btn-sm mr-2" href="{{ route('admin.basketing.index', ['race_id' => $race->id, 'id' => $item->id]) }}">Basketing {{ $item->no_pos }}</a>
@@ -56,18 +50,25 @@
                     <div class="table-responsive">
                       <table class="table table-striped" id="table-1">
                           <thead>
-                              <tr>
-                                  <th>No</th>
-                                  <th>Burung</th>
-                                  <th>Nama Pemilik / Loft</th>
-                              </tr>
+                            <tr class="text-center bg-dark">
+                              <th class="text-white" colspan="5">Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
+                            </tr>
+                            <tr class="bg-warning">
+                                <th style="width: 5%;" class="text-white">No</th>
+                                <th class="text-white">Ring</th>
+                                <th class="text-white">Warna</th>
+                                <th class="text-white">Jenis Kelamin</th>
+                                <th class="text-white">Nama Peserta / Loft</th>
+                            </tr>
                           </thead>
                           <tbody>
                               @php $no = 1 @endphp
                               @foreach($pos->basketing as $item)
                               <tr>
                                   <td>{{ $no++ }}</td>
-                                  <td>{{ Helper::birdName($item, $item->user->name) }}</td>
+                                  <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
+                                  <td>{{ $item->warna }}</td>
+                                  <td>{{ $item->jenkel }}</td>
                                   <td>{{ $item->user->name }}</td>
                               </tr>
                               @endforeach

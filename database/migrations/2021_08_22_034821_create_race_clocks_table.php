@@ -24,7 +24,7 @@ class CreateRaceClocksTable extends Migration
             $table->string('flying_time');
             $table->string('velocity');
             $table->string('no_stiker');
-            $table->string('status')->default('Belum Sah');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

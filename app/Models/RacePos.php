@@ -53,6 +53,17 @@ class RacePos extends Model
             ->using(RaceClock::class)
             ->as('clock')
             ->withPivot('distance', 'arrival_date', 'arrival_day', 'arrival_clock', 'flying_time', 'velocity', 'no_stiker', 'status')
+            ->wherePivot('status', 'SAH')
+            ->withTimestamps();
+    }
+
+    public function clockKelas()
+    {
+        return $this->belongsToMany(RaceKelas::class, 'race_clocks')
+            ->using(RaceClock::class)
+            ->as('clock')
+            ->withPivot('distance', 'arrival_date', 'arrival_day', 'arrival_clock', 'flying_time', 'velocity', 'no_stiker', 'status')
+            ->wherePivot('status', 'SAH')
             ->withTimestamps();
     }
 }

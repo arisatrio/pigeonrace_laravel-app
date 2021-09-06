@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Race;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +15,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $race = Race::where('status', 'AKTIF')->orderBy('tgl_race', 'DESC')->get();
+
+    return view('welcome', compact('race'));
+})->name('welcome');
+
+Route::get('/race/{id}', [App\Http\Controllers\HasilRaceController::class, 'show'])->name('race-show');
+Route::get('/race/{race_id}/basketing/{id}', [App\Http\Controllers\HasilRaceController::class, 'basketing'])->name('basketing');
+Route::get('/race/{race_id}/pos/{id}', [App\Http\Controllers\HasilRaceController::class, 'pos'])->name('pos');
+Route::get('/race/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\HasilRaceController::class, 'posKelas'])->name('pos-kelas');
+Route::get('/race/{race_id}/total-pos', [App\Http\Controllers\HasilRaceController::class, 'totalPos'])->name('total-pos');
 
 Auth::routes();
 
@@ -37,6 +46,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::resource('race-results', App\Http\Controllers\Admin\RaceResultsController::class);
         Route::get('/race-results/{race_id}/basketing/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketing'])->name('basketing.index');
         Route::get('/race-results/{race_id}/pos/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'pos'])->name('pos.index');
+        Route::put('/race-results/pos/{id}/validasi/{pos_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posValidasiPost'])->name('pos.validasi-post');
+        Route::get('/race-results/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posKelas'])->name('pos.kelas');
+        Route::get('/race-results/{race_id}/total-pos', [App\Http\Controllers\Admin\RaceResultsController::class, 'totalPos'])->name('total-pos');
 
         Route::resource('race', App\Http\Controllers\Admin\RaceController::class);
         Route::put('/race/{id}/activated', [App\Http\Controllers\Admin\RaceController::class, 'activated'])->name('race-active');

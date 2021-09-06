@@ -23,7 +23,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-white btn-primary btn-sm mr-2" href="#home3">
+                    <a class="nav-link text-white btn-primary btn-sm mr-2" href="#">
                       <i class="fas fa-users"></i>
                       Data Peserta
                     </a>
@@ -31,12 +31,6 @@
                 </ul>
 
                 <ul class="nav nav-pills mb-3">
-                  <li class="nav-item">
-                    <a class="nav-link text-white btn-info btn-sm mr-2" href="#home3">
-                      <i class="fas fa-users"></i>
-                      Data Peserta
-                    </a>
-                  </li>
                   @foreach ($race->pos as $item)
                   <li class="nav-item">
                       <a class="nav-link text-white btn-warning btn-sm mr-2" href="{{ route('admin.basketing.index', ['race_id' => $race->id, 'id' => $item->id]) }}">Basketing {{ $item->no_pos }}</a>
@@ -46,7 +40,7 @@
                   </li>
                   @endforeach
                   <li class="nav-item">
-                    <a class="nav-link text-white btn-danger btn-sm" href="#home3">TOTAL POS</a>
+                    <a class="nav-link text-white btn-danger btn-sm" href="{{ route('admin.total-pos', $race->id) }}">TOTAL POS</a>
                   </li>
                 </ul>
                 

@@ -31,13 +31,13 @@
                                 @method('PUT')
                                 <input type="hidden" name="status" value="AKTIF">
                                 <button class="btn btn-primary btn-lg mb-4 float-right"><i class="fas fa-paper-plane"></i> 
-                                    Kirim
+                                    Publish
                                 </button>
                             </form>
                         </div>
                         <div class="col-12">
                             <div class="alert alert-danger alert-dismissible">
-                                Lengkapi data Race dan Kirim untuk mengaktifkan Race !
+                                Lengkapi data Race untuk Publish Race !
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>

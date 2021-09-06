@@ -4,6 +4,8 @@ namespace App\Helper;
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 
+use App\Models\RacePos;
+
 class Helper
 {
     public static function calculateDistance($lat1, $long1, $lat2, $long2)
@@ -43,6 +45,36 @@ class Helper
         $name = $obj->club->nama_club.substr($obj->tahun, -2)."-".$obj->no_ring."-".$obj->jenkel."-".$obj->warna." / ".$pemilik;
 
         return $name;
+    }
+
+    public static function noRing($club, $tahun, $no_ring)
+    {
+        $ring = $club.substr($tahun, -2)."-".$no_ring;
+
+        return $ring;
+    }
+
+    public static function getAvgSpeed($obj)
+    {
+        $totalSpeed = 0;
+        foreach($obj as $key => $item){
+            $totalSpeed +=  $item->clock->velocity;
+        }
+
+        $avg = $totalSpeed / $obj->count();
+
+        return $avg;
+    }
+
+    public static function getRankInPos($pos_id, $burung_id)
+    {
+        $pos = RacePos::find($pos_id);
+        $clock = $pos->clock()->where('race_clocks.status', 'SAH')->orderBy('velocity', 'DESC')->get();
+        $collection = collect($clock);
+        $data       = $collection->where('id', $burung_id);
+        $rank       = $data->keys()->first() + 1;
+
+        return $rank;
     }
 
 }

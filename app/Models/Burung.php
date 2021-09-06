@@ -51,11 +51,8 @@ class Burung extends Model
             ->using(RaceClock::class)
             ->as('clock')
             ->withPivot('distance', 'arrival_date', 'arrival_day', 'arrival_clock', 'flying_time', 'velocity', 'no_stiker', 'status')
+            ->wherePivot('status', 'SAH')
             ->withTimestamps();
     }
 
-    public function burungClock()
-    {
-        return $this->hasMany(RaceClock::class, 'burung_id');
-    }
 }

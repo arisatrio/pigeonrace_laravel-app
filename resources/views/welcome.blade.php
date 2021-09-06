@@ -45,6 +45,44 @@
         </div>
     </section>
 
+    <!-- App features section-->
+    <section id="features">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+                <div class="col-lg-12 order-lg-1 mb-5 mb-lg-0">
+                    <div class="container-fluid px-5">
+
+                        <div class="row mb-4">
+                            <div class="col">
+                                <h1 class="lh-1 mb-4">HASIL RACE</h1>
+                                <hr>
+                            </div>
+                        </div>
+
+                        <div class="row gx-5">
+                            @foreach ($race as $item)
+                            <div class="col-md-4 mb-5">
+                                <!-- Feature item-->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <img src="{{ asset('assets/img/poster/'.$item->poster) }}" class="img-fluid" alt="">
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="font-alt">{{ $item->nama_race }}</h3>
+                                        <p>{{ $item->deskripsi }}</p>
+                                        <a href="{{ route('race-show', $item->id) }}" class="btn btn-primary">BUKA</a>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer-->
     <footer class="bg-black text-center py-5">
         <div class="container px-5">

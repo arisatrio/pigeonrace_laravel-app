@@ -17,13 +17,14 @@ class RaceClock extends Pivot
         'flying_time',
         'velocity',
         'no_stiker',
-        'status'
+        'status',
+        'race_kelas_id'
     ];
 
     protected $dates = ['arrival_date', 'arrival_clock'];
 
-    public function getVelocityAttribute($value)
-    {
-        return $value.' M/Menit';
-    }
+    // public function getVelocityAttribute($value)
+    // {
+    //     return $value.' M/Menit';
+    // }
 }
