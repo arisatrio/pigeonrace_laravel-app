@@ -128,13 +128,14 @@
                                 <div class="accordion-header bg-primary text-white" role="button" data-toggle="collapse" data-target="#panel-body-{{$item->id}}">
                                     <b>{{ $item->nama_kelas }}</b>
                                 </div>
-                                <div class="accordion-body show" id="panel-body-{{$item->id}}" data-parent="#accordion">
-                                    @foreach ($user->burung as $item)
-                                    {{ $item->basketingKelas }}
+                                <div class="accordion-body" id="panel-body-{{$item->id}}" data-parent="#accordion">
+                                    
+                                    @foreach ($item->basketingKelasBurung as $burung)
+                                    
                                     <div id="accordion">
                                         <div class="accordion">
                                             <div class="accordion-header">
-                                                {{-- <b class="form-check-label">{{ Helper::birdName($burung, auth()->user()->name) }}</b>     --}}
+                                                <b class="form-check-label">{{ Helper::birdName($burung, auth()->user()->name) }}</b>    
                                             </div>
                                         </div>
                                     </div>

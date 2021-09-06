@@ -11,7 +11,6 @@ use App\Models\User;
 use App\Models\Burung;
 use App\Models\Race;
 use App\Models\RacePos;
-use App\Models\Basketing;
 
 class UserHomeController extends Controller
 {
@@ -39,7 +38,7 @@ class UserHomeController extends Controller
     {
         $now = Carbon::now();
         $user = User::with('burung')->find(auth()->user()->id);
-        $pos = RacePos::with('basketing', 'basketingKelas')->find($id);
+        $pos = RacePos::with('basketing', 'basketingKelas', 'basketingKelasBurung')->find($id);
 
         $basketing = Burung::whereHas('user', function ($q) {
             $q->where('user_id', auth()->user()->id);
@@ -85,8 +84,8 @@ class UserHomeController extends Controller
         $input = $request->only(['burung_id', 'kelas_id']);
         $pos = RacePos::find($race_pos_id);
         
-        if($pos->basketing()->contains($request->burung_id, $request_kelas_id)){
-            return redirect()->back()->with('errors', 'Burung telah ditambahkan ke dalam Basketing');
+        if($pos->basketingKelas->contains($request->kelas_id)){
+            return redirect()->back()->withErrors(['error' => 'Burung telah ditambahkan ke dalam Basketing']);
         }
         $pos->basketing()->attach($request->burung_id, ['race_kelas_id' => $request->kelas_id]);
         
