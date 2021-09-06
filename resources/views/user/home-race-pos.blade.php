@@ -30,7 +30,7 @@
             </div>
             @endif
 
-            @if ($error->any())
+            @if ($errors->any())
             <div class="alert alert-danger alert-dismissible">
                 @foreach ($errors->all() as $error)
                     {{$error}} <br>
