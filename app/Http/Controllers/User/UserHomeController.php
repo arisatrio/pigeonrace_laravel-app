@@ -44,14 +44,7 @@ class UserHomeController extends Controller
         $basketing = Burung::whereHas('user', function ($q) {
             $q->where('user_id', auth()->user()->id);
         })->whereHas('basketing')->get();
-        //
-        // $burung = Burung::whereHas('user', function ($q){
-        //     $q->where('user_id', auth()->user()->id);
-        // })->doesntHave('basketing')->get();
-        //$burung = User::with('burung')->find(auth()->user()->id);
 
-        //dd($burung);
-        //
         $burungClock = Burung::whereHas('user', function ($q) {
             $q->where('user_id', auth()->user()->id);
         })
@@ -92,6 +85,9 @@ class UserHomeController extends Controller
         $input = $request->only(['burung_id', 'kelas_id']);
         $pos = RacePos::find($race_pos_id);
         
+        if($pos->basketing()->contains($request->burung_id, $request_kelas_id)){
+            return redirect()->back()->with('errors', 'Burung telah ditambahkan ke dalam Basketing');
+        }
         $pos->basketing()->attach($request->burung_id, ['race_kelas_id' => $request->kelas_id]);
         
         return redirect()->back()->with('messages', 'Burung telah ditambahkan ke dalam Basketing');
