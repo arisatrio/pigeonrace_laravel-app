@@ -70,7 +70,7 @@
                                     <div class="card-body">
                                         <h3 class="font-alt">{{ $item->nama_race }}</h3>
                                         <p>{{ $item->deskripsi }}</p>
-                                        <a href="{{ route('race-show', $item->id) }}" class="btn btn-primary">BUKA</a>
+                                        <a href="{{ route('race', $item->id) }}" class="btn btn-primary">BUKA</a>
                                     </div>
                                 </div>
                             </div>

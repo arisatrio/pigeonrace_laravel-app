@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Race')
 @section('content')
 <div class="section-header">
     <h1>{{ $race->nama_race }}</h1>

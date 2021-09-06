@@ -155,7 +155,7 @@
     }).addTo(mymap);
 
     var marker = L.marker(latLong).addTo(mymap);
-    marker.bindPopup("<b>Koordinat Tersimpan : </b><br>."+latLong+".").openPopup();
+    marker.bindPopup("<b>Koordinat : </b><br>."+latLong+".").openPopup();
 
     var markerr;
     mymap.on('click', function(e) {

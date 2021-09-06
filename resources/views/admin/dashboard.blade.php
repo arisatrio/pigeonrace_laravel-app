@@ -9,7 +9,7 @@
 </div>
 <div class="section-body">
     <div class="row">
-        <div class="col-12">
+        {{-- <div class="col-12">
 
             <div class="row mb-4">
                 <div class="col-6">
@@ -179,6 +179,6 @@
             </div>
             
             </div>
-    </div>
+    </div> --}}
 </div>
 @endsection

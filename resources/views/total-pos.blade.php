@@ -88,7 +88,7 @@
                                                       <th rowspan="2" class="bg-info text-white">Kota</th>
                                                       <th rowspan="2" class="bg-info text-white">No. Ring</th>
                                                       @foreach ($pos as $item)
-                                                      <th rowspan="1" colspan="{{$totalPos}}" class="bg-success text-center text-white">{{ $item->city }}</th>
+                                                      <th rowspan="1" colspan="{{$totalPos*2}}" class="bg-success text-center text-white">{{ $item->city }}</th>
                                                       @endforeach
                                                       <th rowspan="2" class="bg-warning text-white">Clock</th>
                                                       <th rowspan="2" class="bg-warning text-white" style="width: 5%;">Kecepatan Rata-rata</th>

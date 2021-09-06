@@ -22,7 +22,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nama_race">Nama Race</label>
-                                    <input type="text" class="form-control" name="nama_race">
+                                    <input type="text" class="form-control" name="nama_race" required>
                                     @error('nama_race')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -35,7 +35,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <label for="tgl_race">Tanggal Race</label>
-                                    <input type="date" class="form-control" name="tgl_race">
+                                    <input type="date" class="form-control" name="tgl_race" required>
                                     @error('tgl_race')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -49,7 +49,7 @@
                                 <div class="form-group">
                                 <label for="">Poster Race</label>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" name="poster">
+                                        <input type="file" class="custom-file-input" name="poster" required>
                                         <label for="poster" class="custom-file-label">Pilih File</label>
                                         @error('poster')
                                         <span class="invalid-feedback" role="alert">
@@ -62,7 +62,7 @@
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
-                            <textarea name="deskripsi" class="form-control" rows="5" style="height:100%;"></textarea>
+                            <textarea name="deskripsi" class="form-control" rows="5" style="height:100%;" required></textarea>
                             @error('deskripsi')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

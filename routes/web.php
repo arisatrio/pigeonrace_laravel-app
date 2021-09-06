@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('welcome', compact('race'));
 })->name('welcome');
 
-Route::get('/race/{id}', [App\Http\Controllers\HasilRaceController::class, 'show'])->name('race-show');
+Route::get('/race/{id}', [App\Http\Controllers\HasilRaceController::class, 'show'])->name('race');
 Route::get('/race/{race_id}/basketing/{id}', [App\Http\Controllers\HasilRaceController::class, 'basketing'])->name('basketing');
 Route::get('/race/{race_id}/pos/{id}', [App\Http\Controllers\HasilRaceController::class, 'pos'])->name('pos');
 Route::get('/race/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\HasilRaceController::class, 'posKelas'])->name('pos-kelas');
