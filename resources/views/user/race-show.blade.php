@@ -75,7 +75,7 @@
                                 <p class="mb-0"><b>Koordinat :</b></p>
                                 <p>{{ $item->latitude }}, {{ $item->longitude }}</p>
                                 <p class="mb-0"><b>Jarak Pos ke Kandang</b> :</p>
-                                <p>{{ Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $item->latitude, $item->longitude) }}</p>
+                                <p>{{ Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $item->latitude, $item->longitude) }} KM</p>
                                 @include('components.maps')
                                 @push('js_script')
                                 <script>
@@ -109,10 +109,12 @@
                 </div>
             </div>
 
+            @if (auth()->user()->join)
             <form action="{{ route('user.join-race', $race->id) }}" method="POST">
                 @csrf
                 <button class="btn btn-block btn-primary">Ikuti</button>
             </form>
+            @endif
         </div>
     </div>
 </div>

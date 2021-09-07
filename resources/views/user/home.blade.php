@@ -21,7 +21,7 @@
             @endif
             @if (auth()->user()->latitude == null)
             <div class="alert alert-danger alert-dismissible">
-                Anda belum setting Koordinat. Setting Koordinat untuk melihat dan mengikuti lomba.
+                Anda belum setting Koordinat. Silahkan Setting Koordinat terlebih dahulu untuk melihat dan mengikuti lomba.
             </div>
             @endif
             

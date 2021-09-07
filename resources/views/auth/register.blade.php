@@ -38,6 +38,16 @@
 
                             <div class="card-body">
                                 <form method="POST" action="{{ route('register') }}">
+                                    @if ($errors->any())
+                                    <div class="alert alert-danger alert-dismissible">
+                                        @foreach ($errors->all() as $error)
+                                            {{$error}} <br>
+                                        @endforeach
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    @endif
                                     @csrf
                                     <div class="form-group">
                                         <label for="name">Name / Loft</label>

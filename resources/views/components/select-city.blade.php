@@ -1,6 +1,6 @@
 <div class="form-group">
     <label for="city">Pilih Kota</label>
-    <select name="city" class="form-control select2" id="city">
+    <select name="city" class="form-control select2" id="city" required>
         <option selected disabled>--Pilih Kota--</option>
         @foreach ($city as $item)
         <option 

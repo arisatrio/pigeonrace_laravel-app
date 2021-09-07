@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Data Club')
 @section('content')
 <div class="section-header">
     <h1>Data Club</h1>
@@ -50,11 +50,11 @@
                                     <td>{{ $item->no_center }}</td>
                                     <td>
                                         <a href="{{ route('admin.club.edit', $item->id) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
-                                        <form class="btn" action="{{ route('admin.club.destroy', $item->id) }}" method="POST">
+                                        {{-- <form class="btn" action="{{ route('admin.club.destroy', $item->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-icon btn-danger"><i class="far fa-trash-alt"></i></button>
-                                        </form>
+                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach

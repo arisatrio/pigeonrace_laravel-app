@@ -30,11 +30,10 @@
                         <thead>
                             <tr>
                                 <th style="width: 5%;">No</th>
-                                <th>Club</th>
-                                <th>Ring</th>
-                                <th>Tahun</th>
+                                <th>No Ring</th>
                                 <th>Warna</th>
                                 <th>Jenis Kelamin</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,11 +41,14 @@
                             @foreach($burung as $item)
                             <tr>
                                 <td>{{ $no++ }}</td>
-                                <td>{{ $item->club->nama_club }}</td>
-                                <td>{{ $item->no_ring }}</td>
-                                <td>{{ $item->tahun }}</td>
+                                <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
                                 <td>{{ $item->warna }}</td>
                                 <td>{{ $item->jenkel }}</td>
+                                <td>
+                                    <a href="{{ route('user.burung.edit', $item->id) }}" class="btn btn-primary btn-sm">
+                                        EDIT
+                                    </a>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

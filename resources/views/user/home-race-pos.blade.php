@@ -10,12 +10,12 @@
 
             <ul class="nav nav-pills mb-3">
                 <li class="nav-item">
-                    <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#home3">
+                    <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white btn-primary btn-sm btn-icon mr-2" href="#home3">
+                    <a class="nav-link text-white btn-primary btn-sm btn-icon mr-2" href="{{ route('user.home') }}">
                       <i class="fas fa-home"></i> 
                     </a>
                 </li>
@@ -91,6 +91,11 @@
                 </div>
                 <div class="collapse" id="basketing">
                     <div class="card-body">
+                        @if ($user->burung->count() === 0)
+                        <div class="alert alert-danger alert-dismissible">
+                            Silahkan tambah data Burung untuk mendaftarkan burung ke Basketing.
+                        </div>
+                        @else
                         @if ($now->lessThan($pos->tgl_lepasan))
                         <form action="{{ route('user.store-basketing', $pos->id) }}" method="POST">
                             @csrf
@@ -121,30 +126,18 @@
                         <hr>
 
                         <span><b>Total Burung : </b>{{ $basketing->count() }}</span>
-                        @foreach ($pos->race->kelas as $item)
-                        
+
+                        @foreach ($basketing as $burung)
                         <div id="accordion">
-                            <div class="accordion mt-4">
-                                <div class="accordion-header bg-primary text-white" role="button" data-toggle="collapse" data-target="#panel-body-{{$item->id}}">
-                                    <b>{{ $item->nama_kelas }}</b>
-                                </div>
-                                <div class="accordion-body" id="panel-body-{{$item->id}}" data-parent="#accordion">
-                                    
-                                    @foreach ($item->basketingKelasBurung as $burung)
-                                    
-                                    <div id="accordion">
-                                        <div class="accordion">
-                                            <div class="accordion-header">
-                                                <b class="form-check-label">{{ Helper::birdName($burung, auth()->user()->name) }}</b>    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
+                            <div class="accordion">
+                                <div class="accordion-header">
+                                    <b class="form-check-label">{{ Helper::noRing($burung->club->nama_club, $burung->tahun, $burung->no_ring) }}</b>
                                 </div>
                             </div>
-                        </div>                 
-                        
+                        </div>
                         @endforeach
+
+                        @endif
                     </div>
                 </div>
             </div>
@@ -233,7 +226,6 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 @push('js_script')
-
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {

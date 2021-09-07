@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
+use App\Models\Race;
 
 class HomeController extends Controller
 {
@@ -26,7 +27,12 @@ class HomeController extends Controller
     
     public function admin()
     {
-        return view('admin.dashboard');
+        $race = Race::with('pos', 'join')->where('status', 'AKTIF')->latest()->first();
+        foreach ($race->join as $item){
+            $latlong[] = [$item->name, $item->latitude, $item->longitude];
+        }
+
+        return view('admin.dashboard', compact('race', 'latlong'));
     }
 
     public function superAdmin()

@@ -53,7 +53,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="no_ring">No Ring</label>
-                                    <input type="no_ring" class="form-control" name="no_ring" value="{{ $burung->no_ring }}">
+                                    <input type="number" class="form-control" name="no_ring" value="{{ $burung->no_ring }}">
                                     @error('no_ring')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

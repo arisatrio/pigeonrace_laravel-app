@@ -52,7 +52,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="no_ring">No Ring</label>
-                                    <input type="no_ring" class="form-control" name="no_ring" placeholder="Contoh: 2169">
+                                    <input type="number" class="form-control" name="no_ring" placeholder="Contoh: 2169">
                                     @error('no_ring')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

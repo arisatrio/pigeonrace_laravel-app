@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Tambah Data Club')
 @section('content')
 <div class="section-header">
     <h1>Data Club</h1>

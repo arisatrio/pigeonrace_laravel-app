@@ -40,6 +40,7 @@
                                 <th>Velocity</th>
                                 <th>Jarak</th>
                                 <th>Clock</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,6 +52,19 @@
                                 <td>{{ $item->clock->velocity }}</td>
                                 <td>{{ $item->clock->distance }} KM</td>
                                 <td>{{ $item->clock->arrival_clock }}</td>
+                                <td>
+                                    @if ($item->clock->status === null)
+                                        <span class="bagde badge-warning">BELUM DIVALIDASI</span>
+                                    @endif
+                                    <span class="
+                                    @if ($item->clock->status === 'SAH')
+                                    badge badge-success    
+                                    @else
+                                    badge badge-danger"
+                                    @endif>
+                                        {{ $item->clock->status }}
+                                    </span>
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>
