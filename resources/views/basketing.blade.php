@@ -81,7 +81,7 @@
                                                 POS {{ $item->no_pos }}
                                             </a>
                                             @endforeach
-                                            <a class="btn btn-danger btn-sm text-white" href="#">
+                                            <a class="btn btn-danger btn-sm text-white" href="{{ route('total-pos', $race->id) }}">
                                                 TOTAL POS
                                             </a>
                                         </div>

@@ -61,9 +61,12 @@ class Helper
             $totalSpeed +=  $item->clock->velocity;
         }
 
-        $avg = $totalSpeed / $obj->count();
-
-        return $avg;
+        if($totalSpeed === 0){
+            return 0;
+        } else {
+            $avg = $totalSpeed / $obj->count();
+            return $avg;
+        }
     }
 
     public static function getRankInPos($pos_id, $burung_id)

@@ -29,7 +29,7 @@ class HasilRaceController extends Controller
     {
         $race = Race::with('pos')->find($race_id);
         $pos = RacePos::with(['basketing' => function ($q) {
-            $q->with(['user', 'club']);
+            $q->with(['user', 'club'])->groupBy('race_basketings.burung_id');
         }])->find($id);
         return view('basketing', compact('race','pos'));
     }
