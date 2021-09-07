@@ -22,7 +22,7 @@ class RaceResultsController extends Controller
      */
     public function index()
     {
-        $race = Race::where('status', 'AKTIF')->orderBy('tgl_race', 'DESC')->get();
+        $race = Race::orderBy('tgl_race', 'DESC')->get();
 
         return view('admin.race-results.index', compact('race'));
     }

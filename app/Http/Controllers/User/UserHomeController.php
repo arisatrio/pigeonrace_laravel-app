@@ -20,7 +20,7 @@ class UserHomeController extends Controller
             $query->where('user_id', auth()->user()->id);
         })->get();
 
-        $raceJoined = Race::whereHas('join', function ($query) {
+        $raceJoined = Race::where('status', 'AKTIF')->whereHas('join', function ($query) {
             $query->where('user_id', auth()->user()->id);
         })->get();
 

@@ -93,9 +93,7 @@
                                 </div>
                                 <div class="card-body text-center">
                                     <h1>
-                                    @foreach ($race->pos as $item)
-                                        {{ $item->basketing->count() }} 
-                                    @endforeach    
+                                      
                                     </h1>
                                 </div>
                             </div>
@@ -107,16 +105,14 @@
                                 </div>
                                 <div class="card-body text-center">
                                     <h1>
-                                        @foreach ($race->pos as $item)
-                                            {{ $item->clock->count() }}
-                                        @endforeach
+                                        
                                     </h1>
                                 </div>
                             </div>
                         </div>
                     </div>
             
-                    <div class="row">
+                    {{-- <div class="row">
             
                         <div class="col-6">
                             <div class="card card-danger">
@@ -166,7 +162,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
 
 

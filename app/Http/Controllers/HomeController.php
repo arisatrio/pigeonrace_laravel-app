@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use App\Models\Race;
+use App\Models\RacePos;
 
 class HomeController extends Controller
 {
@@ -34,9 +35,7 @@ class HomeController extends Controller
                 $latlong[] = [$item->name, $item->latitude, $item->longitude];
             }
 
-            $pos = RacePos::with('basketing')->count();
-
-            return view('admin.dashboard', compact('race', 'latlong', 'pos'));
+            return view('admin.dashboard', compact('race', 'latlong'));
         }
 
         return view('admin.dashboard', compact('race'));

@@ -34,26 +34,37 @@
                 <div class="card-body">
                     <table class="table table-striped display-nowrap" id="table-1">
                         <thead>
-                            <tr>
-                                <th>Rank</th>
-                                <th>Burung</th>
-                                <th>Jarak</th>
-                                <th>Clock</th>
-                                <th>Velocity</th>
-                                <th>Waktu Terbang</th>
-                                <th>Status</th>
+                            <tr class="text-center bg-dark">
+                                <th colspan="7" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
+                            </tr>
+                            <tr class="bg-info">
+                                <th rowspan="2" class="text-white">Rank</th>
+                                <th rowspan="2" class="text-white">Burung</th>
+                                <th rowspan="2" class="text-white">Kecepatan</th>
+                                <th rowspan="2" class="text-white">Jarak</th>
+                                <th rowspan="1" colspan="4" class="text-white">Clock</th>
+                                <th rowspan="2" class="text-white">Status</th>
+                            </tr>
+                            <tr class="bg-info">
+                                <th class="text-white">Tanggal</th>
+                                <th class="text-white">H</th>
+                                <th class="text-white">Jam</th>
+                                <th class="text-white">Waktu Terbang</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @php $no = 1 @endphp
                             @foreach($rank as $item)
-                            <tr @if ($item->user->id === auth()->user()->id)  class="bg-success" @endif>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ Helper::birdName($item, $item->user->name) }}</td>
-                                <td>{{ $item->clock->distance }} KM</td>
-                                <td>{{ $item->clock->arrival_clock }}</td>
-                                <td>{{ $item->clock->flying_time }}</td>
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td @if ($item->user->id === auth()->user()->id)  class="bg-primary" @endif>
+                                    {{ Helper::birdName($item, $item->user->name) }}
+                                </td>
                                 <td>{{ $item->clock->velocity }} M/Menit</td>
+                                <td>{{ $item->clock->distance }} KM</td>
+                                <td>{{ $item->clock->arrival_clock->format('d/m/Y') }}</td>
+                                <td>{{ $item->clock->arrival_day }}</td>
+                                <td>{{ $item->clock->arrival_clock->format('H:i:s') }}</td>
+                                <td>{{ $item->clock->flying_time }}</td>
                                 <td>
                                     @if ($item->clock->status === null)
                                         <span class="bagde badge-warning">BELUM DIVALIDASI</span>
