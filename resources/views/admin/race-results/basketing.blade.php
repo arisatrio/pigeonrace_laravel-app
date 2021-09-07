@@ -40,7 +40,7 @@
                   </li>
                   @endforeach
                   <li class="nav-item">
-                    <a class="nav-link text-white btn-danger btn-sm" href="#home3">TOTAL POS</a>
+                    <a class="nav-link text-white btn-danger btn-sm" href="{{ route('admin.total-pos', $race->id) }}">TOTAL POS</a>
                   </li>
                 </ul>
                 

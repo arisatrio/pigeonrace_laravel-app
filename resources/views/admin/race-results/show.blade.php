@@ -50,19 +50,21 @@
                     <div class="table-responsive">
                       <table class="table table-striped" id="table-1">
                           <thead>
-                              <tr>
-                                  <th rowspan="2">No</th>
-                                  <th rowspan="2">Nama Peserta / Loft</th>
-                                  <th rowspan="2">Kota</th>
-                                  <th colspan="2" class="text-center">Koordinat</th>  
-                                  <th colspan="{{$race->pos->count()}}" class="text-center">Jarak (KM)</th>
-                                  <th rowspan="2">MAP</th>
+                            <tr class="text-center bg-dark">
+                              <th colspan="{{6+$race->pos->count()}}" class="text-white">Data Peserta - {{ $race->nama_race }}</th>
+                            </tr>
+                              <tr class="bg-primary">
+                                  <th rowspan="2" class="text-white">No</th>
+                                  <th rowspan="2" class="text-white">Kota</th>
+                                  <th colspan="2" class="text-center text-white">Koordinat</th>  
+                                  <th colspan="{{$race->pos->count()}}" class="text-center text-white">Jarak (KM)</th>
+                                  <th rowspan="2" class="text-white">MAP</th>
                               </tr>
-                              <tr>
-                                <th>Latitude</th>
-                                <th>Longitude</th>
+                              <tr class="bg-primary">
+                                <th class="text-white">Latitude</th>
+                                <th class="text-white">Longitude</th>
                                 @foreach ($race->pos as $item)
-                                <th>POS {{ $item->no_pos }}</th>
+                                <th class="text-white">POS {{ $item->no_pos }}</th>
                                 @endforeach
                               </tr>
                           </thead>
@@ -77,10 +79,12 @@
                                   <td>{{ $item->longitude }}</td>
                                   @foreach ($race->pos as $pos)
                                   <td>
-                                      {{ Helper::calculateDistance($item->latitude, $item->longitude, $pos->latitude, $pos->longitude) }}
+                                      {{ Helper::calculateDistance($item->latitude, $item->longitude, $pos->latitude, $pos->longitude) }} KM
                                   </td>                           
                                   @endforeach
-                                  <td>CEK</td>
+                                  <td>
+                                    <a href="{{ route('admin.cek-map', $item->id) }}">CEK</a>
+                                  </td>
                               </tr>
                               @endforeach
                           </tbody>

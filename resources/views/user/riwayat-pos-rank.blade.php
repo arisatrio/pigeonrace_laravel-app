@@ -37,9 +37,10 @@
                             <tr>
                                 <th>Rank</th>
                                 <th>Burung</th>
-                                <th>Velocity</th>
                                 <th>Jarak</th>
                                 <th>Clock</th>
+                                <th>Velocity</th>
+                                <th>Waktu Terbang</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -49,21 +50,18 @@
                             <tr @if ($item->user->id === auth()->user()->id)  class="bg-success" @endif>
                                 <td>{{ $no++ }}</td>
                                 <td>{{ Helper::birdName($item, $item->user->name) }}</td>
-                                <td>{{ $item->clock->velocity }}</td>
                                 <td>{{ $item->clock->distance }} KM</td>
                                 <td>{{ $item->clock->arrival_clock }}</td>
+                                <td>{{ $item->clock->flying_time }}</td>
+                                <td>{{ $item->clock->velocity }} M/Menit</td>
                                 <td>
                                     @if ($item->clock->status === null)
                                         <span class="bagde badge-warning">BELUM DIVALIDASI</span>
+                                    @elseif ($item->clock->status === 'SAH')
+                                        <span class="badge badge-success">{{ $item->clock->status}}</span>
+                                    @elseif ($item->clock->status === 'TIDAK SAH')
+                                        <span class="badge badge-danger">{{ $item->clock->status}}</span>
                                     @endif
-                                    <span class="
-                                    @if ($item->clock->status === 'SAH')
-                                    badge badge-success    
-                                    @else
-                                    badge badge-danger"
-                                    @endif>
-                                        {{ $item->clock->status }}
-                                    </span>
                                 </td>
                             </tr>
                             @endforeach
@@ -87,7 +85,7 @@
                 rowReorder: {
                     selector: 'td:nth-child(1)'
                 },
-                responsive: true
+                responsive: true,
             });
         });
         function goBack() {

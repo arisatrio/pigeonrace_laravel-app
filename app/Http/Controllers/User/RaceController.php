@@ -36,20 +36,13 @@ class RaceController extends Controller
     {
         $race = Race::with('pos')->find($id);
 
-        $pos = RacePos::whereHas('clock', function ($query) {
-            $query->orderBy('velocity');
-        })->first();
-
-        //dd($pos->clock()->orderBy('race_clocks.velocity')->get());
-
-
         return view('user.riwayat-pos', compact('race'));
     }
 
     public function posRank($id)
     {
         $pos = RacePos::with('clock')->find($id);
-        $rank = $pos->clock()->orderBy('race_clocks.velocity')->get();
+        $rank = $pos->clock()->orderBy('race_clocks.velocity', 'DESC')->get();
 
         return view('user.riwayat-pos-rank', compact('pos', 'rank'));
     }

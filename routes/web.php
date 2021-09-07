@@ -49,6 +49,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::put('/race-results/pos/{id}/validasi/{pos_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posValidasiPost'])->name('pos.validasi-post');
         Route::get('/race-results/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posKelas'])->name('pos.kelas');
         Route::get('/race-results/{race_id}/total-pos', [App\Http\Controllers\Admin\RaceResultsController::class, 'totalPos'])->name('total-pos');
+        Route::get('race-result/cek-map/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'cekMap'])->name('cek-map');
 
         Route::resource('race', App\Http\Controllers\Admin\RaceController::class);
         Route::put('/race/{id}/activated', [App\Http\Controllers\Admin\RaceController::class, 'activated'])->name('race-active');

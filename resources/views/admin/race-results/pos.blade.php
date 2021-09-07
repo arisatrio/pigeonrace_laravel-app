@@ -66,18 +66,18 @@
                             <th colspan="9" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
                           </tr>
                           <tr class="bg-info">
-                              <th rowspan="2" style="width: 5%;">No</th>
-                              <th rowspan="2" style="width: 20%;">Nama Peserta / Loft</th>
-                              <th rowspan="2">Kota</th>
-                              <th rowspan="1" colspan="3" class="text-center">Data Burung</th>
-                              <th rowspan="2">Stiker</th>
-                              <th rowspan="2">Status</th>
-                              <th rowspan="2" style="width: 10%;">Action</th>
+                              <th rowspan="2" style="width: 5%;" class="text-white">No</th>
+                              <th rowspan="2" style="width: 20%;" class="text-white">Nama Peserta / Loft</th>
+                              <th rowspan="2" class="text-white">Kota</th>
+                              <th rowspan="1" colspan="3" class="text-center text-white">Data Burung</th>
+                              <th rowspan="2" class="text-white">Stiker</th>
+                              <th rowspan="2" class="text-white">Status</th>
+                              <th rowspan="2" style="width: 10%;" class="text-white">Action</th>
                             </tr>
                             <tr class="bg-info">
-                              <th>No. Ring</th>
-                              <th>Warna</th>
-                              <th>Jenis Kelamin</th>
+                              <th class="text-white">No. Ring</th>
+                              <th class="text-white">Warna</th>
+                              <th class="text-white">Jenis Kelamin</th>
                             </tr>
                         </thead>
                         <tbody>
