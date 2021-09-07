@@ -55,6 +55,7 @@
                             </tr>
                               <tr class="bg-primary">
                                   <th rowspan="2" class="text-white">No</th>
+                                  <th rowspan="2" class="text-white">Nama</th>
                                   <th rowspan="2" class="text-white">Kota</th>
                                   <th colspan="2" class="text-center text-white">Koordinat</th>  
                                   <th colspan="{{$race->pos->count()}}" class="text-center text-white">Jarak (KM)</th>

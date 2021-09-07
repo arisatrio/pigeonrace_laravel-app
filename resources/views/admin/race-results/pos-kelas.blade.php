@@ -49,7 +49,7 @@
                     <table class="table table-striped" id="table-1">
                         <thead>
                             <tr class="text-center bg-dark">
-                                <th colspan="9" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }} - {{ $kelas->nama_kelas }}</th>
+                                <th colspan="12" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }} - {{ $kelas->nama_kelas }}</th>
                             </tr>
                             <tr class="bg-info">
                               <th rowspan="2" style="width: 5%;" class="text-white">RANK</th>

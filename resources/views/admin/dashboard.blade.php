@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col">
                     <ul class="nav nav-pills mb-3">
-                        @foreach ($race->pos as $item)
+                        {{-- @foreach ($race->pos as $item)
                         <li class="nav-item">
                             <a href="" class=" nav-link text-white btn 
                                 @isset($pos->id)
@@ -33,7 +33,7 @@
                                 POS {{ $item->no_pos }}
                             </a>
                         </li> 
-                        @endforeach
+                        @endforeach --}}
                         <li class="nav-item">
                             <a class="nav-link text-white btn-danger btn-sm mr-2" href="#">
                               TOTAL POS

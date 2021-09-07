@@ -33,7 +33,10 @@ class HomeController extends Controller
             foreach ($race->join as $item){
                 $latlong[] = [$item->name, $item->latitude, $item->longitude];
             }
-            return view('admin.dashboard', compact('race', 'latlong'));
+
+            $pos = RacePos::with('basketing')->count();
+
+            return view('admin.dashboard', compact('race', 'latlong', 'pos'));
         }
 
         return view('admin.dashboard', compact('race'));

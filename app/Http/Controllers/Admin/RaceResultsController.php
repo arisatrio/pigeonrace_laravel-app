@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helper\Helper;
 use DB;
 
+use App\Models\User;
 use App\Models\Burung;
 use App\Models\Race;
 use App\Models\RaceKelas;
