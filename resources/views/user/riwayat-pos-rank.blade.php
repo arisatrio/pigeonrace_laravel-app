@@ -35,14 +35,14 @@
                     <table class="table table-striped display-nowrap" id="table-1">
                         <thead>
                             <tr class="text-center bg-dark">
-                                <th colspan="7" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
+                                <th colspan="8" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
                             </tr>
                             <tr class="bg-info">
                                 <th rowspan="2" class="text-white">Rank</th>
                                 <th rowspan="2" class="text-white">Burung</th>
                                 <th rowspan="2" class="text-white">Kecepatan</th>
                                 <th rowspan="2" class="text-white">Jarak</th>
-                                <th rowspan="1" colspan="4" class="text-white">Clock</th>
+                                <th rowspan="1" colspan="4" class="text-white text-center">Clock</th>
                                 <th rowspan="2" class="text-white">Status</th>
                             </tr>
                             <tr class="bg-info">
@@ -56,7 +56,7 @@
                             @foreach($rank as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td @if ($item->user->id === auth()->user()->id)  class="bg-primary" @endif>
+                                <td @if ($item->user->id === auth()->user()->id)  class="bg-primary text-white" @endif>
                                     {{ Helper::birdName($item, $item->user->name) }}
                                 </td>
                                 <td>{{ $item->clock->velocity }} M/Menit</td>

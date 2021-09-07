@@ -14,11 +14,7 @@ use App\Models\Race;
 |
 */
 
-Route::get('/', function () {
-    $race = Race::where('status', 'AKTIF')->orderBy('tgl_race', 'DESC')->get();
-
-    return view('welcome', compact('race'));
-})->name('welcome');
+Route::get('/', [App\Http\Controllers\HasilRaceController::class, 'index'])->name('welcome');
 
 Route::get('/hasiil-race/{id}', [App\Http\Controllers\HasilRaceController::class, 'show'])->name('race');
 Route::get('/hasil-race/{race_id}/basketing/{id}', [App\Http\Controllers\HasilRaceController::class, 'basketing'])->name('basketing');

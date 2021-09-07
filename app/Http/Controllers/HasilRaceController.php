@@ -11,7 +11,12 @@ use App\Models\RacePos;
 
 class HasilRaceController extends Controller
 {
-    
+    public function index()
+    {
+        $race = Race::where('status', 'AKTIF')->orWhere('status', 'SELESAI')->orderBy('tgl_race', 'DESC')->get();
+
+        return view('welcome', compact('race'));
+    }
 
     public function show($id)
     {
