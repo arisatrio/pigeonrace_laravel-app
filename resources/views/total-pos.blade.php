@@ -78,7 +78,7 @@
                                                     <tr class="text-center bg-dark">
                                                         <th colspan="4" class="text-white">Data Peserta</th>
                                                         @foreach ($pos as $item)
-                                                        <th colspan="{{$totalPos*2}}" class="text-white">POS-{{ $item->no_pos }}</th>
+                                                        <th colspan="2" class="text-white">POS-{{ $item->no_pos }}</th>
                                                         @endforeach
                                                         <th colspan="2" class="text-white">TOTAL POS</th>
                                                     </tr>
@@ -88,7 +88,7 @@
                                                       <th rowspan="2" class="bg-info text-white">Kota</th>
                                                       <th rowspan="2" class="bg-info text-white">No. Ring</th>
                                                       @foreach ($pos as $item)
-                                                      <th rowspan="1" colspan="{{$totalPos*2}}" class="bg-success text-center text-white">{{ $item->city }}</th>
+                                                      <th rowspan="1" colspan="@if($totalPos === 1) 2 @endif {{$totalPos}}" class="bg-success text-center text-white">{{ $item->city }}</th>
                                                       @endforeach
                                                       <th rowspan="2" class="bg-warning text-white">Clock</th>
                                                       <th rowspan="2" class="bg-warning text-white" style="width: 5%;">Kecepatan Rata-rata</th>
@@ -109,15 +109,15 @@
                                                         <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
                                                         @foreach ($item->clock as $key => $pos)
                                                             @if ($key+1 !== $pos->no_pos)
-                                                            <td class="text-center text-danger"><span class="badge badge-danger">-</span></td>
-                                                            <td class="text-center text-danger"><span class="badge badge-danger">-</span></td>
+                                                            <td class="bg-danger"></td>
+                                                            <td class="bg-danger"></td>
                                                             <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
                                                             <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
                                                             @elseif($item->clock->count() < $totalPos)
                                                             <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
                                                             <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
-                                                            <td class="text-center text-danger"><span class="badge badge-danger">-</span></td>
-                                                            <td class="text-center text-danger"><span class="badge badge-danger">-</span></td>
+                                                            <td class="bg-danger"></td>
+                                                            <td class="bg-danger"></td>
                                                             @else
                                                             <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
                                                             <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
