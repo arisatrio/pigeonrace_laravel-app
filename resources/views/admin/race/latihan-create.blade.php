@@ -18,6 +18,16 @@
                     <h5>Data Latihan</h5>
                 </div>
                 <div class="card-body">
+                    @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible">
+                        @foreach ($errors->all() as $error)
+                            {{$error}} <br>
+                        @endforeach
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
                     <form action="{{ route('admin.race-latihan.store') }}" method="POST">
                         @csrf
                         
@@ -78,8 +88,8 @@
                         @include('components.maps')
 
                         <div class="form-group">
-                            <label for="jarak">Jarak</label>
-                            <input type="text" class="form-control" name="jarak">
+                            <label for="jarak">Jarak (KM)</label>
+                            <input type="number" class="form-control" name="jarak">
                             @error('jarak')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -88,7 +98,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="biaya_inkorv">Biaya Inkorv</label>
+                            <label for="biaya_inkorv">Biaya Inkorv (RP)</label>
                             <input type="text" class="form-control" name="biaya_inkorv">
                             @error('biaya_inkorv')
                             <span class="invalid-feedback" role="alert">

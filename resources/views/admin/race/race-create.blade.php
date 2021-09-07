@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Tambah Race')
 @section('content')
 <div class="section-header">
     <h1>Buat Race</h1>

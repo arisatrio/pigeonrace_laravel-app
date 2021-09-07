@@ -116,7 +116,7 @@
                         @include('components.maps')
 
                         <div class="form-group">
-                            <label for="jarak">Jarak</label>
+                            <label for="jarak">Jarak (KM)</label>
                             <input type="number" class="form-control" name="jarak">
                             @error('jarak')
                             <span class="invalid-feedback" role="alert">
@@ -126,7 +126,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="biaya_inkorv">Biaya Inkorv</label>
+                            <label for="biaya_inkorv">Biaya Inkorv (RP)</label>
                             <input type="number" class="form-control" name="biaya_inkorv">
                             @error('biaya_inkorv')
                             <span class="invalid-feedback" role="alert">

@@ -78,7 +78,7 @@
                                                     <tr class="text-center bg-dark">
                                                         <th colspan="4" class="text-white">Data Peserta</th>
                                                         @foreach ($pos as $item)
-                                                        <th colspan="{{$totalPos}}" class="text-white">POS-{{ $item->no_pos }}</th>
+                                                        <th colspan="{{$totalPos*2}}" class="text-white">POS-{{ $item->no_pos }}</th>
                                                         @endforeach
                                                         <th colspan="2" class="text-white">TOTAL POS</th>
                                                     </tr>

@@ -76,10 +76,10 @@
                             <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
                             @foreach ($item->clock as $key => $pos)
                                 @if ($key+1 !== $pos->no_pos)
-                                <td class="text-center">0</td>
-                                <td class="text-center">0</td>
+                                <td class="text-center text-danger"><span class="badge badge-danger">-</span></td>
+                                <td class="text-center text-danger"><span class="badge badge-danger">-</span></td>
                                 <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
-                                <td class="text-center">CEK</td>
+                                <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
                                 @elseif($item->clock->count() < $totalPos)
                                 <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
                                 <td class="text-center">CEK</td>

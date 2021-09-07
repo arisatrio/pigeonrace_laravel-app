@@ -18,6 +18,16 @@
                     <h5>Data Kelas Lomba</h5>
                 </div>
                 <div class="card-body">
+                    @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible">
+                        @foreach ($errors->all() as $error)
+                            {{$error}} <br>
+                        @endforeach
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
                     <form action="{{ route('admin.race-kelas.store') }}" method="POST">
                         @csrf
                         <div class="row">
@@ -34,8 +44,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="biaya">Biaya Lomba</label>
-                            <input type="text" class="form-control" name="biaya">
+                            <label for="biaya">Biaya Lomba (RP)</label>
+                            <input type="number" class="form-control" name="biaya">
                             @error('biaya')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

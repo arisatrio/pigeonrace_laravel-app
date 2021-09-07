@@ -61,7 +61,6 @@ class RacePos extends Model
             ->using(RaceClock::class)
             ->as('clock')
             ->withPivot('distance', 'arrival_date', 'arrival_day', 'arrival_clock', 'flying_time', 'velocity', 'no_stiker', 'status')
-            ->wherePivot('status', 'SAH')
             ->withTimestamps();
     }
 
@@ -71,7 +70,6 @@ class RacePos extends Model
             ->using(RaceClock::class)
             ->as('clock')
             ->withPivot('distance', 'arrival_date', 'arrival_day', 'arrival_clock', 'flying_time', 'velocity', 'no_stiker', 'status')
-            ->wherePivot('status', 'SAH')
             ->withTimestamps();
     }
 }

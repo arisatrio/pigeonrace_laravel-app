@@ -177,48 +177,6 @@
                 </div>
             </div>
 
-            {{-- HASIL --}}
-            <div class="card">
-                <div class="card-header">
-                    <a data-collapse="#mycard-collapse" class="btn btn-icon btn-secondary mr-3" href="#"><i class="fas fa-plus"></i></a>
-                    <h4>Hasil</h4>
-                </div>
-                <div class="collapse" id="mycard-collapse" style="">
-                    <div class="card-body">
-                        @if ($now->greaterThanOrEqualTo($pos->tgl_lepasan))
-                        <p><b>Total Burung Clock : </b> {{ $hasilClock->count() }}</p>
-                        @foreach ($hasilClock as $burung)
-                        <div id="accordion">
-                            <div class="accordion">
-                                <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-{{$burung->id}}">
-                                    <b>{{ Helper::birdName($burung, auth()->user()->name) }}</b>
-                                </div>
-                                <div class="accordion-body collapse" id="panel-body-{{$burung->id}}" data-parent="#accordion">
-                                    @foreach ($burung->clock as $item)
-                                    <p class="mb-0"><b>Tanggal dan Jam Kedatangan : </b></p>
-                                    <p>{{ $item->clock->arrival_clock->locale('id')->isoFormat('LLLL') }}</p>
-                                    <p class="mb-0"><b>H+ : </b></p>
-                                    <p>{{ $item->clock->arrival_day }}</p>
-                                    <p class="mb-0"><b>Waktu Terbang : </b></p>
-                                    <p>{{ $item->clock->flying_time }}</p>
-                                    <p class="mb-0"><b>Kecepatan : </b></p>
-                                    <p>{{ $item->clock->velocity }}</p>                             
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>                 
-                        @endforeach
-                        @else
-                        <div class="alert alert-danger alert-dismissible">
-                            Clock belum dibuka
-                        </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
-            
-
         </div>
     </div>
 </div>

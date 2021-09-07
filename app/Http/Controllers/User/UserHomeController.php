@@ -47,16 +47,13 @@ class UserHomeController extends Controller
         $burungClock = Burung::whereHas('user', function ($q) {
             $q->where('user_id', auth()->user()->id);
         })
-        //->whereHas('basketing')->doesntHave('clock') tidak ada di tabel clock di pos ini
+        ->whereHas('basketing')->doesntHave('clock')
         ->get();
-        $hasilClock = Burung::with('clock')->whereHas('user', function ($q) {
-            $q->where('user_id', auth()->user()->id);
-        })->whereHas('clock')->get();
 
         $jarak = Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $pos->latitude, $pos->longitude);
 
 
-        return view('user.home-race-pos', compact('now', 'user', 'pos', 'basketing', 'burungClock', 'hasilClock', 'jarak'));
+        return view('user.home-race-pos', compact('now', 'user', 'pos', 'basketing', 'burungClock', 'jarak'));
     }
 
     public function stopJoin($race_id)
@@ -81,6 +78,10 @@ class UserHomeController extends Controller
 
     public function basketingStore($race_pos_id, Request $request)
     {
+        $this->validate($request, [
+            'burung_id' => 'required',
+            'kelas_id'  => 'required',
+        ]);
         $input = $request->only(['burung_id', 'kelas_id']);
         $pos = RacePos::find($race_pos_id);
         $burung = Burung::with('basketing')->find($request->burung_id);
