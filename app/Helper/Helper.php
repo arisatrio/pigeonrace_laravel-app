@@ -37,7 +37,6 @@ class Helper
         -$lat2 = self::DDMtoDD($lat2);
         $long2 = self::DDMtoDD($long2);
 
-
         if ( ($lat1 == $lat2) && ($long1 == $long2) ) {
             return 0;
         } else {
@@ -55,6 +54,12 @@ class Helper
     public static function estimateArrival($jarak, $kecepatan, $start_time)
     {
         $waktu = ($jarak * 1000) / $kecepatan; // in minute
+        $dayFly = round($waktu / 720);
+		if($waktu <= 1440){
+            $waktu += 720;
+        } else if($waktu > 1440){
+			$waktu += (720 * $dayFly);
+		};
         $fly = Carbon::parse($start_time)->addMinutes($waktu);
 
         return $fly->locale('id')->isoFormat('LLLL');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 
 use App\Models\Burung;
 use App\Models\Race;
@@ -49,7 +50,7 @@ class HasilRaceController extends Controller
     {
         $kelas = RaceKelas::find($kelas_id);
         $pos = RacePos::with('clock')->find($id);
-        $rank = $pos->clock()->where('race_clocks.race_kelas_id', $kelas_id)->where('race_clocks.status', 'SAH')->orderBy('race_clocks.velocity', 'DESC')->get();
+        $rank = $pos->clock()->where('race_clocks.race_kelas_id', $kelas_id)->orderBy('race_clocks.velocity', 'DESC')->get();
 
         return view('pos-kelas', compact('pos', 'kelas', 'rank'));
     }
@@ -60,7 +61,6 @@ class HasilRaceController extends Controller
         $pos = $race->pos()->get();
         $totalPos = $pos->count();
         $coll = Burung::with(['clock', 'club', 'user'])->get();
-
 
         return view('total-pos', compact('race', 'pos', 'totalPos', 'coll'));
     }

@@ -182,7 +182,7 @@
                     <a data-collapse="#map" class="btn btn-icon btn-secondary mr-3" href="#"><i class="fas fa-plus"></i></a>
                     <h4>Map</h4>
                 </div>
-                <div class="collapse show" id="map">
+                <div class="collapse" id="map">
                     <div class="card-body">
                         @include('components.maps')
                         @push('js_script')

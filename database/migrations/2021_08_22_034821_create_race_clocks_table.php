@@ -19,7 +19,7 @@ class CreateRaceClocksTable extends Migration
             $table->foreignId('burung_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('distance');
             $table->string('arrival_date');
-            $table->string('arrivall_day');
+            $table->string('arrival_day');
             $table->string('arrival_clock');
             $table->string('flying_time');
             $table->string('velocity');

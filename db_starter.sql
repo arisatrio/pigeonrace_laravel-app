@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Agu 2021 pada 21.29
+-- Waktu pembuatan: 09 Sep 2021 pada 09.17
 -- Versi server: 10.4.14-MariaDB
 -- Versi PHP: 7.4.10
 
@@ -18,8 +18,77 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_pmi`
+-- Database: `afe_pigeonrace_dev`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `burungs`
+--
+
+CREATE TABLE `burungs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `club_id` bigint(20) UNSIGNED NOT NULL,
+  `tahun` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_ring` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `warna` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jenkel` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `titipan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `clubs`
+--
+
+CREATE TABLE `clubs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nama_club` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_center` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `clubs`
+--
+
+INSERT INTO `clubs` (`id`, `nama_club`, `city`, `no_center`, `created_at`, `updated_at`) VALUES
+(1, 'SGM', '-', '-', '2021-09-09 02:09:15', '2021-09-09 02:09:15'),
+(2, 'JK', '-', '-', '2021-09-09 02:09:15', '2021-09-09 02:09:15'),
+(3, 'LLB', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(4, 'KK', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(5, 'MPRC', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(6, 'LBD', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(7, 'JRPC', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(8, 'PSP', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(9, 'SJY', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(10, 'MDRJ', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(11, 'ID', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(12, 'W', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16'),
+(13, 'G', '-', '-', '2021-09-09 02:09:16', '2021-09-09 02:09:16');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -557,9 +626,260 @@ INSERT INTO `indonesia_cities` (`id`, `province_id`, `name`, `meta`, `created_at
 ('9436', '94', 'KABUPATEN DEIYAI', '{\"lat\":\"-4.0974893\",\"long\":\"136.4393054\"}', '2020-12-02 11:08:33', '2020-12-02 11:08:33'),
 ('9471', '94', 'KOTA JAYAPURA', '{\"lat\":\"-2.5916025\",\"long\":\"140.6689995\"}', '2020-12-02 11:08:33', '2020-12-02 11:08:33');
 
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `migrations`
+--
+
+CREATE TABLE `migrations` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2013_08_14_060008_create_roles_table', 1),
+(2, '2014_10_12_000000_create_users_table', 1),
+(3, '2014_10_12_100000_create_password_resets_table', 1),
+(4, '2016_08_03_072750_create_cities_table', 1),
+(5, '2019_08_19_000000_create_failed_jobs_table', 1),
+(6, '2021_08_16_052317_create_clubs_table', 1),
+(7, '2021_08_16_054113_create_burungs_table', 1),
+(8, '2021_08_18_170233_create_races_table', 1),
+(9, '2021_08_18_174231_create_race_kelas_table', 1),
+(10, '2021_08_18_201741_create_race_latihans_table', 1),
+(11, '2021_08_19_041248_create_race_pos_table', 1),
+(12, '2021_08_19_141548_create_users_join_races_table', 1),
+(13, '2021_08_20_075212_add_no_pos_to_race_pos_table', 1),
+(14, '2021_08_20_190418_create_race_basketings_table', 1),
+(15, '2021_08_22_034821_create_race_clocks_table', 1),
+(16, '2021_08_24_103341_add_close_time_to_race_pos_table', 1),
+(17, '2021_08_25_122356_add_slug_to_races_table', 1),
+(18, '2021_09_03_034848_add_coloumn_race_kelas_id_to_race_clocks_table', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `races`
+--
+
+CREATE TABLE `races` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nama_race` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tgl_race` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `poster` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deskripsi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'PENDING',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `race_basketings`
+--
+
+CREATE TABLE `race_basketings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `race_pos_id` bigint(20) UNSIGNED NOT NULL,
+  `burung_id` bigint(20) UNSIGNED NOT NULL,
+  `race_kelas_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `race_clocks`
+--
+
+CREATE TABLE `race_clocks` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `race_pos_id` bigint(20) UNSIGNED NOT NULL,
+  `burung_id` bigint(20) UNSIGNED NOT NULL,
+  `distance` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `arrival_date` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `arrivall_day` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `arrival_clock` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `flying_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `velocity` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `no_stiker` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `race_kelas_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `race_kelas`
+--
+
+CREATE TABLE `race_kelas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `race_id` bigint(20) UNSIGNED NOT NULL,
+  `nama_kelas` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `biaya` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `race_latihans`
+--
+
+CREATE TABLE `race_latihans` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `race_id` bigint(20) UNSIGNED NOT NULL,
+  `tgl_inkorv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tgl_lepasan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `latitude` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `longitude` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jarak` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `biaya_inkorv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `race_pos`
+--
+
+CREATE TABLE `race_pos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `race_id` bigint(20) UNSIGNED NOT NULL,
+  `no_pos` int(11) NOT NULL,
+  `tgl_inkorv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tgl_lepasan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `close_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `restart_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `latitude` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `longitude` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `jarak` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `biaya_inkorv` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Super Admin', '2021-09-09 02:09:14', '2021-09-09 02:09:14'),
+(2, 'Admin', '2021-09-09 02:09:14', '2021-09-09 02:09:14'),
+(3, 'Member', '2021-09-09 02:09:14', '2021-09-09 02:09:14');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `users`
+--
+
+CREATE TABLE `users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nohp` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `role_id`, `email`, `nohp`, `city`, `latitude`, `longitude`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'Super Admin', 1, 'superadmin@mail.com', '08123456789', NULL, NULL, NULL, NULL, '$2y$10$4qjSnufO8QA4h8xPiC7ol.uGj8yhNyMpJDDdrj2XkIkvsEd8K3ge.', NULL, '2021-09-09 02:09:15', '2021-09-09 02:09:15'),
+(2, 'Admin', 2, 'admin@mail.com', '0812345678', NULL, NULL, NULL, NULL, '$2y$10$g1IXFaPIcCAT5gCJtv2h8OmRk36zepIXhaqbI7RwLgdLO9ji/4psW', NULL, '2021-09-09 02:09:15', '2021-09-09 02:09:15'),
+(3, 'User', 3, 'user@mail.com', '081234567', NULL, NULL, NULL, NULL, '$2y$10$.X2G9kFFXwsX5qWqGj02duO/xRQpWmkM1ShOjlQhKOFyXjiBQ7EQy', NULL, '2021-09-09 02:09:15', '2021-09-09 02:09:15');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `users_join_races`
+--
+
+CREATE TABLE `users_join_races` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `race_id` bigint(20) UNSIGNED NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `burungs`
+--
+ALTER TABLE `burungs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `burungs_club_id_foreign` (`club_id`),
+  ADD KEY `burungs_user_id_foreign` (`user_id`);
+
+--
+-- Indeks untuk tabel `clubs`
+--
+ALTER TABLE `clubs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
 -- Indeks untuk tabel `indonesia_cities`
@@ -569,14 +889,225 @@ ALTER TABLE `indonesia_cities`
   ADD KEY `indonesia_cities_province_id_foreign` (`province_id`);
 
 --
+-- Indeks untuk tabel `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indeks untuk tabel `races`
+--
+ALTER TABLE `races`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `race_basketings`
+--
+ALTER TABLE `race_basketings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `race_basketings_race_pos_id_foreign` (`race_pos_id`),
+  ADD KEY `race_basketings_burung_id_foreign` (`burung_id`),
+  ADD KEY `race_basketings_race_kelas_id_foreign` (`race_kelas_id`);
+
+--
+-- Indeks untuk tabel `race_clocks`
+--
+ALTER TABLE `race_clocks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `race_clocks_race_pos_id_foreign` (`race_pos_id`),
+  ADD KEY `race_clocks_burung_id_foreign` (`burung_id`),
+  ADD KEY `race_clocks_race_kelas_id_foreign` (`race_kelas_id`);
+
+--
+-- Indeks untuk tabel `race_kelas`
+--
+ALTER TABLE `race_kelas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `race_kelas_race_id_foreign` (`race_id`);
+
+--
+-- Indeks untuk tabel `race_latihans`
+--
+ALTER TABLE `race_latihans`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `race_latihans_race_id_foreign` (`race_id`);
+
+--
+-- Indeks untuk tabel `race_pos`
+--
+ALTER TABLE `race_pos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `race_pos_no_pos_unique` (`no_pos`),
+  ADD KEY `race_pos_race_id_foreign` (`race_id`);
+
+--
+-- Indeks untuk tabel `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `users_nohp_unique` (`nohp`),
+  ADD KEY `users_role_id_foreign` (`role_id`);
+
+--
+-- Indeks untuk tabel `users_join_races`
+--
+ALTER TABLE `users_join_races`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `users_join_races_user_id_foreign` (`user_id`),
+  ADD KEY `users_join_races_race_id_foreign` (`race_id`);
+
+--
+-- AUTO_INCREMENT untuk tabel yang dibuang
+--
+
+--
+-- AUTO_INCREMENT untuk tabel `burungs`
+--
+ALTER TABLE `burungs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `clubs`
+--
+ALTER TABLE `clubs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT untuk tabel `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT untuk tabel `races`
+--
+ALTER TABLE `races`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `race_basketings`
+--
+ALTER TABLE `race_basketings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `race_clocks`
+--
+ALTER TABLE `race_clocks`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `race_kelas`
+--
+ALTER TABLE `race_kelas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `race_latihans`
+--
+ALTER TABLE `race_latihans`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `race_pos`
+--
+ALTER TABLE `race_pos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `users_join_races`
+--
+ALTER TABLE `users_join_races`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Ketidakleluasaan untuk tabel `indonesia_cities`
+-- Ketidakleluasaan untuk tabel `burungs`
 --
-ALTER TABLE `indonesia_cities`
-  ADD CONSTRAINT `indonesia_cities_province_id_foreign` FOREIGN KEY (`province_id`) REFERENCES `indonesia_provinces` (`id`) ON UPDATE CASCADE;
+ALTER TABLE `burungs`
+  ADD CONSTRAINT `burungs_club_id_foreign` FOREIGN KEY (`club_id`) REFERENCES `clubs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `burungs_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `race_basketings`
+--
+ALTER TABLE `race_basketings`
+  ADD CONSTRAINT `race_basketings_burung_id_foreign` FOREIGN KEY (`burung_id`) REFERENCES `burungs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `race_basketings_race_kelas_id_foreign` FOREIGN KEY (`race_kelas_id`) REFERENCES `race_kelas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `race_basketings_race_pos_id_foreign` FOREIGN KEY (`race_pos_id`) REFERENCES `race_pos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `race_clocks`
+--
+ALTER TABLE `race_clocks`
+  ADD CONSTRAINT `race_clocks_burung_id_foreign` FOREIGN KEY (`burung_id`) REFERENCES `burungs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `race_clocks_race_kelas_id_foreign` FOREIGN KEY (`race_kelas_id`) REFERENCES `race_kelas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `race_clocks_race_pos_id_foreign` FOREIGN KEY (`race_pos_id`) REFERENCES `race_pos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `race_kelas`
+--
+ALTER TABLE `race_kelas`
+  ADD CONSTRAINT `race_kelas_race_id_foreign` FOREIGN KEY (`race_id`) REFERENCES `races` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `race_latihans`
+--
+ALTER TABLE `race_latihans`
+  ADD CONSTRAINT `race_latihans_race_id_foreign` FOREIGN KEY (`race_id`) REFERENCES `races` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `race_pos`
+--
+ALTER TABLE `race_pos`
+  ADD CONSTRAINT `race_pos_race_id_foreign` FOREIGN KEY (`race_id`) REFERENCES `races` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `users_join_races`
+--
+ALTER TABLE `users_join_races`
+  ADD CONSTRAINT `users_join_races_race_id_foreign` FOREIGN KEY (`race_id`) REFERENCES `races` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `users_join_races_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

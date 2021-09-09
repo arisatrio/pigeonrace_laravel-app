@@ -107,7 +107,24 @@
                                                         <td>{{ $item->user->name }}</td>
                                                         <td>{{ $item->user->city }}</td>
                                                         <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
-                                                        @foreach ($item->clock as $key => $pos)
+                                                        
+
+                                                        @foreach($pos as $poskey)
+                                                            @foreach ($item->clock as $key => $burClock)
+                                                                @if ($poskey->no_pos === $burClock->no_pos)
+                                                                    <td class="text-center"><b>{{ $burClock->clock->velocity }} M/Menit</b></td>
+                                                                    <td class="text-center">{{ Helper::getRankInPos($burClock->clock->race_pos_id, $burClock->clock->burung_id) }}</td>
+                                                                @else
+                                                                    <td class="bg-danger"></td>
+                                                                    <td class="bg-danger"></td>
+                                                                @endif
+                                                                {{-- NO POS CLOCK {{$burClock->no_pos}} <br>
+                                                                NO POS loop {{$poskey->no_pos}} <br> --}}
+                                                            @endforeach
+                                                        @endforeach
+
+
+                                                        {{-- @foreach ($item->clock as $key => $pos)
                                                             @if ($key+1 !== $pos->no_pos)
                                                             <td class="bg-danger"></td>
                                                             <td class="bg-danger"></td>
@@ -122,7 +139,8 @@
                                                             <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
                                                             <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
                                                             @endif
-                                                        @endforeach
+                                                        @endforeach --}}
+
                                                         <td class="text-center">{{ $item->clock->count() }}</td>
                                                         <td class="text-center"><b>{{ Helper::getAvgSpeed($item->clock) }} M/Menit</b></td>
                                                     </tr>
