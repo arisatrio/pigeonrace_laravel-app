@@ -32,18 +32,49 @@
 
             <div class="card">
                 <div class="card-body">
+                    
+                    {{-- <div id="accordion">
+                        <div class="list-group">
+                          <div class="list-group-item" role="button" data-toggle="collapse" data-target="#panel-body-1" aria-expanded="true">
+                            <h4>(1)</h4>
+                          </div>
+                          <div class="card-body collapse show" id="panel-body-1" data-parent="#accordion" style="">
+                            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                          </div>
+                        </div>
+                        <div class="list-group">
+                            <div class="list-group-item" role="button" data-toggle="collapse" data-target="#panel-body-1" aria-expanded="true">
+                              <h4>(1)</h4>
+                            </div>
+                            <div class="card-body collapse show" id="panel-body-1" data-parent="#accordion" style="">
+                              <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </div>
+                          </div>
+                        
+                    </div> --}}
+
                     <table class="table table-striped display-nowrap" id="table-1">
                         <thead>
                             <tr class="text-center bg-dark">
-                                <th colspan="8" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
+                                <th colspan="9" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
                             </tr>
                             <tr class="bg-info">
-                                <th rowspan="2" class="text-white">Rank</th>
+                                <th rowspan="2" class="text-white" style="width: 5%;">Rank</th>
                                 <th rowspan="2" class="text-white">Burung</th>
                                 <th rowspan="2" class="text-white">Kecepatan</th>
                                 <th rowspan="2" class="text-white">Jarak</th>
                                 <th rowspan="1" colspan="4" class="text-white text-center">Clock</th>
-                                <th rowspan="2" class="text-white">Status</th>
+                                <th rowspan="2" class="text-white" style="width: 5%;">Status</th>
                             </tr>
                             <tr class="bg-info">
                                 <th class="text-white">Tanggal</th>

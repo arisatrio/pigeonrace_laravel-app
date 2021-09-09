@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Helper\Helper;
 
 use App\Models\Race;
 use App\Models\RaceKelas;
@@ -46,18 +47,31 @@ class RacePosController extends Controller
     {
         $this->validate($request, 
             [
+                'no_pos'    => 'required',
                 'tgl_inkorv' => 'required|date|after:today',
                 'tgl_lepasan'     => 'required|date|after:tgl_inkorv',
+                'close_time'        => 'required',
+                'restart_time'      => 'required',
                 'city'  => 'required',
                 'latitude' => 'required',
                 'longitude' => 'required',
-                'jarak' => 'required',
                 'biaya_inkorv' => 'required'
             ]
         );
 
-        $data = $request->all();
-        $racePos = RacePos::create($data);
+        $racePos = RacePos::create([
+            'race_id'       => $request->race_id,
+            'no_pos'        => $request->no_pos,
+            'tgl_inkorv'    => $request->tgl_inkorv,
+            'tgl_lepasan'   => $request->tgl_lepasan,
+            'close_time'    => $request->close_time,
+            'restart_time'  => $request->restart_time,
+            'city'          => $request->city,
+            'latitude'      => $request->latitude,
+            'longitude'     => $request->longitude,
+            'jarak'         => Helper::jarakDariBunderanWaru($request->latitude, $request->longitude),
+            'biaya_inkorv'  => $request->biaya_inkorv,
+        ]);
 
         return redirect()->route('admin.race.show', $racePos->race_id)->with('messages', 'Data Pos berhasil ditambahkan.');
     }
@@ -100,19 +114,31 @@ class RacePosController extends Controller
     {
         $this->validate($request, 
             [
-                'tgl_inkorv' => 'required|date|after:today',
-                'tgl_lepasan'     => 'required|date|after:tgl_inkorv',
-                'city'  => 'required',
-                'latitude' => 'required',
-                'longitude' => 'required',
-                'jarak' => 'required',
-                'biaya_inkorv' => 'required'
+                'no_pos'            => 'required',
+                'tgl_inkorv'        => 'required|date|after:today',
+                'tgl_lepasan'       => 'required|date|after:tgl_inkorv',
+                'close_time'        => 'required',
+                'restart_time'      => 'required',
+                'city'              => 'required',
+                'latitude'          => 'required',
+                'longitude'         => 'required',
+                'biaya_inkorv'      => 'required'
             ]
         );
-
-        $data = $request->all();
         $pos = RacePos::find($id);
-        $pos->update($data);
+        $pos->update([
+            'race_id'       => $request->race_id,
+            'no_pos'        => $request->no_pos,
+            'tgl_inkorv'    => $request->tgl_inkorv,
+            'tgl_lepasan'   => $request->tgl_lepasan,
+            'close_time'    => $request->close_time,
+            'restart_time'  => $request->restart_time,
+            'city'          => $request->city,
+            'latitude'      => $request->latitude,
+            'longitude'     => $request->longitude,
+            'jarak'         => Helper::jarakDariBunderanWaru($request->latitude, $request->longitude),
+            'biaya_inkorv'  => $request->biaya_inkorv,
+        ]);
 
         return redirect()->route('admin.race.show', $pos->race_id)->with('messages', 'Data Pos berhasil diperbaharui.');
     }

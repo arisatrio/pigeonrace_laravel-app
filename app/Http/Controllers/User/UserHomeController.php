@@ -50,10 +50,11 @@ class UserHomeController extends Controller
         ->whereHas('basketing')->doesntHave('clock')
         ->get();
 
-        $jarak = Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $pos->latitude, $pos->longitude);
+        $jarak = Helper::calculateDistance($user->latitude, $user->longitude, $pos->latitude, $pos->longitude);
+        $userLoc = [-Helper::DDMtoDD($user->latitude), Helper::DDMtoDD($user->longitude)];
+        $posLoc = [-Helper::DDMtoDD($pos->latitude), Helper::DDMtoDD($pos->longitude)];
 
-
-        return view('user.home-race-pos', compact('now', 'user', 'pos', 'basketing', 'burungClock', 'jarak'));
+        return view('user.home-race-pos', compact('now', 'user', 'pos', 'basketing', 'burungClock', 'jarak', 'userLoc', 'posLoc'));
     }
 
     public function stopJoin($race_id)

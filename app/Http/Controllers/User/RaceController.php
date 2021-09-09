@@ -23,6 +23,13 @@ class RaceController extends Controller
         return view('user.race', compact('race'));
     }
 
+    public function show($slug)
+    {
+        $race = Race::where('slug', $slug)->first();
+
+        return view('user.race-show', compact('race'));
+    }
+
     public function indexRiwayat()
     {
         $race = Race::whereHas('join', function ($query) {
@@ -45,13 +52,6 @@ class RaceController extends Controller
         $rank = $pos->clock()->orderBy('race_clocks.velocity', 'DESC')->get();
 
         return view('user.riwayat-pos-rank', compact('pos', 'rank'));
-    }
-
-    public function show($slug)
-    {
-        $race = Race::where('slug', $slug)->first();
-
-        return view('user.race-show', compact('race'));
     }
 
     public function joinRace($race_id)

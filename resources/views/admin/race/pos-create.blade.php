@@ -90,7 +90,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="latitude">Latitude</label>
+                                    <label for="latitude">Latitude (S)</label>
                                     <input type="text" class="form-control" name="latitude" id="latitude">
                                     @error('latitude')
                                     <span class="invalid-feedback" role="alert">
@@ -101,7 +101,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <label for="longitude">Longitude</label>
+                                    <label for="longitude">Longitude (E)</label>
                                     <input type="text" class="form-control" name="longitude" id="longitude">
                                     @error('longitude')
                                     <span class="invalid-feedback" role="alert">
@@ -110,19 +110,6 @@
                                     @enderror
                                 </div>
                             </div>
-                        </div>
-
-                        {{-- MAP --}}
-                        @include('components.maps')
-
-                        <div class="form-group">
-                            <label for="jarak">Jarak (KM)</label>
-                            <input type="number" class="form-control" name="jarak">
-                            @error('jarak')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -145,31 +132,12 @@
 </div>
 @endsection
 @push('js_script')
-    <script>
-    var latLong = [-7.25792351, 112.79242516];
-    
-    var mymap = L.map('mapid').setView(latLong, 15);
-    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        maxZoom: 20,
-        subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(mymap);
-
-    var marker = L.marker(latLong).addTo(mymap);
-    marker.bindPopup("<b>Koordinat : </b><br>."+latLong+".").openPopup();
-
-    var markerr;
-    mymap.on('click', function(e) {
-        let latitude = e.latlng.lat.toString().substring(0, 15);
-        let longitude = e.latlng.lng.toString().substring(0, 15);
-        $('#latitude').val(latitude);
-        $('#longitude').val(longitude);
-        if (markerr != undefined) {
-            mymap.removeLayer(markerr);
-        };
-        var popupContent = "<b>Koordinat : </b><br>." + latitude + ", " + longitude + ".";
-        markerr = L.marker([latitude, longitude]).addTo(mymap);
-        markerr.bindPopup(popupContent)
-        .openPopup();
+<script>
+    $("#longitude").inputmask({
+        mask: "99[9]° 99.999'",
     });
-    </script>
+    $("#latitude").inputmask({
+        mask: "99° 99.999'",
+    });
+</script>
 @endpush

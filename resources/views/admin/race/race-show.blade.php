@@ -66,10 +66,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php $no = 1 @endphp
                                         @foreach ($race->kelas as $item)                                
                                         <tr>
-                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->nama_kelas }}</td>
                                             <td>{{ $item->biaya }}</td>
                                             <td>
@@ -104,19 +103,18 @@
                                             <th>Tanggal Inkorv</th>
                                             <th>Tanggal Lepasan</th>
                                             <th>Kota</th>
-                                            <th>Jarak</th>
+                                            <th>Estimasi Jarak (KM)</th>
                                             <th style="width: 25%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @php $no = 1 @endphp
                                         @foreach ($race->latihan as $item)
                                         <tr>
-                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->tgl_inkorv->format('d F Y') }}</td>
                                             <td>{{ $item->tgl_lepasan->format('d F Y') }}</td>
                                             <td>{{ $item->city }}</td>
-                                            <td>{{ $item->jarak }}</td>
+                                            <td>{{ $item->jarak }} (KM)</td>
                                             <td>
                                                 <a href="{{ route('admin.race-latihan.edit', ['id' => $item->id, 'race_id' => $race->id]) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
                                                 <form class="btn" action="{{ route('admin.race-latihan.destroy', ['id' => $item->id, 'race_id' => $race->id]) }}" method="POST">
@@ -145,23 +143,22 @@
                                 <table class="dttable table table-bordered text-center" id="table-1">
                                     <thead>
                                         <tr>
-                                            <th style="width: 5%">No</th>
+                                            <th style="width: 5%">Pos</th>
                                             <th>Tanggal Inkorv</th>
                                             <th>Tanggal Lepasan</th>
                                             <th>Kota</th>
-                                            <th>Jarak</th>
+                                            <th>Estimasi Jarak (KM)</th>
                                             <th style="width: 25%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($race->pos as $item)
-                                        @php $no = 1 @endphp
                                         <tr>
-                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $item->no_pos }}</td>
                                             <td>{{ $item->tgl_inkorv->format('d F Y') }}</td>
                                             <td>{{ $item->tgl_lepasan->format('d F Y') }}</td>
                                             <td>{{ $item->city }}</td>
-                                            <td>{{ $item->jarak }}</td>
+                                            <td>{{ $item->jarak }} (KM)</td>
                                             <td>
                                                 <a href="{{ route('admin.race-pos.edit', ['id' => $item->id, 'race_id' => $race->id]) }}" class="btn btn-icon btn-primary"><i class="far fa-edit"></i></a>
                                                 <form class="btn" action="{{ route('admin.race-pos.destroy', ['id' => $item->id, 'race_id' => $race->id]) }}" method="POST">

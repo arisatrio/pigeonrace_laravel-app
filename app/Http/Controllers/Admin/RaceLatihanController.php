@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Helper\Helper;
 
 use App\Models\Race;
 use App\Models\RaceKelas;
@@ -40,13 +41,23 @@ class RaceLatihanController extends Controller
                 'city'  => 'required',
                 'latitude' => 'required',
                 'longitude' => 'required',
-                'jarak' => 'required',
                 'biaya_inkorv' => 'required'
             ]
         );
 
-        $data = $request->all();
-        $raceLatihan = RaceLatihan::create($data);
+        $lat = Helper::DDMtoDD($request->latitude);
+        $long = Helper::DDMtoDD($request->longitude);
+
+        $raceLatihan = RaceLatihan::create([
+            'race_id'       => $request->race_id,
+            'tgl_inkorv'    => $request->tgl_inkorv,
+            'tgl_lepasan'   => $request->tgl_lepasan,
+            'city'          => $request->city,
+            'latitude'      => $request->latitude,
+            'longitude'     => $request->longitude,
+            'jarak'         => Helper::jarakDariBunderanWaru($lat, $long),
+            'biaya_inkorv'  => $request->biaya_inkorv
+        ]);
 
         return redirect()->route('admin.race.show', $raceLatihan->race_id)->with('messages', 'Data Latihan berhasil ditambahkan.');
     }
@@ -82,16 +93,26 @@ class RaceLatihanController extends Controller
                 'city'  => 'required',
                 'latitude' => 'required',
                 'longitude' => 'required',
-                'jarak' => 'required',
                 'biaya_inkorv' => 'required'
             ]
         );
 
-        $data = $request->all();
-        $lat = RaceLatihan::find($id);
-        $lat->update($data);
+        $lat = Helper::DDMtoDD($request->latitude);
+        $long = Helper::DDMtoDD($request->longitude);
 
-        return redirect()->route('admin.race.show', $lat->race_id)->with('messages', 'Data Latihan berhasil diperbaharui.');
+        $latihan = RaceLatihan::find($id);
+        $latihan->update([
+            'race_id'       => $request->race_id,
+            'tgl_inkorv'    => $request->tgl_inkorv,
+            'tgl_lepasan'   => $request->tgl_lepasan,
+            'city'          => $request->city,
+            'latitude'      => $request->latitude,
+            'longitude'     => $request->longitude,
+            'jarak'         => Helper::jarakDariBunderanWaru($lat, $long),
+            'biaya_inkorv'  => $request->biaya_inkorv
+        ]);
+
+        return redirect()->route('admin.race.show', $latihan->race_id)->with('messages', 'Data Latihan berhasil diperbaharui.');
     }
 
     /**

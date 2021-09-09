@@ -46,19 +46,17 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="latitude" class="control-label">Latitude</label>
+                                    <label for="latitude" class="control-label">Latitude (S)</label>
                                     <input id="latitude" type="text" class="form-control" name="latitude" value="{{ $user->latitude }}" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="longitude" class="control-label">Longitude</label>
+                                    <label for="longitude" class="control-label">Longitude (E)</label>
                                     <input id="longitude" type="text" class="form-control" name="longitude" value="{{ $user->longitude }}" required>
                                 </div>
                             </div>
                         </div>
-                        <div id="mapid" style="min-height: 400px;"></div>
-                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                         <button type="submit" class="float-right btn btn-primary mt-4 mb-4">Simpan</button>
                     </div>
                 </form>
@@ -67,40 +65,13 @@
     </div>
 </div>
 @endsection
-@push('css_script')
-    @include('layouts.leaflet-assets')
-@endpush
 @push('js_script')
 <script>
-    var lat = @JSON($user->latitude);
-    var long = @JSON($user->longitude);
-    var latLong = [lat, long];
-    if (lat == null) {
-        latLong = @JSON($liveLoc);
-    };
-    
-    var mymap = L.map('mapid').setView(latLong, 15);
-    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        maxZoom: 20,
-        subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(mymap);
-
-    var marker = L.marker(latLong).addTo(mymap);
-    marker.bindPopup("<b>Koordinat Anda : </b><br>."+latLong+".").openPopup();
-
-    var markerr;
-    mymap.on('click', function(e) {
-        let latitude = e.latlng.lat.toString().substring(0, 15);
-        let longitude = e.latlng.lng.toString().substring(0, 15);
-        $('#latitude').val(latitude);
-        $('#longitude').val(longitude);
-        if (markerr != undefined) {
-            mymap.removeLayer(markerr);
-        };
-        var popupContent = "<b>Koordinat : </b><br>." + latitude + ", " + longitude + ".";
-        markerr = L.marker([latitude, longitude]).addTo(mymap);
-        markerr.bindPopup(popupContent)
-        .openPopup();
+    $("#longitude").inputmask({
+        mask: "99[9]° 99.999'",
+    });
+    $("#latitude").inputmask({
+        mask: "99° 99.999'",
     });
 </script>
 @endpush

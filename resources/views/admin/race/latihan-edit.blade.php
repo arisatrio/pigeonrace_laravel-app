@@ -75,19 +75,6 @@
                             </div>
                         </div>
 
-                        {{-- MAP --}}
-                        @include('components.maps', ['selectedCity' => $lat->city])
-
-                        <div class="form-group">
-                            <label for="jarak">Jarak</label>
-                            <input type="text" class="form-control" name="jarak" value="{{ $lat->jarak }}">
-                            @error('jarak')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
                         <div class="form-group">
                             <label for="biaya_inkorv">Biaya Inkorv</label>
                             <input type="text" class="form-control" name="biaya_inkorv" value="{{ $lat->biaya_inkorv }}">
@@ -108,31 +95,12 @@
 </div>
 @endsection
 @push('js_script')
-    <script>
-    var latLong = [@JSON($lat->latitude), @JSON($lat->longitude)];
-    
-    var mymap = L.map('mapid').setView(latLong, 15);
-    L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-        maxZoom: 20,
-        subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(mymap);
-
-    var marker = L.marker(latLong).addTo(mymap);
-    marker.bindPopup("<b>Koordinat Tersimpan : </b><br>."+latLong+".").openPopup();
-
-    var markerr;
-    mymap.on('click', function(e) {
-        let latitude = e.latlng.lat.toString().substring(0, 15);
-        let longitude = e.latlng.lng.toString().substring(0, 15);
-        $('#latitude').val(latitude);
-        $('#longitude').val(longitude);
-        if (markerr != undefined) {
-            mymap.removeLayer(markerr);
-        };
-        var popupContent = "<b>Koordinat : </b><br>." + latitude + ", " + longitude + ".";
-        markerr = L.marker([latitude, longitude]).addTo(mymap);
-        markerr.bindPopup(popupContent)
-        .openPopup();
+<script>
+    $("#longitude").inputmask({
+        mask: "99[9]° 99.999'",
     });
-    </script>
+    $("#latitude").inputmask({
+        mask: "99° 99.999'",
+    });
+</script>
 @endpush

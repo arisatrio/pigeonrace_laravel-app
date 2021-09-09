@@ -62,7 +62,7 @@
                             <div class="accordion-body show" id="panel-body-{{$no++}}" data-parent="#accordion" style="">
                                 <p class="mb-0"><b>Tanggal Inkorv</b> :</p>
                                 <p>{{ $item->tgl_inkorv->locale('id')->isoFormat('LLLL') }}</p>
-                                <p class="mb-0"><b>Tanggal Lepasan</b> :</p>
+                                <p class="mb-0"><b>Tanggal dan Jam Lepasan</b> :</p>
                                 <p>{{ $item->tgl_lepasan->locale('id')->isoFormat('LLLL') }}</p>
                                 <p class="mb-0"><b>Biaya Inkorv</b></p>
                                 <p>Rp. {{ number_format($item->biaya_inkorv) }}</p>
@@ -76,7 +76,7 @@
                                 <p>{{ $item->latitude }}, {{ $item->longitude }}</p>
                                 <p class="mb-0"><b>Jarak Pos ke Kandang</b> :</p>
                                 <p>{{ Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $item->latitude, $item->longitude) }} KM</p>
-                                @include('components.maps')
+                                {{-- @include('components.maps')
                                 @push('js_script')
                                 <script>
                                     var userLoc = @JSON([auth()->user()->latitude, auth()->user()->longitude]);
@@ -101,7 +101,7 @@
                                     var end = L.marker(posLoc).addTo(mymap).bindPopup("<b> POS {{ $item->no_pos }} - {{ $item->city }} : </b><br>."+posLoc+".", {closeOnClick: false, autoClose: false});
 
                                 </script>
-                                @endpush
+                                @endpush --}}
                             </div>
                         </div>
                     </div>             

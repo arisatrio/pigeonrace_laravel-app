@@ -82,7 +82,6 @@
                 </div>
             </div>
             
-
             {{-- BASKETING --}}
             <div class="card">
                 <div class="card-header">
@@ -173,6 +172,44 @@
                         <p>{{ Helper::estimateArrival($jarak, 600, $pos->tgl_lepasan) }}</p>
                         <p class="mb-0"><b>500 M/M : </b></p>
                         <p>{{ Helper::estimateArrival($jarak, 500, $pos->tgl_lepasan) }}</p>
+                    </div>
+                </div>
+            </div>
+
+            {{-- MAP --}}
+            <div class="card">
+                <div class="card-header">
+                    <a data-collapse="#map" class="btn btn-icon btn-secondary mr-3" href="#"><i class="fas fa-plus"></i></a>
+                    <h4>Map</h4>
+                </div>
+                <div class="collapse show" id="map">
+                    <div class="card-body">
+                        @include('components.maps')
+                        @push('js_script')
+                        <script>
+                            var userLoc = @JSON($userLoc);
+                            var posLoc  = @JSON($posLoc);
+                            var points  = [userLoc, posLoc];
+
+                            var mymap = L.map('mapid').setView([-7.33194,110.49278], 6);
+                            L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                                maxZoom: 20,
+                                subdomains:['mt0','mt1','mt2','mt3']
+                            }).addTo(mymap);
+
+                            var firstpolyline = new L.Polyline(points, {
+                                color: 'red',
+                                weight: 4,
+                                opacity: 0.5,
+                                smoothFactor: 1
+                            });
+                            firstpolyline.addTo(mymap);
+
+                            var start = L.marker(userLoc).addTo(mymap).bindPopup("<b>Koordinat Anda</b><br>", {closeOnClick: false, autoClose: false});
+                            var end = L.marker(posLoc).addTo(mymap).bindPopup("<b> POS {{ $pos->no_pos }} - {{ $pos->city }} </b><br>", {closeOnClick: false, autoClose: false});
+
+                        </script>
+                        @endpush
                     </div>
                 </div>
             </div>

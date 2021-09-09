@@ -8,8 +8,36 @@ use App\Models\RacePos;
 
 class Helper
 {
+    public static function DDMtoDD($input)
+    {
+        $new = explode("°", $input);
+        $new2 = $new[1];
+
+        $deg = $new[0];
+        $min = rtrim($new[1], " ' ");
+        
+        $dec = $deg+($min/60);
+
+        return number_format($dec, 6);
+    }
+
+    public static function jarakDariBunderanWaru($lat, $long)
+    {
+        $waruLat = "07° 21.260'";
+        $waruLong = "112° 42.569'";
+        $jarak = self::calculateDistance($waruLat, $waruLong, $lat, $long );
+
+        return $jarak;
+    }
+
     public static function calculateDistance($lat1, $long1, $lat2, $long2)
     {
+        -$lat1 = self::DDMtoDD($lat1);
+        $long1 = self::DDMtoDD($long1);
+        -$lat2 = self::DDMtoDD($lat2);
+        $long2 = self::DDMtoDD($long2);
+
+
         if ( ($lat1 == $lat2) && ($long1 == $long2) ) {
             return 0;
         } else {

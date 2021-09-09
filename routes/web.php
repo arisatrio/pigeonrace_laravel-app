@@ -14,13 +14,14 @@ use App\Models\Race;
 |
 */
 
-Route::get('/', [App\Http\Controllers\HasilRaceController::class, 'index'])->name('welcome');
-
-Route::get('/hasiil-race/{id}', [App\Http\Controllers\HasilRaceController::class, 'show'])->name('race');
-Route::get('/hasil-race/{race_id}/basketing/{id}', [App\Http\Controllers\HasilRaceController::class, 'basketing'])->name('basketing');
-Route::get('/hasil-race/{race_id}/pos/{id}', [App\Http\Controllers\HasilRaceController::class, 'pos'])->name('pos');
-Route::get('/hasil-race/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\HasilRaceController::class, 'posKelas'])->name('pos-kelas');
-Route::get('/hasil-race/{race_id}/total-pos', [App\Http\Controllers\HasilRaceController::class, 'totalPos'])->name('total-pos');
+Route::middleware('guest')->group(function () {
+    Route::get('/', [App\Http\Controllers\HasilRaceController::class, 'index'])->name('welcome');
+    Route::get('/hasiil-race/{id}', [App\Http\Controllers\HasilRaceController::class, 'show'])->name('race');
+    Route::get('/hasil-race/{race_id}/basketing/{id}', [App\Http\Controllers\HasilRaceController::class, 'basketing'])->name('basketing');
+    Route::get('/hasil-race/{race_id}/pos/{id}', [App\Http\Controllers\HasilRaceController::class, 'pos'])->name('pos');
+    Route::get('/hasil-race/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\HasilRaceController::class, 'posKelas'])->name('pos-kelas');
+    Route::get('/hasil-race/{race_id}/total-pos', [App\Http\Controllers\HasilRaceController::class, 'totalPos'])->name('total-pos');
+});
 
 Auth::routes();
 

@@ -58,15 +58,7 @@ class ProfileController extends Controller
         $user = User::find($id);
         $city = City::pluck('name');
 
-        $userIp = request()->ip();
-        $position = Location::get($userIp);
-        if($position != false) {
-            $liveLoc = [$position->latitude, $position->longitude];
-        } else {
-            $liveLoc = [-7.250445, 112.768845]; //if get loc by ip false set default to surabaya lat long
-        }
-
-        return view('user.koordinat', compact('user', 'city', 'liveLoc'));
+        return view('user.koordinat', compact('user', 'city'));
     }
 
     /**
@@ -83,15 +75,16 @@ class ProfileController extends Controller
                 'city'      => 'required',
                 'latitude'   => 'required',
                 'longitude'   => 'required',
-                'user_id'   => 'required'
             ]
         );
 
-        $data = $request->all();
+        $data = $request->all();        
         $user = User::find($id);
-        $user->update($data);
-
-        
+        $user->update([
+            'city'  => $request->city,
+            'latitude'  => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
 
         return redirect()->back()->with('messages', 'Data Koordinat berhasil diperbaharui');
     }
