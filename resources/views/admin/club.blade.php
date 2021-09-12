@@ -4,6 +4,7 @@
 <div class="section-header">
     <h1>Data Club</h1>
     <div class="section-header-breadcrumb">
+        <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
         <div class="breadcrumb-item">Data Club</div>
     </div>
 </div>
@@ -15,19 +16,12 @@
                     <h4>Data Club</h4>
                 </div>
                 <div class="card-body">
-                    
-                    @if (session('messages'))
-                    <div class="alert alert-success alert-dismissible">
-                        {{ session('messages') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    @endif
 
                     <a href="{{ route('admin.club.create') }}" class="btn btn-success btn-md mb-4" data-toggle="tooltip" title="Tambah Club">
                         <i class="fas fa-plus"></i> Tambah Club
                     </a>
+
+                    @include('layouts.messages-alert')
 
                     <div class="table-responsive">
                         <table class="table table-striped" id="table-1">

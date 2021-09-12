@@ -23,28 +23,49 @@
             </div>
             @endif
 
+            
+            <ul class="nav nav-pills mb-3">
+                <li class="nav-item">
+                    <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white btn-primary btn-sm btn-icon mr-2" href="{{ route('admin.dashboard') }}">
+                      <i class="fas fa-home"></i> 
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-danger text-white mr-2">
+                        TOTAL POS - {{ $race->nama_race }}
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button type="button" class="btn btn-info text-white">
+                        {{ $kelas->nama_kelas }}
+                    </button>
+                </li>
+            </ul>
+
             <div class="card">
                 <div class="card-body">
-                  
-                  <ul class="nav nav-pills mb-3">
-                    <li class="nav-item">
-                      <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#">
-                        <i class="fas fa-arrow-left"></i>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link text-white btn-primary btn-sm mr-2" href="#">
-                        TOTAL POS
-                      </a>
-                    </li>
-                  </ul>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            @foreach ($race->kelas as $item)
+                            <a class="btn btn-info text-white" href="{{ route('admin.total-pos-kelas', ['race_id' => $race->id, 'kelas_id' => $item->id]) }}">
+                                {{ $item->nama_kelas }}
+                            </a>
+                            @endforeach
+                        </div>
+                    </div>
 
 
                   <table class="table table-striped" id="table-1">
                     <thead>
                         <tr class="text-center bg-dark">
                             <th colspan="4" class="text-white">Data Peserta</th>
-                            @foreach ($pos as $item)
+                            @foreach ($race->pos as $item)
                             <th colspan="2" class="text-white">POS-{{ $item->no_pos }}</th>
                             @endforeach
                             <th colspan="2" class="text-white">TOTAL POS</th>
@@ -54,8 +75,8 @@
                           <th rowspan="2" class="bg-info text-white">Nama Peserta</th>
                           <th rowspan="2" class="bg-info text-white">Kota</th>
                           <th rowspan="2" class="bg-info text-white">No. Ring</th>
-                          @foreach ($pos as $item)
-                          <th rowspan="1" colspan="@if($totalPos === 1) 2 @endif {{$totalPos}}" class="bg-success text-center text-white">{{ $item->city }}</th>
+                          @foreach ($race->pos as $item)
+                          <th rowspan="1" colspan="@if($totalPos === 1) 2 @else {{$totalPos}} @endif" class="bg-success text-center text-white">{{ $item->city }}</th>
                           @endforeach
                           <th rowspan="2" class="bg-warning text-white">Clock</th>
                           <th rowspan="2" class="bg-warning text-white" style="width: 5%;">Kecepatan Rata-rata</th>
@@ -68,7 +89,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($coll as $item)
+                        {{-- @foreach ($coll as $item)
                         <tr>
                             <td class="text-center">{{$loop->iteration}}</td> 
                             <td>{{ $item->user->name }}</td>
@@ -92,6 +113,30 @@
                             <td class="text-center">{{ $item->clock->count() }}</td>
                             <td class="text-center"><b>{{ Helper::getAvgSpeed($item->clock) }} M/Menit</b></td>
                         </tr>
+                        @endforeach --}}
+                        @foreach ($basketing as $item)
+                            <tr>
+                                <td class="text-center"></td> 
+                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->user->city }}</td>
+                                <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
+                                @foreach($race->pos as $pos)
+                                
+                                    @foreach ($item->clockModel as $burungClock)
+                                        @if ($pos->id === $burungClock->race_pos_id)
+                                            <td class="text-center"><b>{{ $burungClock->velocity }} M/Menit</b></td>
+                                            <td class="text-center">{{ $burungClock->rank }}</td>
+                                        @else
+                                            <td class="bg-danger"></td>
+                                            <td class="bg-danger"></td>
+                                        @endif
+                                    @endforeach
+                                
+                                
+                                @endforeach
+                                <td class="text-center">{{ $item->clockModel->count() }}</td>
+                                <td class="text-center"><b>{{ Helper::getAvgSpeed($item->clockModel) }} M/Menit</b></td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -110,9 +155,13 @@
     @include('layouts.datatable-js-assets')
     <script>
         $(document).ready(function() {
-            $('#table-1').DataTable({
-                order: [[8, 'desc'], [9, 'desc']]
+            var t = $('#table-1').DataTable({
+                responsive: true,
+                order: [[5+(@JSON($totalPos)*2), 'desc'], [4+(@JSON($totalPos)*2), 'desc']]
             });
+            t.column(0).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
         });
 
         function goBack() {

@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helper\Helper;
 
+use App\Models\Burung;
 use App\Models\Race;
 use App\Models\RacePos;
+use App\Models\ClockModel;
 
 class RaceController extends Controller
 {
@@ -25,8 +27,9 @@ class RaceController extends Controller
 
     public function show($slug)
     {
-        $race = Race::where('slug', $slug)->first();
-
+        $race = Race::with(['pos' => function ($q) {
+            $q->orderBy('race_pos.no_pos', 'ASC');
+        }])->where('slug', $slug)->first();
         return view('user.race-show', compact('race'));
     }
 
@@ -41,7 +44,9 @@ class RaceController extends Controller
 
     public function riwayatPos($id)
     {
-        $race = Race::with('pos')->find($id);
+        $race = Race::with(['pos' => function ($q) {
+            $q->orderBy('race_pos.no_pos', 'ASC');
+        }])->find($id);
 
         return view('user.riwayat-pos', compact('race'));
     }
@@ -52,6 +57,42 @@ class RaceController extends Controller
         $rank = $pos->clock()->orderBy('race_clocks.velocity', 'DESC')->get();
 
         return view('user.riwayat-pos-rank', compact('pos', 'rank'));
+    }
+
+    public function totalPos($race_id)
+    {
+        $race = Race::find($race_id);
+        $kelas = $race->kelas->first();
+        $clock = Burung::with('user', 'club')
+        ->whereHas('clockModel', function ($q) use($race_id){
+            $q->where('race_id', $race_id)->where('status', 'SAH');
+        })
+        ->get();
+        
+        return view('user.riwayat-total-pos', compact('clock', 'race', 'kelas'));
+    }
+
+    public function totalPosKelas($race_id, $kelas_id)
+    {
+        $race = Race::find($race_id);
+        $kelas = $race->kelas->find($kelas_id);
+        $clock = Burung::with('user', 'club')
+        ->whereHas('clockModel', function ($q) use($race_id){
+            $q->where('race_id', $race_id)->where('status', 'SAH');
+        })
+        ->get();
+        
+        return view('user.riwayat-total-pos', compact('clock', 'race', 'kelas'));
+    }
+
+    public function totalPosDetail($race_id, $burung_id)
+    {
+        $race = Race::find($race_id);
+        $burung = Burung::with(['clockModel' => function ($q) use($race_id) {
+            $q->with('pos')->where('race_id', $race_id);
+        }, 'user', 'club'])->find($burung_id);
+
+        return view('user.riwayat-total-pos-detail', compact('race', 'burung'));
     }
 
     public function joinRace($race_id)

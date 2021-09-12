@@ -7,11 +7,13 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Merpati Pos</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    
     <!-- Google fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
@@ -29,6 +31,8 @@
     <!-- DataTables -->
     <link href="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.bootstrap4.min.css">
     <!-- Responsive datatable examples -->
     <link href="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 </head>
@@ -59,30 +63,12 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="row mb-4">
-                                        <div class="col">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            CEK
-                                                        </div>
-                                                        <div class="col-6">
-                                                            CEK
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-
                                     <div class="row mb-3">
                                         <div class="col">
                                             <a onclick="goBack()" class="btn btn-grey">
                                                 <i class="fas fa-arrow-left"></i>
                                             </a>
                                             <a class="btn btn-primary" href="#">
-                                                <i class="fas fa-users"></i>
                                                 {{ $kelas->nama_kelas }}
                                             </a>
                                         </div>
@@ -95,41 +81,51 @@
                                                     <tr class="text-center bg-dark">
                                                         <th colspan="12" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }} - {{ $kelas->nama_kelas }}</th>
                                                     </tr>
+                                                    <tr class="bg-primary">
+                                                        <th colspan="12" class="text-white">
+                                                            <div class="row">
+                                                                <div class="col ml-5">        
+                                                                    Latitude / Longitude  &emsp; : {{ $pos->latitude }}[S] {{ $pos->longitude }}[E] <br>
+                                                                    Basketing &emsp; &emsp; &emsp; &emsp; &emsp;: {{ $pos->basketing->count() }}<br>
+                                                                    Clock &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &ensp;: {{ $pos->clock->count() }}<br>
+                                                                </div>
+                                                                <div class="col-4">        
+                                                                    Tanggal Lepasan &emsp; &ensp; &ensp; &ensp; &ensp; : {{ $pos->tgl_lepasan->format('d/m/Y')}} <br>
+                                                                    Waktu Lepasan &emsp; &ensp; &ensp; &ensp; &ensp; &ensp; : {{ $pos->tgl_lepasan->format('H:i') }}<br>
+                                                                    Tutup Clock / Buka Clock &ensp; : {{ $pos->close_time->format('H:i') }} / {{ $pos->restart_time->format('H:i') }}<br>
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                      </tr>
                                                     <tr class="bg-info">
-                                                      <th rowspan="2" style="width: 5%;">No</th>
-                                                      <th rowspan="2">Nama Peserta</th>
-                                                      <th rowspan="2">Kota</th>
-                                                      <th rowspan="1" colspan="3" class="text-center">Data Burung</th>
-                                                      <th rowspan="2">Jarak (KM)</th>
+                                                      <th rowspan="2" style="width: 5%;" class="bg-danger text-white">Rank</th>
+                                                      <th rowspan="2" style="width: 15%;">Nama Peserta</th>
+                                                      <th rowspan="2" style="width: 10%;">Kota</th>
+                                                      <th rowspan="2" style="width: 20%;" class="text-center">Burung</th>
+                                                      <th rowspan="2" style="width: 5%;">Jarak (KM)</th>
                                                       <th rowspan="1" colspan="3" class="text-center">Kedatangan</th>
-                                                      <th rowspan="2">Waktu Terbang</th>
-                                                      <th rowspan="2">Kecepatan</th>
+                                                      <th rowspan="2" style="width: 5%;">Waktu Terbang</th>
+                                                      <th rowspan="2" style="width: 5%;">Kecepatan (M/Menit)</th>
                                                     </tr>
                                                     <tr class="bg-info">
-                                                        <th>No. Ring</th>
-                                                        <th>Warna</th>
-                                                        <th>Jenis Kelamin</th>
                                                         <th>Tanggal</th>
                                                         <th>H</th>
                                                         <th>Jam</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @php $no = 1 @endphp
-                                                    @foreach ($rank as $item)
+                                                    @foreach ($pos->clock as $item)
                                                     <tr>
-                                                        <td>{{ $no++ }}</td>
+                                                        <td class="text-center">{{ $loop->iteration }}</td>
                                                         <td>{{ $item->user->name }}</td>
                                                         <td>{{ $item->user->city }}</td>
-                                                        <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
-                                                        <td>{{ $item->warna }}</td>
-                                                        <td>{{ $item->jenkel }}</td>
+                                                        <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring)}}/{{$item->warna}}/{{$item->jenkel}}</td>
                                                         <td>{{ $item->clock->distance }}</td>
-                                                        <td>{{ $item->clock->arrival_date->format('d/m/Y') }}</td>
-                                                        <td>{{ $item->clock->arrival_day }}</td>
-                                                        <td>{{ $item->clock->arrival_clock->format('H:i:s') }}</td>
+                                                        <td>{{ $item->clock->arrival_date }}</td>
+                                                        <td>+{{ $item->clock->arrival_day }}</td>
+                                                        <td>{{ $item->clock->arrival_clock }}</td>
                                                         <td>{{ $item->clock->flying_time }}</td>
-                                                        <td>{{ $item->clock->velocity }} M/Menit</td>                               
+                                                        <td>{{ $item->clock->velocity }}</td>                               
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -166,13 +162,40 @@
     <!-- Required datatable js -->
     <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
     <script src="{{asset('assets/plugins/datatables/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
         
     <script>
         $(document).ready(function() {
-            $('#table-1').DataTable();
+            $('#table-1').DataTable({
+                dom: 'lBfrtip',
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                buttons: [
+                    { 
+                        extend: 'pdf', 
+                        className: 'btn btn-secondary', 
+                        text: 'PDF',
+                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                    },
+                    { 
+                        extend: 'excel', 
+                        className: 'btn btn-secondary', 
+                        text: 'Excel',
+                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                    },
+                ],
+            });
         } );
         function goBack() {
           window.history.back();

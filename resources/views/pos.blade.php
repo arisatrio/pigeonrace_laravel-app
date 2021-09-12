@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Merpati Pos</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-
+    <title>Merpatipos.com</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-    
     <!-- Google fonts-->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
@@ -29,6 +31,8 @@
     <!-- DataTables -->
     <link href="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.bootstrap4.min.css">
     <!-- Responsive datatable examples -->
     <link href="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 </head>
@@ -37,7 +41,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
         <div class="container px-5">
-            <a class="navbar-brand fw-bold text-uppercase" href="#page-top">Merpati Pos</a>
+            <a class="navbar-brand fw-bold text-uppercase" href="{{ route('welcome') }}">Merpatipos.com</a>
         </div>
     </nav>
 
@@ -55,26 +59,9 @@
 
                                     <div class="row">
                                         <div class="col">
-                                            <h1>{{ $race->nama_race }}</h1>
+                                            <h1>{{ $pos->race->nama_race }}</h1>
                                         </div>
                                     </div>
-
-                                    {{-- <div class="row mb-4">
-                                        <div class="col">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            CEK
-                                                        </div>
-                                                        <div class="col-6">
-                                                            CEK
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
 
                                     <div class="row mb-3">
                                         <div class="col">
@@ -90,8 +77,8 @@
 
                                     <div class="row mb-4">
                                         <div class="col">
-                                            @foreach ($race->kelas as $item)
-                                            <a class="btn btn-info btn-sm text-white" href="{{ route('pos-kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
+                                            @foreach ($pos->race->kelas as $item)
+                                            <a class="btn btn-info btn-sm text-white" href="{{ route('pos-kelas', ['race_id' => $pos->race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
                                                 {{ $item->nama_kelas }}
                                             </a>
                                             @endforeach
@@ -104,6 +91,22 @@
                                                 <thead>
                                                   <tr class="text-center bg-dark">
                                                     <th colspan="9" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
+                                                  </tr>
+                                                  <tr class="bg-primary">
+                                                    <th colspan="9" class="text-white">
+                                                        <div class="row">
+                                                            <div class="col ml-5">        
+                                                                Latitude / Longitude  &emsp; : {{ $pos->latitude }}[S] {{ $pos->longitude }}[E] <br>
+                                                                Basketing &emsp; &emsp; &emsp; &emsp; &emsp;: {{ $pos->basketing->count() }}<br>
+                                                                Clock &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &ensp;: {{ $pos->clock->count() }}<br>
+                                                            </div>
+                                                            <div class="col-4">        
+                                                                Tanggal Lepasan &emsp; &ensp; &ensp; &ensp; &ensp; : {{ $pos->tgl_lepasan->format('d/m/Y')}} <br>
+                                                                Waktu Lepasan &emsp; &ensp; &ensp; &ensp; &ensp; &ensp; : {{ $pos->tgl_lepasan->format('H:i') }}<br>
+                                                                Tutup Clock / Buka Clock &ensp; : {{ $pos->close_time->format('H:i') }} / {{ $pos->restart_time->format('H:i') }}<br>
+                                                            </div>
+                                                        </div>
+                                                    </th>
                                                   </tr>
                                                   <tr class="bg-info">
                                                       <th rowspan="2" style="width: 5%;">No</th>
@@ -132,19 +135,19 @@
                                                         <td>{{ $item->clock->no_stiker}}</td>
                                                         <td>
                                                           <span class="badge 
-                                                            @empty($item->clock->status)
+                                                            @empty($item->status)
                                                             badge-warning
                                                             @endempty
-                                                            @if($item->clock->status === 'TIDAK SAH') 
+                                                            @if($item->status === 'TIDAK SAH') 
                                                             badge-danger  
-                                                            @elseif($item->clock->status === 'SAH')
+                                                            @elseif($item->status === 'SAH')
                                                             badge-success
                                                             @endif
                                                             ">
-                                                            @empty($item->clock->status)
+                                                            @empty($item->status)
                                                             Belum Validasi
                                                             @endempty
-                                                            {{ $item->clock->status }}
+                                                            {{ $item->status }}
                                                           </span>
                                                         </td>
                                                     </tr>
@@ -183,13 +186,40 @@
     <!-- Required datatable js -->
     <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
     <script src="{{asset('assets/plugins/datatables/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
         
     <script>
         $(document).ready(function() {
-            $('#table-1').DataTable();
+            $('#table-1').DataTable({
+                dom: 'lBfrtip',
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                buttons: [
+                    { 
+                        extend: 'pdf', 
+                        className: 'btn btn-secondary', 
+                        text: 'PDF',
+                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                    },
+                    { 
+                        extend: 'excel', 
+                        className: 'btn btn-secondary', 
+                        text: 'Excel',
+                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                    },
+                ],
+            });
         } );
         function goBack() {
           window.history.back();

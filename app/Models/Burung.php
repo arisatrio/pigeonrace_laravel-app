@@ -54,4 +54,8 @@ class Burung extends Model
             ->withTimestamps();
     }
 
+    public function clockModel()
+    {
+        return $this->hasMany(ClockModel::class, 'burung_id');
+    }
 }

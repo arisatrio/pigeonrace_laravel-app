@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Merpati Pos</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-
+    <title>Merpatipos.com</title>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     
@@ -37,7 +40,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
         <div class="container px-5">
-            <a class="navbar-brand fw-bold text-uppercase" href="#page-top">Merpati Pos</a>
+            <a class="navbar-brand fw-bold text-uppercase" href="{{ route('welcome') }}">Merpatipos.com</a>
         </div>
     </nav>
 
@@ -68,6 +71,19 @@
                                                 <i class="fas fa-users"></i>
                                                 TOTAL POS
                                             </button>
+                                            <button type="button" class="btn btn-info text-white">
+                                                {{ $kelas->nama_kelas }}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                            @foreach ($race->kelas as $item)
+                                            <a class="btn btn-info btn-sm text-white" href="{{ route('total-pos-kelas', ['race_id' => $race->id, 'kelas_id' => $item->id]) }}">
+                                                {{ $item->nama_kelas }}
+                                            </a>
+                                            @endforeach
                                         </div>
                                     </div>
 
@@ -77,7 +93,7 @@
                                                 <thead>
                                                     <tr class="text-center bg-dark">
                                                         <th colspan="4" class="text-white">Data Peserta</th>
-                                                        @foreach ($pos as $item)
+                                                        @foreach ($race->pos as $item)
                                                         <th colspan="2" class="text-white">POS-{{ $item->no_pos }}</th>
                                                         @endforeach
                                                         <th colspan="2" class="text-white">TOTAL POS</th>
@@ -87,64 +103,69 @@
                                                       <th rowspan="2" class="bg-info text-white">Nama Peserta</th>
                                                       <th rowspan="2" class="bg-info text-white">Kota</th>
                                                       <th rowspan="2" class="bg-info text-white">No. Ring</th>
-                                                      @foreach ($pos as $item)
-                                                      <th rowspan="1" colspan="@if($totalPos === 1) 2 @endif {{$totalPos}}" class="bg-success text-center text-white">{{ $item->city }}</th>
+                                                      @foreach ($race->pos as $item)
+                                                      <th rowspan="1" colspan="@if($totalPos === 1) 2 @else {{$totalPos}} @endif" class="bg-success text-center text-white">{{ $item->city }}</th>
                                                       @endforeach
                                                       <th rowspan="2" class="bg-warning text-white">Clock</th>
                                                       <th rowspan="2" class="bg-warning text-white" style="width: 5%;">Kecepatan Rata-rata</th>
                                                     </tr>
                                                     <tr class="text-center">
                                                         @for ($i = 0; $i < $totalPos; $i++)
-                                                        <th class="bg-info text-white">Velocity</th>
-                                                        <th class="bg-info text-white">Rank</th>
+                                                        <th class="bg-info text-white" style="width: 10%;">Velocity</th>
+                                                        <th class="bg-info text-white" style="width: 5%;">Rank</th>
                                                         @endfor                            
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($coll as $item)
-                                                    <tr>
-                                                        <td class="text-center">{{ $loop->iteration }}</td> 
-                                                        <td>{{ $item->user->name }}</td>
-                                                        <td>{{ $item->user->city }}</td>
-                                                        <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
-                                                        
+                                                    
+                                                    @foreach ($basketing as $item)
+                                                        <tr>
+                                                            <td class="text-center"></td> 
+                                                            <td>{{ $item->user->name }}</td>
+                                                            <td>{{ $item->user->city }}</td>
+                                                            <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
+                                                            @foreach($race->pos as $pos)
+                                                            
+                                                                @foreach ($item->clockModel as $burungClock)
+                                                                    @if ($pos->id === $burungClock->race_pos_id)
+                                                                        <td class="text-center"><b>{{ $burungClock->velocity }} M/Menit</b></td>
+                                                                        <td class="text-center">{{ $burungClock->rank }}</td>
+                                                                    @else
+                                                                        <td class="bg-danger"></td>
+                                                                        <td class="bg-danger"></td>
+                                                                    @endif
+                                                                @endforeach
+                                                            
+                                                            
+                                                            @endforeach
+                                                            <td class="text-center">{{ $item->clockModel->count() }}</td>
+                                                            <td class="text-center"><b>{{ Helper::getAvgSpeed($item->clockModel) }} M/Menit</b></td>
+                                                        </tr>
+                                                    @endforeach
 
-                                                        @foreach($pos as $poskey)
-                                                            @foreach ($item->clock as $key => $burClock)
-                                                                @if ($poskey->no_pos === $burClock->no_pos)
-                                                                    <td class="text-center"><b>{{ $burClock->clock->velocity }} M/Menit</b></td>
-                                                                    <td class="text-center">{{ Helper::getRankInPos($burClock->clock->race_pos_id, $burClock->clock->burung_id) }}</td>
+                                                    
+                                                    {{-- @foreach ($clock as $key => $item)
+                                                        <tr>
+                                                            <td class="text-center"></td> 
+                                                            <td>{{ $item->burung->user->name }}</td>
+                                                            <td>{{ $item->burung->user->city }}</td>
+                                                            <td>{{ Helper::noRing($item->burung->club->nama_club, $item->burung->tahun, $item->burung->no_ring) }}</td>
+                                                            @foreach($race->pos as $pos)
+                                                            
+                                                                @if ($pos->id === $item->race_pos_id)
+                                                                    <td class="text-center"><b>{{ $item->velocity }} M/Menit</b></td>
+                                                                    <td class="text-center">{{ $item->rank($key) }}</td>
                                                                 @else
                                                                     <td class="bg-danger"></td>
                                                                     <td class="bg-danger"></td>
                                                                 @endif
-                                                                {{-- NO POS CLOCK {{$burClock->no_pos}} <br>
-                                                                NO POS loop {{$poskey->no_pos}} <br> --}}
+                                                            
                                                             @endforeach
-                                                        @endforeach
+                                                            <td class="text-center">{{ $item->clock->count() }}</td>
+                                                            <td class="text-center"><b>{{ Helper::getAvgSpeed($item->clock) }} M/Menit</b></td>
+                                                        </tr>
+                                                    @endforeach --}}
 
-
-                                                        {{-- @foreach ($item->clock as $key => $pos)
-                                                            @if ($key+1 !== $pos->no_pos)
-                                                            <td class="bg-danger"></td>
-                                                            <td class="bg-danger"></td>
-                                                            <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
-                                                            <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
-                                                            @elseif($item->clock->count() < $totalPos)
-                                                            <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
-                                                            <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
-                                                            <td class="bg-danger"></td>
-                                                            <td class="bg-danger"></td>
-                                                            @else
-                                                            <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
-                                                            <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
-                                                            @endif
-                                                        @endforeach --}}
-
-                                                        <td class="text-center">{{ $item->clock->count() }}</td>
-                                                        <td class="text-center"><b>{{ Helper::getAvgSpeed($item->clock) }} M/Menit</b></td>
-                                                    </tr>
-                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
@@ -185,9 +206,13 @@
         
     <script>
         $(document).ready(function() {
-            $('#table-1').DataTable({
-                order: [[8, 'desc'], [9, 'desc']]
+            var t = $('#table-1').DataTable({
+                responsive: true,
+                order: [[5+(@JSON($totalPos)*2), 'desc'], [4+(@JSON($totalPos)*2), 'desc']]
             });
+            t.column(0).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
         } );
         function goBack() {
           window.history.back();

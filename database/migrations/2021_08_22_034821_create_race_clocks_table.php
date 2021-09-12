@@ -15,7 +15,9 @@ class CreateRaceClocksTable extends Migration
     {
         Schema::create('race_clocks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('race_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('race_pos_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('race_kelas_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('burung_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('distance');
             $table->string('arrival_date');

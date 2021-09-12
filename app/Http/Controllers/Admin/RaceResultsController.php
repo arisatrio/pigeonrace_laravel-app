@@ -56,7 +56,9 @@ class RaceResultsController extends Controller
      */
     public function show($id)
     {
-        $race = Race::with(['pos', 'join'])->find($id);
+        $race = Race::with(['pos' => function ($q) {
+            $q->orderBy('race_pos.no_pos');
+        }, 'join'])->find($id);
 
         return view('admin.race-results.show', compact('race'));
     }
@@ -64,8 +66,9 @@ class RaceResultsController extends Controller
     public function cekMap($user_id)
     {
         $user = User::find($user_id);
+        $userLoc = [-Helper::DDMtoDD($user->latitude), Helper::DDMtoDD($user->longitude)];
 
-        return view('admin.race-results.cek-map', compact('user'));
+        return view('admin.race-results.cek-map', compact('user', 'userLoc'));
     }
 
     public function basketing($race_id, $id)
@@ -119,12 +122,36 @@ class RaceResultsController extends Controller
 
     public function totalPos($race_id)
     {
-        $race = Race::with('pos', 'join')->find($race_id);
-        $pos = $race->pos()->get();
-        $totalPos = $pos->count();
-        $coll = Burung::with(['clock', 'club', 'user'])->get();
+        $race = Race::with('kelas')->find($race_id);
+        $kelas = $race->kelas->first();
+        $basketing = Burung::with(['user', 'club'])
+            ->whereHas('basketing', function ($q) use($kelas) {
+                $q->where('race_kelas_id', $kelas->id);
+            })
+            ->whereHas('clockModel', function ($q) use($race_id, $kelas) {
+                $q->where('race_id', $race_id)->where('race_kelas_id', $kelas->id);
+            })
+            ->get();
+        $totalPos = $race->pos->count();
 
-        return view('admin.race-results.total-pos', compact('race', 'pos', 'totalPos', 'coll'));
+        return view('admin.race-results.total-pos', compact('race', 'kelas', 'basketing', 'totalPos'));
+    }
+
+    public function totalPosKelas($race_id, $kelas_id)
+    {
+        $race = Race::with('kelas')->find($race_id);
+        $kelas = $race->kelas->find($kelas_id);
+        $basketing = Burung::with(['user', 'club'])
+            ->whereHas('basketing', function ($q) use($kelas) {
+                $q->where('race_kelas_id', $kelas->id);
+            })
+            ->whereHas('clockModel', function ($q) use($race_id, $kelas) {
+                $q->where('race_id', $race_id)->where('race_kelas_id', $kelas->id);
+            })
+            ->get();
+        $totalPos = $race->pos->count();
+
+        return view('admin.race-results.total-pos', compact('race', 'kelas', 'basketing', 'totalPos'));
     }
 
     /**

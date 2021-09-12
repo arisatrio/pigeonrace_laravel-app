@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Merpati Pos</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <title>Merpatipos.com</title>
 
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     
@@ -29,6 +32,8 @@
     <!-- DataTables -->
     <link href="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.bootstrap4.min.css">
     <!-- Responsive datatable examples -->
     <link href="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
 </head>
@@ -37,7 +42,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
         <div class="container px-5">
-            <a class="navbar-brand fw-bold text-uppercase" href="#page-top">Merpati Pos</a>
+            <a class="navbar-brand fw-bold text-uppercase" href="#page-top">Merpatipos.com</a>
         </div>
     </nav>
 
@@ -58,23 +63,6 @@
                                             <h1>{{ $race->nama_race }}</h1>
                                         </div>
                                     </div>
-
-                                    {{-- <div class="row mb-4">
-                                        <div class="col">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            CEK
-                                                        </div>
-                                                        <div class="col-6">
-                                                            CEK
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
 
                                     <div class="row mb-3">
                                         <div class="col">
@@ -111,14 +99,14 @@
                                                     <tr class="text-center bg-dark">
                                                         <th colspan="{{$race->pos->count()+5}}" class="text-white">Data Peserta</th>
                                                     </tr>
-                                                    <tr class="bg-primary">
+                                                    <tr class="bg-primary text-center">
                                                         <th rowspan="2" class="text-white">No</th>
                                                         <th rowspan="2" class="text-white">Nama Peserta</th>
                                                         <th rowspan="2" class="text-white">Kota</th>
                                                         <th colspan="2" class="text-center text-white">Koordinat</th>  
                                                         <th colspan="{{$race->pos->count()}}" class="text-white text-center">Jarak (KM)</th>
                                                     </tr>
-                                                    <tr class="bg-primary">
+                                                    <tr class="bg-primary text-center">
                                                       <th class="text-white">Latitude</th>
                                                       <th class="text-white">Longitude</th>
                                                       @foreach ($race->pos as $item)
@@ -132,10 +120,10 @@
                                                         <td style="width: 5%;">{{ $loop->iteration }}</td>
                                                         <td>{{ $item->name }}</td>
                                                         <td>{{ $item->city }}</td>
-                                                        <td>{{ $item->latitude }}</td>
-                                                        <td>{{ $item->longitude }}</td>
+                                                        <td class="text-center">{{ $item->latitude }}</td>
+                                                        <td class="text-center">{{ $item->longitude }}</td>
                                                         @foreach ($race->pos as $pos)
-                                                        <td>
+                                                        <td class="text-center">
                                                             {{ Helper::calculateDistance($item->latitude, $item->longitude, $pos->latitude, $pos->longitude) }} KM
                                                         </td>                           
                                                         @endforeach
@@ -175,13 +163,41 @@
     <!-- Required datatable js -->
     <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
     <script src="{{asset('assets/plugins/datatables/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
         
     <script>
         $(document).ready(function() {
-            $('#table-1').DataTable();
+            var race = @JSON($race->nama_race);
+            $('#table-1').DataTable({
+                dom: 'lBfrtip',
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                buttons: [
+                    { 
+                        extend: 'pdf', 
+                        className: 'btn btn-secondary', 
+                        text: 'PDF',
+                        messageTop: 'Data Peserta '+race,
+                    },
+                    { 
+                        extend: 'excel', 
+                        className: 'btn btn-secondary', 
+                        text: 'Excel',
+                        messageTop: 'Data Peserta '+race,
+                    },
+                ],
+            });
         } );
         function goBack() {
           window.history.back();

@@ -14,6 +14,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+
+                    @include('layouts.messages-alert')
+                    
                     <form action="{{ route('admin.club.update', $club->id) }}" method="POST">
                         @csrf
                         @method('PUT')
@@ -30,20 +33,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="city">Pilih Kota</label>
-                                    <select name="city" class="form-control">
-                                        <option selected disabled>--Pilih Kota--</option>
-                                        @foreach ($city as $item)
-                                        <option @if ($item->name === $club->city) selected @endif value="{{ $item->name }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('city')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
+                                @include('components.select-city', ['selectedCity' => $club->city])
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

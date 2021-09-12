@@ -23,7 +23,7 @@
                             @include('components.maps')
                             @push('js_script')
                                 <script>
-                                    var latlong = @JSON([$user->latitude, $user->longitude]);
+                                    var latlong = @JSON([$userLoc[0], $userLoc[1]]);
                                     var mymap = L.map('mapid').setView(latlong, 15);
                                     L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                                         maxZoom: 20,

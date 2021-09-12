@@ -2,8 +2,10 @@
 @section('title', 'Tambah Data Club')
 @section('content')
 <div class="section-header">
-    <h1>Data Club</h1>
+    <h1>Tambah Data Club</h1>
     <div class="section-header-breadcrumb">
+        <div class="breadcrumb-item active"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
+        <div class="breadcrumb-item active"><a href="{{ route('admin.club.index') }}">Data Club</a></div>
         <div class="breadcrumb-item">Data Club</div>
     </div>
 </div>
@@ -11,12 +13,10 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-                <div class="card-header">
-                    <a href="{{ route('admin.club.create') }}" class="btn btn-success btn-sm" data-toggle="tooltip" title="Add Data">
-                        <i class="fas fa-plus"></i> Add Data
-                    </a>
-                </div>
                 <div class="card-body">
+
+                    @include('layouts.messages-alert')
+                    
                     <form action="{{ route('admin.club.store') }}" method="POST">
                         @csrf
                         <div class="row">
@@ -32,20 +32,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="city">Pilih Kota</label>
-                                    <select name="city" class="form-control">
-                                        <option selected disabled>--Pilih Kota--</option>
-                                        @foreach ($city as $item)
-                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('city')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
+                                @include('components.select-city')
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

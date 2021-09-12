@@ -35,4 +35,9 @@ class Race extends Model
         ->withPivot('status')
         ->withTimestamps();
     }
+
+    public function clock()
+    {
+        return $this->hasMany(ClockModel::class);
+    }
 }

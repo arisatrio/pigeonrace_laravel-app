@@ -18,7 +18,8 @@ class RaceClock extends Pivot
         'velocity',
         'no_stiker',
         'status',
-        'race_kelas_id'
+        'race_kelas_id',
+        'race_id'
     ];
 
     protected $dates = ['arrival_date', 'arrival_clock'];

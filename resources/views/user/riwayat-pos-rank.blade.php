@@ -15,7 +15,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white btn-primary btn-sm btn-icon mr-2" href="#home3">
+                    <a class="nav-link text-white btn-primary btn-sm btn-icon mr-2" href="{{ route('user.home') }}">
                       <i class="fas fa-home"></i> 
                     </a>
                 </li>
@@ -32,36 +32,6 @@
 
             <div class="card">
                 <div class="card-body">
-                    
-                    {{-- <div id="accordion">
-                        <div class="list-group">
-                          <div class="list-group-item" role="button" data-toggle="collapse" data-target="#panel-body-1" aria-expanded="true">
-                            <h4>(1)</h4>
-                          </div>
-                          <div class="card-body collapse show" id="panel-body-1" data-parent="#accordion" style="">
-                            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                          </div>
-                        </div>
-                        <div class="list-group">
-                            <div class="list-group-item" role="button" data-toggle="collapse" data-target="#panel-body-1" aria-expanded="true">
-                              <h4>(1)</h4>
-                            </div>
-                            <div class="card-body collapse show" id="panel-body-1" data-parent="#accordion" style="">
-                              <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-                              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                            </div>
-                          </div>
-                        
-                    </div> --}}
 
                     <table class="table table-striped display" cellspacing="0" width="100%" id="table-1">
                         <thead>
@@ -69,7 +39,7 @@
                                 <th colspan="9" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
                             </tr>
                             <tr class="bg-info">
-                                <th class="text-white all" style="width: 2%;">Rank</th>
+                                <th class="bg-danger text-white all" style="width: 2%;">Rank</th>
                                 <th class="text-white all" style="width: 30%;">Burung</th>
                                 <th class="text-white none">Jarak</th>
                                 <th class="text-white none">Tanggal</th>

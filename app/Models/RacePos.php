@@ -72,4 +72,9 @@ class RacePos extends Model
             ->withPivot('distance', 'arrival_date', 'arrival_day', 'arrival_clock', 'flying_time', 'velocity', 'no_stiker', 'status')
             ->withTimestamps();
     }
+
+    public function clockModel()
+    {
+        return $this->hasMany(ClockModel::class);
+    }
 }

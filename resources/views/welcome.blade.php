@@ -7,8 +7,11 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Merpatipos.com</title>
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     
@@ -50,7 +53,7 @@
         <div class="container px-5">
             <div class="row gx-5 align-items-center">
                 <div class="col-lg-12 order-lg-1 mb-5 mb-lg-0">
-                    <div class="container-fluid px-5">
+                    <div class="">
 
                         <div class="row mb-4">
                             <div class="col">
@@ -70,7 +73,7 @@
                                     <div class="card-body">
                                         <h3 class="font-alt">{{ $item->nama_race }}</h3>
                                         <p>{{ $item->deskripsi }}</p>
-                                        <a href="{{ route('race', $item->id) }}" class="btn btn-primary">BUKA</a>
+                                        <a href="{{ route('race', $item->slug) }}" class="btn btn-primary">BUKA</a>
                                     </div>
                                 </div>
                             </div>

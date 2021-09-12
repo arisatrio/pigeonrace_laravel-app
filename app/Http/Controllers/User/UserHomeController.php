@@ -29,32 +29,34 @@ class UserHomeController extends Controller
 
     public function raceMode($id)
     {
-        $race = Race::with('pos')->find($id);
+        $race = Race::with(['pos' => function($q) {
+            $q->orderBy('no_pos', 'ASC');
+        }])->find($id);
     
         return view('user.home-race-mode', compact('race'));
     }
 
     public function posMode($id)
     {
+        $pos = RacePos::with([
+            'basketing' => function ($q) use ($id) {
+                $q->where('user_id', auth()->user()->id);
+            }
+        ])->find($id);
+
+        $burungClock = $pos->basketing()
+            ->where('user_id', auth()->user()->id)
+            ->whereDoesntHave('clock', function ($q) use($id) {
+                $q->where('race_pos_id', $id);
+            })->get();
+
+        // Helper VAR
         $now = Carbon::now();
-        $user = User::with('burung')->find(auth()->user()->id);
-        $pos = RacePos::with('basketing', 'basketingKelas', 'basketingKelasBurung')->find($id);
-
-        $basketing = Burung::whereHas('user', function ($q) {
-            $q->where('user_id', auth()->user()->id);
-        })->whereHas('basketing')->get();
-
-        $burungClock = Burung::whereHas('user', function ($q) {
-            $q->where('user_id', auth()->user()->id);
-        })
-        ->whereHas('basketing')->doesntHave('clock')
-        ->get();
-
-        $jarak = Helper::calculateDistance($user->latitude, $user->longitude, $pos->latitude, $pos->longitude);
-        $userLoc = [-Helper::DDMtoDD($user->latitude), Helper::DDMtoDD($user->longitude)];
+        $jarak = Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $pos->latitude, $pos->longitude);
+        $userLoc = [-Helper::DDMtoDD(auth()->user()->latitude), Helper::DDMtoDD(auth()->user()->longitude)];
         $posLoc = [-Helper::DDMtoDD($pos->latitude), Helper::DDMtoDD($pos->longitude)];
-
-        return view('user.home-race-pos', compact('now', 'user', 'pos', 'basketing', 'burungClock', 'jarak', 'userLoc', 'posLoc'));
+        
+        return view('user.home-race-pos', compact('pos', 'burungClock', 'now', 'jarak', 'userLoc', 'posLoc'));
     }
 
     public function stopJoin($race_id)
@@ -67,16 +69,6 @@ class UserHomeController extends Controller
         return redirect()->route('user.home')->with('messages', 'Anda telah berhenti mengikuti Race !.');
     }
 
-    public function basketing($race_pos_id)
-    {
-        $pos = RacePos::find($race_pos_id);
-        // $burung = Burung::whereHas('user', function ($q){
-        //     $q->where('user_id', auth()->user()->id);
-        // })->doesntHave('basketing')->get();
-
-        return view('user.basketing-add', compact('burung', 'pos'));
-    }
-
     public function basketingStore($race_pos_id, Request $request)
     {
         $this->validate($request, [
@@ -86,10 +78,8 @@ class UserHomeController extends Controller
         $input = $request->only(['burung_id', 'kelas_id']);
         $pos = RacePos::find($race_pos_id);
         $burung = Burung::with('basketing')->find($request->burung_id);
-
-        //dd($burung->basketing);
         
-        if($burung->basketing->contains($request->burung_id) || $burung->basketingKelas->contains($request->kelas_id)){
+        if($burung->basketing->contains($race_pos_id) && $burung->basketingKelas->contains($request->kelas_id)){
             return redirect()->back()->withErrors(['error' => 'Burung sudah dalam kelas Basketing!']);
         }
         $pos->basketing()->attach($request->burung_id, ['race_kelas_id' => $request->kelas_id]);
@@ -118,6 +108,7 @@ class UserHomeController extends Controller
             'velocity'      => $velocity,
             'no_stiker'     => $request->no_stiker,
             'race_kelas_id' => $kelas->id,
+            'race_id'       => $pos->race->id,
         ]);
 
         return redirect()->back()->with('messages', 'Clock telah dikirim');

@@ -62,7 +62,7 @@
                             <select name="burung_id" class="form-control select2" required id="clock">
                                 <option selected disabled>--Pilih Burung Clock--</option>
                                 @foreach ($burungClock as $item)
-                                <option value="{{ $item->id }}">{{ Helper::birdName($item, auth()->user()->name) }}</option>
+                                    <option value="{{ $item->id }}">{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}-{{ $item->warna }}-{{ $item->jenkel }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -90,10 +90,10 @@
                 </div>
                 <div class="collapse" id="basketing">
                     <div class="card-body">
-                        @if ($user->burung->count() === 0)
-                        <div class="alert alert-danger alert-dismissible">
-                            Silahkan tambah data Burung untuk mendaftarkan burung ke Basketing.
-                        </div>
+                        @if (auth()->user()->burung->count() === 0)
+                            <div class="alert alert-danger alert-dismissible">
+                                Silahkan tambah data Burung untuk mendaftarkan burung ke Basketing.
+                            </div>
                         @else
                         @if ($now->lessThan($pos->tgl_lepasan))
                         <form action="{{ route('user.store-basketing', $pos->id) }}" method="POST">
@@ -102,8 +102,8 @@
                                 <label>Tambah Burung Basketing</label>
                                 <select name="burung_id" class="form-control select2" id="burung" required>
                                     <option selected disabled>--Pilih Burung--</option>
-                                    @foreach ($user->burung as $item)
-                                    <option value="{{ $item->id }}">{{ Helper::birdName($item, auth()->user()->name) }}</option>
+                                    @foreach (auth()->user()->burung as $item)
+                                    <option value="{{ $item->id }}">{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}-{{ $item->warna }}-{{ $item->jenkel }}</option>
                                     @endforeach 
                                 </select>
                             </div>
@@ -124,16 +124,14 @@
                         <br><br>
                         <hr>
 
-                        <span><b>Total Burung : </b>{{ $basketing->count() }}</span>
+                        <span class="mb-2"><b>Total Burung Basketing : </b>{{ $pos->basketing->count() }}</span>
 
-                        @foreach ($basketing as $burung)
-                        <div id="accordion">
-                            <div class="accordion">
-                                <div class="accordion-header">
-                                    <b class="form-check-label">{{ Helper::noRing($burung->club->nama_club, $burung->tahun, $burung->no_ring) }}</b>
-                                </div>
-                            </div>
-                        </div>
+                        @foreach ($pos->basketing as $burung)
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                {{ Helper::noRing($burung->club->nama_club, $burung->tahun, $burung->no_ring) }}-{{ $burung->warna }}-{{ $burung->jenkel }}
+                            </li>
+                        </ul>
                         @endforeach
 
                         @endif
@@ -182,7 +180,7 @@
                     <a data-collapse="#map" class="btn btn-icon btn-secondary mr-3" href="#"><i class="fas fa-plus"></i></a>
                     <h4>Map</h4>
                 </div>
-                <div class="collapse" id="map">
+                <div class="collapse show" id="map">
                     <div class="card-body">
                         @include('components.maps')
                         @push('js_script')
@@ -191,7 +189,7 @@
                             var posLoc  = @JSON($posLoc);
                             var points  = [userLoc, posLoc];
 
-                            var mymap = L.map('mapid').setView([-7.33194,110.49278], 6);
+                            var mymap = L.map('mapid').setView([-7.33194,110.49278], 7);
                             L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                                 maxZoom: 20,
                                 subdomains:['mt0','mt1','mt2','mt3']
@@ -253,7 +251,7 @@
             var restart_time = new Date('{{$pos->restart_time}}');
 
             var distance = now - tgl_lepasan;
-            var off_time =  close_time - restart_time;
+            var off_time = restart_time - close_time;
 
             var jamSekarang   = now.toTimeString().split(' ')[0];
 

@@ -14,7 +14,7 @@ class AddNoPosToRacePosTable extends Migration
     public function up()
     {
         Schema::table('race_pos', function (Blueprint $table) {
-            $table->integer('no_pos')->after('race_id')->unique();
+            $table->integer('no_pos')->after('race_id');
         });
     }
 

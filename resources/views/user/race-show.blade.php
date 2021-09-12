@@ -56,7 +56,7 @@
                     <div id="accordion">
                         <div class="accordion">
                             <div class="accordion-header" role="button" data-toggle="collapse" data-target="#panel-body-{{$no}}" aria-expanded="true">
-                                <h4>Pos {{ $pos->no_pos }} - {{ $item->city }}</h4>
+                                <h4>Pos {{ $item->no_pos }} - {{ $item->city }}</h4>
                             </div>
                             <div class="accordion-body show" id="panel-body-{{$no++}}" data-parent="#accordion" style="">
                                 <p class="mb-0"><b>Tanggal Inkorv</b> :</p>
@@ -82,12 +82,10 @@
                 </div>
             </div>
 
-            @if (auth()->user()->join)
             <form action="{{ route('user.join-race', $race->id) }}" method="POST">
                 @csrf
                 <button class="btn btn-block btn-primary">Ikuti</button>
             </form>
-            @endif
         </div>
     </div>
 </div>

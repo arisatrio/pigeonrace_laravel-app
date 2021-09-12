@@ -29,7 +29,7 @@ class ClubController extends Controller
      */
     public function create()
     {
-        $city = City::all();
+        $city = City::pluck('name');
 
         return view('admin.club-create', compact('city'));
     }
@@ -76,7 +76,7 @@ class ClubController extends Controller
      */
     public function edit(Club $club)
     {
-        $city = City::all();
+        $city = City::pluck('name');
 
         return view('admin.club-edit', compact('club', 'city'));
     }

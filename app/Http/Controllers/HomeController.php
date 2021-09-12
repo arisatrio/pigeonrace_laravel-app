@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Helper\Helper;
 
 use App\Models\User;
 use App\Models\Race;
@@ -30,12 +31,12 @@ class HomeController extends Controller
     {
         $race = Race::with('pos', 'join')->where('status', 'AKTIF')->latest()->first();
         if($race){
-            $latlong = [];
-            foreach ($race->join as $item){
-                $latlong[] = [$item->name, $item->latitude, $item->longitude];
+            $userLoc = [];
+            foreach ($race->join as $key => $item){
+                $userLoc[$key] = [$item->name, -Helper::DDMtoDD($item->latitude), Helper::DDMtoDD($item->longitude)];
             }
 
-            return view('admin.dashboard', compact('race', 'latlong'));
+            return view('admin.dashboard', compact('race', 'userLoc'));
         }
 
         return view('admin.dashboard', compact('race'));

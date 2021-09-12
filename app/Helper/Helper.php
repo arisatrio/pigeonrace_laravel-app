@@ -55,11 +55,13 @@ class Helper
     {
         $waktu = ($jarak * 1000) / $kecepatan; // in minute
         $dayFly = round($waktu / 720);
-		if($waktu <= 1440){
+        if($waktu > 720 && $waktu <= 1440){
             $waktu += 720;
         } else if($waktu > 1440){
 			$waktu += (720 * $dayFly);
-		};
+		} else {
+            $waktu = $waktu;
+        }
         $fly = Carbon::parse($start_time)->addMinutes($waktu);
 
         return $fly->locale('id')->isoFormat('LLLL');
@@ -89,17 +91,32 @@ class Helper
 
     public static function getAvgSpeed($obj)
     {
+        
+            $totalSpeed = 0;
+            foreach($obj as $key => $item){
+                $totalSpeed +=  $item->velocity;
+            }
+
+            if($totalSpeed === 0){
+                $avg = 0;
+            }
+            $avg = $totalSpeed / $obj->count();
+            
+            return $avg;
+        // } else {
+        //     return 0;
+        // }
+
+    }
+
+    public static function getTotalSpeed($obj)
+    {
         $totalSpeed = 0;
         foreach($obj as $key => $item){
-            $totalSpeed +=  $item->clock->velocity;
+            $totalSpeed +=  $item->velocity;
         }
 
-        if($totalSpeed === 0){
-            return 0;
-        } else {
-            $avg = $totalSpeed / $obj->count();
-            return $avg;
-        }
+        return $totalSpeed;
     }
 
     public static function getRankInPos($pos_id, $burung_id)

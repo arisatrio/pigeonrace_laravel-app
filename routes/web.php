@@ -16,11 +16,12 @@ use App\Models\Race;
 
 Route::middleware('guest')->group(function () {
     Route::get('/', [App\Http\Controllers\HasilRaceController::class, 'index'])->name('welcome');
-    Route::get('/hasiil-race/{id}', [App\Http\Controllers\HasilRaceController::class, 'show'])->name('race');
+    Route::get('/hasil-race/{slug}', [App\Http\Controllers\HasilRaceController::class, 'show'])->name('race');
     Route::get('/hasil-race/{race_id}/basketing/{id}', [App\Http\Controllers\HasilRaceController::class, 'basketing'])->name('basketing');
     Route::get('/hasil-race/{race_id}/pos/{id}', [App\Http\Controllers\HasilRaceController::class, 'pos'])->name('pos');
     Route::get('/hasil-race/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\HasilRaceController::class, 'posKelas'])->name('pos-kelas');
     Route::get('/hasil-race/{race_id}/total-pos', [App\Http\Controllers\HasilRaceController::class, 'totalPos'])->name('total-pos');
+    Route::get('/hasil-race/{race_id}/total-pos/{kelas_id}', [App\Http\Controllers\HasilRaceController::class, 'totalPosKelas'])->name('total-pos-kelas');
 });
 
 Auth::routes();
@@ -46,6 +47,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::put('/race-results/pos/{id}/validasi/{pos_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posValidasiPost'])->name('pos.validasi-post');
         Route::get('/race-results/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posKelas'])->name('pos.kelas');
         Route::get('/race-results/{race_id}/total-pos', [App\Http\Controllers\Admin\RaceResultsController::class, 'totalPos'])->name('total-pos');
+        Route::get('/race-results/{race_id}/total-pos/{kelas_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'totalPosKelas'])->name('total-pos-kelas');
         Route::get('race-result/cek-map/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'cekMap'])->name('cek-map');
 
         Route::resource('race', App\Http\Controllers\Admin\RaceController::class);
@@ -84,6 +86,9 @@ Route::middleware(['auth', 'user'])->group(function () {
         Route::get('/riwayat', [App\Http\Controllers\User\RaceController::class, 'indexRiwayat'])->name('riwayat-index');
         Route::get('/riwayat/{id}', [App\Http\Controllers\User\RaceController::class, 'riwayatPos'])->name('riwayat-pos');
         Route::get('/riwayat/pos/{id}/rank', [App\Http\Controllers\User\RaceController::class, 'posRank'])->name('pos-rank');
+        Route::get('/riwayat/total-pos/{race_id}/', [App\Http\Controllers\User\RaceController::class, 'totalPos'])->name('total-pos');
+        Route::get('/race-results/{race_id}/total-pos/{kelas_id}', [App\Http\Controllers\User\RaceController::class, 'totalPosKelas'])->name('total-pos-kelas');
+        Route::get('/riwayat/total-pos/{race_id}/{burung_id}', [App\Http\Controllers\User\RaceController::class, 'totalPosDetail'])->name('total-pos-detail');
         //
         Route::post('/race/{id}/join', [App\Http\Controllers\User\RaceController::class, 'joinRace'])->name('join-race');
 
