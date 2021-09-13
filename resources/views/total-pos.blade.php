@@ -34,6 +34,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" rel="stylesheet" type="text/css" />
     <!-- Responsive datatable examples -->
     <link href="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.css')}}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.bootstrap4.min.css">
 </head>
 
 <body id="page-top">
@@ -200,15 +202,41 @@
     <!-- Required datatable js -->
     <script src="{{asset('assets/plugins/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('assets/plugins/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
     <script src="{{asset('assets/plugins/datatables/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('assets/plugins/datatables/responsive.bootstrap4.min.js')}}"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
         
     <script>
         $(document).ready(function() {
             var t = $('#table-1').DataTable({
                 responsive: true,
-                order: [[5+(@JSON($totalPos)*2), 'desc'], [4+(@JSON($totalPos)*2), 'desc']]
+                order: [[5+(@JSON($totalPos)*2), 'desc'], [4+(@JSON($totalPos)*2), 'desc']],
+                dom: 'lBfrtip',
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                buttons: [
+                    { 
+                        extend: 'pdf', 
+                        className: 'btn btn-secondary', 
+                        text: 'PDF',
+                        messageTop: 'Hasil Total Pos '+ @JSON($race->nama_race) + ' Kelas ' + @JSON($kelas->nama_kelas),
+                    },
+                    { 
+                        extend: 'excel', 
+                        className: 'btn btn-secondary', 
+                        text: 'Excel',
+                        messageTop: 'Hasil Total Pos '+ @JSON($race->nama_race) + ' Kelas ' + @JSON($kelas->nama_kelas),
+                    },
+                ],
             });
             t.column(0).nodes().each( function (cell, i) {
                 cell.innerHTML = i+1;

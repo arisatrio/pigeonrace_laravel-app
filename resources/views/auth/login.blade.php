@@ -58,7 +58,7 @@
                                         <div class="d-block">
                                             <label for="password" class="control-label">Password</label>
                                             <div class="float-right">
-                                                <a href="#" class="text-small">
+                                                <a href="{{ url('password/reset') }}" class="text-small">
                                                     Lupa Password?
                                                 </a>
                                             </div>

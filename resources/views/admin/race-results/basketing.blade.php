@@ -18,7 +18,7 @@
                 
                 <ul class="nav nav-pills mb-3">
                     <li class="nav-item">
-                      <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#home3">
+                      <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('admin.race-results.show', $pos->race->id) }}">
                         <i class="fas fa-arrow-left"></i>
                       </a>
                     </li>
@@ -88,16 +88,42 @@
 @endsection
 @push('css_script')
     @include('layouts.datatable-css-assets')
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.bootstrap4.min.css">
 @endpush
 @push('js_script')
     @include('layouts.datatable-js-assets')
     <script>
         $(document).ready(function() {
-            $('#table-1').DataTable();
-        });
-
-        function goBack() {
-          window.history.back();
-        }
+            var race = @JSON($race->nama_race);
+            $('#table-1').DataTable({
+              dom: 'lBfrtip',
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, "All"]
+                ],
+                buttons: [
+                    { 
+                        extend: 'pdf', 
+                        className: 'btn btn-secondary', 
+                        text: 'PDF',
+                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                    },
+                    { 
+                        extend: 'excel', 
+                        className: 'btn btn-secondary', 
+                        text: 'Excel',
+                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                    },
+                ],
+            });
+        } );
     </script>
+     <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+     <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.bootstrap4.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+     <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+     <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
 @endpush

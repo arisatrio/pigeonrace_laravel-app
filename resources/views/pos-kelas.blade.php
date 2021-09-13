@@ -186,13 +186,13 @@
                         extend: 'pdf', 
                         className: 'btn btn-secondary', 
                         text: 'PDF',
-                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                        messageTop: 'Data Hasil Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city) + ' Kelas ' + @JSON($kelas->nama_kelas),
                     },
                     { 
                         extend: 'excel', 
                         className: 'btn btn-secondary', 
                         text: 'Excel',
-                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                        messageTop: 'Data Hasil Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city) + ' Kelas ' + @JSON($kelas->nama_kelas),
                     },
                 ],
             });
