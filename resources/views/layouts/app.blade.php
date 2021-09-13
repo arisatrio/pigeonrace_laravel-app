@@ -24,7 +24,7 @@
         <div class="main-wrapper">
 
             {{-- NAVBAR --}}
-            <div class="navbar-bg"></div>
+            <div class="navbar-bg @if(Auth::user()->isUser()) bg-dark @endif"></div>
             <nav class="navbar navbar-expand-lg main-navbar">
                 <ul class="navbar-nav mr-auto">
                     <li>

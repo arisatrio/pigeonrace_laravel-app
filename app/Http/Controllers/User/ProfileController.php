@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Stevebauman\Location\Facades\Location;
+use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
 use App\Models\City;
@@ -37,15 +38,26 @@ class ProfileController extends Controller
         return redirect()->back()->with('messages', 'Data Profile Akun telah diperbaharui');
     }
 
-    public function passwordUpdate(Request $request)
+    public function updatePassword(Request $request, $id)
     {
+        $user = User::find($id);
+        
         $this->validate($request, 
             [
-                'password'      => 'required',
-                'new_password'   => 'required',
-                'nohp'   => 'required'
+                'current_password'          => 'required',
+                'password'                  => 'required|min:6|confirmed',
+                'password_confirmation'     => 'required|min:6',
             ]
         );
+
+        if(Hash::check($request->current_password, $user->password)){
+            $user->update([
+                'password'  => Hash::make($request->password)
+            ]);
+            return redirect()->back()->with('messages', 'Password berhasil diperbaharui!');
+        } else {
+            return redirect()->back()->withErrors(['error' => 'Password tidak cocok!']);
+        }
     }
     /**
      * Show the form for editing the specified resource.

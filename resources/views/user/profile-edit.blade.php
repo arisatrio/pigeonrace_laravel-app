@@ -19,6 +19,15 @@
                 </button>
             </div>
             @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <div class="card">
                 <div class="card-header">
@@ -61,7 +70,7 @@
                 <div class="card-header">
                     <h4>Edit Password</h4>
                 </div>
-                <form action="#" method="POST">
+                <form action="{{ route('user.update-password-store', $user->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -69,8 +78,8 @@
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="password" class="control-label">Password Lama</label>
-                                    <input type="password" class="form-control" name="password">
+                                    <label for="current_password" class="control-label">Password Lama</label>
+                                    <input type="password" class="form-control" name="current_password">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -81,8 +90,8 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="confirmation_password" class="control-label">Konfirmasi Password</label>
-                                    <input type="password" class="form-control" name="confirmation_password">
+                                    <label for="password_confirmation" class="control-label">Konfirmasi Password</label>
+                                    <input type="password" class="form-control" name="password_confirmation">
                                 </div>
                             </div>
 

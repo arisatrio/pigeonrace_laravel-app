@@ -178,10 +178,18 @@
             <div class="card">
                 <div class="card-header">
                     <a data-collapse="#map" class="btn btn-icon btn-secondary mr-3" href="#"><i class="fas fa-plus"></i></a>
-                    <h4>Map</h4>
+                    <h4>Detail Pos</h4>
                 </div>
                 <div class="collapse show" id="map">
                     <div class="card-body">
+                        <p class="mb-0"><b>Tanggal Inkorv</b> :</p>
+                        <p>{{ $pos->tgl_inkorv->locale('id')->isoFormat('LLLL') }}</p>
+                        <p class="mb-0"><b>Tanggal dan Jam Lepasan</b> :</p>
+                        <p>{{ $pos->tgl_lepasan->locale('id')->isoFormat('LLLL') }}</p>
+                        <p class="mb-0"><b>Koordinat :</b></p>
+                        <p>{{ $pos->latitude }}, {{ $pos->longitude }}</p>
+                        <p class="mb-0"><b>Jarak Pos ke Kandang</b> :</p>
+                        <p>{{ Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $pos->latitude, $pos->longitude) }} KM</p>
                         @include('components.maps')
                         @push('js_script')
                         <script>
@@ -189,7 +197,7 @@
                             var posLoc  = @JSON($posLoc);
                             var points  = [userLoc, posLoc];
 
-                            var mymap = L.map('mapid').setView([-7.33194,110.49278], 7);
+                            var mymap = L.map('mapid').setView([userLoc[0], userLoc[1]], 7);
                             L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                                 maxZoom: 20,
                                 subdomains:['mt0','mt1','mt2','mt3']

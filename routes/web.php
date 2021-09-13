@@ -80,6 +80,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 
         Route::get('/profile/{id}/akun', [App\Http\Controllers\User\ProfileController::class, 'editProfile'])->name('edit-profile');
         Route::put('/profile/{id}/update', [App\Http\Controllers\User\ProfileController::class, 'profileStore'])->name('edit-profile-store');
+        Route::put('/profile/{id}/update-password', [App\Http\Controllers\User\ProfileController::class, 'updatePassword'])->name('update-password-store');
         //
         Route::resource('race', App\Http\Controllers\User\RaceController::class)->except(['show']);
         Route::get('race/{slug}', [App\Http\Controllers\User\RaceController::class, 'show'])->name('race.show');
