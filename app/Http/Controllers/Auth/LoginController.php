@@ -45,6 +45,7 @@ class LoginController extends Controller
             'username' => 'required',
             'password' => 'required',
         ]);
+        $remember = $request->remember ? true : false;
 
         if(is_numeric($request->input('username'))){
             $field = 'nohp';
@@ -53,7 +54,7 @@ class LoginController extends Controller
         } 
         $request->merge([$field => $request->input('username')]);
    
-        if(auth()->attempt($request->only($field, 'password'))){
+        if(auth()->attempt($request->only($field, 'password'), $remember)){
             if (auth()->user()->role_id == 1) {
                 return redirect()->route('superadmin.dashboard');
             } else if (auth()->user()->role_id == 2) {

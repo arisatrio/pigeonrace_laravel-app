@@ -69,6 +69,15 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="remember">
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                Ingat Saya.
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
                                         <button type="submit"class="btn btn-dark btn-lg btn-block" tabindex="4">
                                             Login
                                         </button>

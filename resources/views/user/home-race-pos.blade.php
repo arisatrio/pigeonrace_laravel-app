@@ -130,6 +130,9 @@
                         <ul class="list-group">
                             <li class="list-group-item">
                                 {{ Helper::noRing($burung->club->nama_club, $burung->tahun, $burung->no_ring) }}-{{ $burung->warna }}-{{ $burung->jenkel }}
+                                @foreach ($burung->basketingKelas as $item)
+                                <span class="badge badge-info">{{$item->nama_kelas}}</span>
+                                @endforeach
                             </li>
                         </ul>
                         @endforeach
@@ -198,7 +201,7 @@
                             var points  = [userLoc, posLoc];
 
                             var mymap = L.map('mapid').setView([userLoc[0], userLoc[1]], 7);
-                            L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+                            L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                                 maxZoom: 20,
                                 subdomains:['mt0','mt1','mt2','mt3']
                             }).addTo(mymap);

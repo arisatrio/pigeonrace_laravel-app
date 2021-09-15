@@ -18,6 +18,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/', [App\Http\Controllers\HasilRaceController::class, 'index'])->name('welcome');
     Route::get('/hasil-race/{slug}', [App\Http\Controllers\HasilRaceController::class, 'show'])->name('race');
     Route::get('/hasil-race/{race_id}/basketing/{id}', [App\Http\Controllers\HasilRaceController::class, 'basketing'])->name('basketing');
+    Route::get('/hasil-race/{race_id}/basketing/{id}/kelas/{kelas_id}', [App\Http\Controllers\HasilRaceController::class, 'basketingKelas'])->name('basketing-kelas');
     Route::get('/hasil-race/{race_id}/pos/{id}', [App\Http\Controllers\HasilRaceController::class, 'pos'])->name('pos');
     Route::get('/hasil-race/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\HasilRaceController::class, 'posKelas'])->name('pos-kelas');
     Route::get('/hasil-race/{race_id}/total-pos', [App\Http\Controllers\HasilRaceController::class, 'totalPos'])->name('total-pos');
@@ -43,6 +44,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
         
         Route::resource('race-results', App\Http\Controllers\Admin\RaceResultsController::class);
         Route::get('/race-results/{race_id}/basketing/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketing'])->name('basketing.index');
+        Route::get('/race-results/{race_id}/basketing/{id}/kelas/{kelas_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketingKelas'])->name('basketing-kelas');
+        Route::delete('/race-results/basketing/{pos_id}/delete/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketingHapus'])->name('basketing-hapus');
+
+
         Route::get('/race-results/{race_id}/pos/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'pos'])->name('pos.index');
         Route::put('/race-results/pos/{id}/validasi/{pos_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posValidasiPost'])->name('pos.validasi-post');
         Route::get('/race-results/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posKelas'])->name('pos.kelas');

@@ -29,14 +29,28 @@ class HomeController extends Controller
     
     public function admin()
     {
-        $race = Race::with('pos', 'join')->where('status', 'AKTIF')->latest()->first();
+        $race = Race::with('pos' , 'join')->where('status', 'AKTIF')->latest()->first();
         if($race){
             $userLoc = [];
+            $posLoc = [];
             foreach ($race->join as $key => $item){
-                $userLoc[$key] = [$item->name, -Helper::DDMtoDD($item->latitude), Helper::DDMtoDD($item->longitude)];
+                $userLoc[$key] = [
+                    $item->name, 
+                    -Helper::DDMtoDD($item->latitude), 
+                    Helper::DDMtoDD($item->longitude),
+                ];
             }
+            foreach($race->pos as $key => $item){
+                $posLoc[$key] = [$item->city, -Helper::DDMtoDD($item->latitude), Helper::DDMtoDD($item->longitude), $item->no_pos];
+            }
+            
+            $basketing = RacePos::query()
+                ->where('race_id', $race->id)
+                ->leftJoin('race_basketings as bskt', 'race_pos.id', '=', 'bskt.race_pos_id')
+                ->groupBy('bskt.burung_id')
+                ->get();
 
-            return view('admin.dashboard', compact('race', 'userLoc'));
+            return view('admin.dashboard', compact('race', 'basketing', 'userLoc', 'posLoc'));
         }
 
         return view('admin.dashboard', compact('race'));

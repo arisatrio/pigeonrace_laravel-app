@@ -73,12 +73,32 @@ class RaceResultsController extends Controller
 
     public function basketing($race_id, $id)
     {
-        $race = Race::with('pos')->find($race_id);
-        $pos = RacePos::with(['basketing' => function ($q) {
-            $q->with(['user', 'club'])->groupBy('race_basketings.burung_id');
+        $race   = Race::with('pos')->find($race_id);
+        $kelas  = $race->kelas->first();
+        $pos = RacePos::with(['basketing' => function ($q) use($kelas) {
+            $q->with(['user', 'club'])->where('race_basketings.race_kelas_id', $kelas->id);
         }])->find($id);
 
-        return view('admin.race-results.basketing', compact('race','pos'));
+        return view('admin.race-results.basketing', compact('race','pos', 'kelas'));
+    }
+
+    public function basketingKelas($race_id, $id, $kelas_id)
+    {
+        $race   = Race::with('pos')->find($race_id);
+        $kelas  = $race->kelas->find($kelas_id);
+        $pos = RacePos::with(['basketing' => function ($q) use($kelas) {
+            $q->with(['user', 'club'])->where('race_basketings.race_kelas_id', $kelas->id);
+        }])->find($id);
+
+        return view('admin.race-results.basketing', compact('race','pos', 'kelas'));
+    }
+
+    public function basketingHapus($pos_id, $burung_id)
+    {
+        $pos = RacePos::find($pos_id);
+        $pos->basketing()->detach($burung_id);
+
+        return redirect()->back()->with('messages', 'Data basketing telah dihapus.');
     }
 
     public function pos($race_id, $id)

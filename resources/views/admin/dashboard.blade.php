@@ -20,29 +20,6 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col">
-                    <ul class="nav nav-pills mb-3">
-                        {{-- @foreach ($race->pos as $item)
-                        <li class="nav-item">
-                            <a href="" class=" nav-link text-white btn 
-                                @isset($pos->id)
-                                    @if($item->id === $pos->id) btn-success @endif
-                                @endisset btn-secondary btn-md mr-2">
-                                <i class="fas fa-map-marker-alt"></i>
-                                POS {{ $item->no_pos }}
-                            </a>
-                        </li> 
-                        @endforeach --}}
-                        <li class="nav-item">
-                            <a class="nav-link text-white btn-danger btn-sm mr-2" href="#">
-                              TOTAL POS
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
             <div class="card">
                 <div class="card-header">
                     <h4>Maps</h4>
@@ -50,17 +27,59 @@
                 <div class="card-body">
                     @include('components.maps')
                     @push('js_script')
+                        <script src="{{ asset('assets/js/L.Polyline.SnakeAnim.js') }}"></script>
                         <script>
+                            var posMarker = new L.Icon({
+                                iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                                iconSize: [25, 41],
+                                iconAnchor: [12, 41],
+                                popupAnchor: [1, -34],
+                                shadowSize: [41, 41]
+                            });
+                            var color = ['blue', 'green', 'red', 'yellow', 'orange'];
                             var latlong = @JSON($userLoc);
-                            var mymap = L.map('mapid').setView([-7.33194,110.49278], 7);
+                            var posLatLong = @JSON($posLoc);
+                            console.log(posLatLong);
+
+                            var mymap = L.map('mapid').setView([-7.33194,110.49278], 8);
                             L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                                 maxZoom: 20,
                                 subdomains:['mt0','mt1','mt2','mt3']
                             }).addTo(mymap);
     
                             for (var i = 0; i < latlong.length; i++) {
-                                marker = new L.marker([latlong[i][1], latlong[i][2]])
-                                .bindPopup("<b>Nama Peserta : </b> <br>" + latlong[i][0])
+                                marker = new L.marker([latlong[i][1], latlong[i][2]]);
+                                
+                                for(var j = 0; j <posLatLong.length; j++){
+                                    var pos = L.layerGroup([
+                                        L.polyline([ [latlong[i][1],latlong[i][2]], [posLatLong[j][1], posLatLong[j][2]] ], {
+                                            color: color[j],
+                                            weight: 4,
+                                            opacity: 0.5,
+                                            smoothFactor: 1,
+                                            snakingSpeed: 200,
+                                        }),
+                                    ], { snakingPause: 200 });
+
+                                    pos.addTo(mymap).snakeIn();
+                                    var loc = L.latLng([latlong[i][1], latlong[i][2]]);
+                                    var pos = L.latLng([posLatLong[j][1], posLatLong[j][2]]);
+                                    var distance = "POS " + posLatLong[j][0] + " : " + loc.distanceTo(pos).toFixed(0)/1000 + " KM" + "<br>";
+                                    latlong[i].push(distance);
+                                }
+                                function filtered(array){
+                                    var arrayJarak = array;
+                                    var filtered = arrayJarak.splice(0,3);
+                                    var jarak = arrayJarak.join("");
+
+                                    return jarak;
+                                }
+                                marker.bindPopup("<b>"+latlong[i][0]+"</b>" + "<br>" + filtered(latlong[i])).addTo(mymap);
+                            };
+                            for (var i = 0; i < posLatLong.length; i++) {
+                                marker = new L.marker([posLatLong[i][1], posLatLong[i][2]], {icon: posMarker})
+                                .bindPopup("<b>POS "+ posLatLong[i][3] + " : " + posLatLong[i][0] + "</b>")
                                 .addTo(mymap);
                             };
                         </script>
@@ -92,9 +111,7 @@
                                     <h5>Burung</h5>
                                 </div>
                                 <div class="card-body text-center">
-                                    <h1>
-                                      
-                                    </h1>
+                                    <h1>{{ $basketing->count() }}</h1>
                                 </div>
                             </div>
                         </div>
@@ -104,69 +121,17 @@
                                     <h5>Clock</h5>
                                 </div>
                                 <div class="card-body text-center">
-                                    <h1>
-                                        
-                                    </h1>
+                                    <h1>{{ $race->clock->count() }}</h1>
                                 </div>
                             </div>
                         </div>
                     </div>
-            
-                    {{-- <div class="row">
-            
-                        <div class="col-6">
-                            <div class="card card-danger">
-                                <div class="card-header">
-                                    <h4>Top Peserta</h4>
-                                    <div class="card-header-action">
-                                        <a href="#" class="btn btn-primary">
-                                        View All
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    
-                                </div>
-                            </div>
-                        </div>
-            
-                        <div class="col-6">
-                            <div class="card card-danger">
-                                <div class="card-header">
-                                    <h4>Top Burung</h4>
-                                    <div class="card-header-action">
-                                        <a href="#" class="btn btn-primary">
-                                        View All
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    
-                                </div>
-                            </div>
-                        </div>
-            
-                    </div>
-            
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h4>Hasil</h4>
-                </div>
-                <div class="card-body">        
-                    <div class="row">
-                        <div class="col">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
-
-
 
         </div>
+    </div>
 </div>
 @endisset
 @endsection

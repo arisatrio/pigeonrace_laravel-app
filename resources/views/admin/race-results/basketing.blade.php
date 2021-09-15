@@ -2,11 +2,11 @@
 @section('title', 'Hasil Race')
 @section('content')
 <div class="section-header">
-    <h1>{{ $pos->race->nama_race }}</h1>
+    <h1>{{ $race->nama_race }}</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
         <div class="breadcrumb-item"><a href="{{ route('admin.race-results.index') }}">Hasil Race</a></div>
-        <div class="breadcrumb-item">{{ $pos->race->nama_race }}</div>
+        <div class="breadcrumb-item">{{ $race->nama_race }}</div>
     </div>
 </div>
 <div class="section-body">
@@ -17,32 +17,44 @@
               <div class="card-body">
                 
                 <ul class="nav nav-pills mb-3">
-                    <li class="nav-item">
-                      <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('admin.race-results.show', $pos->race->id) }}">
-                        <i class="fas fa-arrow-left"></i>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link text-white btn-primary btn-sm mr-2" href="#">
-                        <i class="fas fa-dove"></i>
-                        Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}
-                      </a>
-                    </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('admin.race-results.show', $race->id) }}">
+                      <i class="fas fa-arrow-left"></i>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-white btn-primary btn-sm mr-2">
+                      <i class="fas fa-dove"></i>
+                      Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link btn btn-info text-white">
+                        {{ $kelas->nama_kelas }}
+                    </a>
+                </li>
                 </ul>
 
                 <ul class="nav nav-pills mb-3">
-                  @foreach ($race->pos as $item)
+                  @foreach ($race->kelas as $item)
                   <li class="nav-item">
-                      <a class="nav-link text-white btn-warning btn-sm mr-2" href="{{ route('admin.basketing.index', ['race_id' => $race->id, 'id' => $item->id]) }}">Basketing {{ $item->no_pos }}</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link text-white btn-success btn-sm mr-2" href="{{ route('admin.pos.index', ['race_id' => $race->id, 'id' => $item->id]) }}">POS {{ $item->no_pos }}</a>
+                    @if ($item->id !== $kelas->id)
+                    <a class="nav-link text-white btn-info btn-sm mr-2" href="{{ route('admin.basketing-kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
+                      {{ $item->nama_kelas }}
+                    </a>  
+                    @endif
                   </li>
                   @endforeach
-                  <li class="nav-item">
-                    <a class="nav-link text-white btn-danger btn-sm" href="{{ route('admin.total-pos', $race->id) }}">TOTAL POS</a>
-                  </li>
                 </ul>
+
+                @if (session('messages'))
+                <div class="alert alert-success alert-dismissible">
+                    {{ session('messages') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
                 
                 <div class="tab-content">
                   <div class="tab-pane fade active show">
@@ -51,7 +63,7 @@
                       <table class="table table-striped" id="table-1">
                           <thead>
                             <tr class="text-center bg-dark">
-                              <th class="text-white" colspan="5">Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
+                              <th class="text-white" colspan="6">Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }} - {{ $kelas->nama_kelas }}</th>
                             </tr>
                             <tr class="bg-warning">
                                 <th style="width: 5%;" class="text-white">No</th>
@@ -59,6 +71,7 @@
                                 <th class="text-white">Warna</th>
                                 <th class="text-white">Jenis Kelamin</th>
                                 <th class="text-white">Nama Peserta / Loft</th>
+                                <th style="width: 5%;" class="text-white">Validasi</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -70,6 +83,15 @@
                                   <td>{{ $item->warna }}</td>
                                   <td>{{ $item->jenkel }}</td>
                                   <td>{{ $item->user->name }}</td>
+                                  <td class="text-center">
+                                    <form action={{ route('admin.basketing-hapus', ['pos_id' => $pos->id, 'id' => $item->id]) }} method="POST">
+                                      @csrf
+                                      @method('delete')
+                                      <button type="submit" class="btn btn-danger btn-sm btn icon">
+                                        <i class="fas fa-times"></i>
+                                      </button>
+                                    </form>
+                                  </td>
                               </tr>
                               @endforeach
                           </tbody>

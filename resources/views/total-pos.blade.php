@@ -70,7 +70,6 @@
                                                 <i class="fas fa-arrow-left"></i>
                                             </a>
                                             <button type="button" class="btn btn-primary">
-                                                <i class="fas fa-users"></i>
                                                 TOTAL POS
                                             </button>
                                             <button type="button" class="btn btn-info text-white">
@@ -82,9 +81,11 @@
                                     <div class="row mb-4">
                                         <div class="col">
                                             @foreach ($race->kelas as $item)
+                                            @if ($item->id !== $kelas->id)
                                             <a class="btn btn-info btn-sm text-white" href="{{ route('total-pos-kelas', ['race_id' => $race->id, 'kelas_id' => $item->id]) }}">
                                                 {{ $item->nama_kelas }}
-                                            </a>
+                                            </a>                                          
+                                            @endif
                                             @endforeach
                                         </div>
                                     </div>

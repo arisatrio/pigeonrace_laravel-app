@@ -31,13 +31,30 @@ class HasilRaceController extends Controller
 
     public function basketing($race_id, $id)
     {
-        $pos = RacePos::with(['race', 'basketing' => function($q) use($id) {
-            $q->with(['club', 'user' => function ($query) {
+        $race = Race::find($race_id);
+        $kelas = $race->kelas->first();
+        $pos = RacePos::with(['race', 
+        'basketing' => function($q) use($id, $kelas) {
+            $q->with(['club', 'user' => function ($query){
                 $query->orderBy('name');
-            }])->where('race_pos_id', $id);
+            }])->where('race_pos_id', $id)->where('race_kelas_id', $kelas->id);
         }])->find($id);
 
-        return view('basketing', compact('pos'));
+        return view('basketing', compact('race', 'pos', 'kelas'));
+    }
+
+    public function basketingKelas($race_id, $id, $kelas_id)
+    {
+        $race = Race::find($race_id);
+        $kelas = $race->kelas->find($kelas_id);
+        $pos = RacePos::with(['race', 
+        'basketing' => function($q) use($id, $kelas) {
+            $q->with(['club', 'user' => function ($query){
+                $query->orderBy('name');
+            }])->where('race_pos_id', $id)->where('race_kelas_id', $kelas->id);
+        }])->find($id);
+
+        return view('basketing', compact('race', 'pos', 'kelas'));
     }
 
     public function pos($race_id, $id)

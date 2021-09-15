@@ -30,6 +30,11 @@
                             <input type="number" class="form-control" name="no_pos" value="{{ $pos->no_pos }}">
                         </div>
 
+                        <div class="form-group">
+                            <label for="city">Nama Pos</label>
+                            <input type="text" class="form-control" name="city" value="{{ $pos->city }}">
+                        </div>
+
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -61,7 +66,7 @@
                         </div>
 
                         {{-- Select2 City --}}
-                        @include('components.select-city')
+                        {{-- @include('components.select-city') --}}
 
                         <div class="row">
                             <div class="col-6">

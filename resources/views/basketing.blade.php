@@ -69,9 +69,23 @@
                                                 <i class="fas fa-arrow-left"></i>
                                             </a>
                                             <a class="btn btn-primary" href="#">
-                                                <i class="fas fa-users"></i>
                                                 Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}
                                             </a>
+                                            <a class="btn btn-info text-white" href="#">
+                                                {{ $kelas->nama_kelas }}
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col">
+                                            @foreach ($race->kelas as $item)
+                                            @if ($item->id !== $kelas->id)
+                                            <a class="btn btn-info text-white" href="{{ route('basketing-kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
+                                                {{ $item->nama_kelas }}
+                                            </a>
+                                            @endif           
+                                            @endforeach
                                         </div>
                                     </div>
 

@@ -14,48 +14,44 @@
     <div class="row">
         <div class="col-12">
 
-          @if (session('messages'))
-            <div class="alert alert-success alert-dismissible">
-                {{ session('messages') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            @endif
-
-            
-            <ul class="nav nav-pills mb-3">
-                <li class="nav-item">
-                    <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('admin.race-results.show', $race->id) }}">
-                        <i class="fas fa-arrow-left"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white btn-primary btn-sm btn-icon mr-2" href="{{ route('admin.dashboard') }}">
-                      <i class="fas fa-home"></i> 
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-danger text-white mr-2">
-                        TOTAL POS - {{ $race->nama_race }}
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-info text-white">
-                        {{ $kelas->nama_kelas }}
-                    </button>
-                </li>
-            </ul>
-
             <div class="card">
                 <div class="card-body">
 
+                    <ul class="nav nav-pills mb-3">
+                        <li class="nav-item">
+                            <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('admin.race-results.show', $race->id) }}">
+                                <i class="fas fa-arrow-left"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-danger text-white mr-2">
+                                TOTAL POS - {{ $race->nama_race }}
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-info text-white">
+                                {{ $kelas->nama_kelas }}
+                            </button>
+                        </li>
+                    </ul>
+                    
+                    @if (session('messages'))
+                    <div class="alert alert-success alert-dismissible">
+                        {{ session('messages') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
+                    
                     <div class="row mb-4">
                         <div class="col">
                             @foreach ($race->kelas as $item)
+                            @if ($item->id !== $kelas->id)
                             <a class="btn btn-info text-white" href="{{ route('admin.total-pos-kelas', ['race_id' => $race->id, 'kelas_id' => $item->id]) }}">
                                 {{ $item->nama_kelas }}
                             </a>
+                            @endif
                             @endforeach
                         </div>
                     </div>
