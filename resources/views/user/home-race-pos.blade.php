@@ -262,7 +262,7 @@
             var restart_time = new Date('{{$pos->restart_time}}');
 
             var distance = now - tgl_lepasan;
-            var off_time = restart_time - close_time;
+            var off_time = close_time - restart_time;
 
             var jamSekarang   = now.toTimeString().split(' ')[0];
 

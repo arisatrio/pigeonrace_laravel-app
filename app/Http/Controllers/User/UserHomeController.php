@@ -40,7 +40,9 @@ class UserHomeController extends Controller
     {
         $pos = RacePos::with([
             'basketing' => function ($q) use ($id) {
-                $q->with('user', 'club')->where('user_id', auth()->user()->id)->groupBy('id');
+                $q->with(['user', 'club', 'basketingKelas' => function ($q) use($id) {
+                    $q->where('race_pos_id', $id);
+                }])->where('user_id', auth()->user()->id)->where('race_pos_id', $id)->groupBy('id');
             }
         ])->find($id);
 

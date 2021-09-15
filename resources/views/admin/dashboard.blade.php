@@ -42,7 +42,7 @@
                             var posLatLong = @JSON($posLoc);
                             console.log(posLatLong);
 
-                            var mymap = L.map('mapid').setView([-7.33194,110.49278], 8);
+                            var mymap = L.map('mapid').setView([-7.33194,110.49278], 7);
                             L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
                                 maxZoom: 20,
                                 subdomains:['mt0','mt1','mt2','mt3']
