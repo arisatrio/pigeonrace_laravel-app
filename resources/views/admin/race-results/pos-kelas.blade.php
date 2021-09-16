@@ -52,14 +52,14 @@
                                 <th colspan="12" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }} - {{ $kelas->nama_kelas }}</th>
                             </tr>
                             <tr class="bg-info">
-                              <th rowspan="2" style="width: 5%;" class="text-white">RANK</th>
+                              <th rowspan="2" style="width: 5%;" class="bg-danger text-white">RANK</th>
                               <th rowspan="2" class="text-white">Nama Peserta</th>
                               <th rowspan="2" class="text-white">Kota</th>
                               <th rowspan="1" colspan="3" class="text-center text-white">Data Burung</th>
                               <th rowspan="2" class="text-white">Jarak (KM)</th>
                               <th rowspan="1" colspan="3" class="text-center text-white">Kedatangan</th>
                               <th rowspan="2" class="text-white">Waktu Terbang</th>
-                              <th rowspan="2" class="text-white">Kecepatan</th>
+                              <th rowspan="2" class="text-white">Kecepatan (M/Menit)</th>
                             </tr>
                             <tr class="bg-info">
                                 <th class="text-white">No. Ring</th>
@@ -71,20 +71,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($rank as $item)
+                            @foreach ($pos->clock as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->city }}</td>
-                                <td>{{ Helper::noRing($item->nama_club, $item->tahun, $item->no_ring) }}</td>
+                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->user->city }}</td>
+                                <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
                                 <td>{{ $item->warna }}</td>
                                 <td>{{ $item->jenkel }}</td>
-                                <td>{{ $item->distance }}</td>
-                                <td>{{ $item->arrival_date }}</td>
-                                <td>{{ $item->arrival_day }}</td>
-                                <td>{{ $item->arrival_clock }}</td>
-                                <td>{{ $item->flying_time }}</td>
-                                <td>{{ $item->velocity }}</td>                              
+                                <td>{{ $item->clock->distance }}</td>
+                                <td>{{ $item->clock->arrival_date->format('d/m/Y') }}</td>
+                                <td>+{{ $item->clock->arrival_day }}</td>
+                                <td>{{ $item->clock->arrival_clock->format('H:i:s') }}</td>
+                                <td>{{ $item->clock->flying_time }}</td>
+                                <td>{{ $item->clock->velocity }}</td>                              
                             </tr>
                             @endforeach
                         </tbody>

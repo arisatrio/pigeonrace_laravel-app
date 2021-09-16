@@ -72,7 +72,7 @@
                           <th rowspan="2" class="bg-info text-white">Kota</th>
                           <th rowspan="2" class="bg-info text-white">No. Ring</th>
                           @foreach ($race->pos as $item)
-                          <th rowspan="1" colspan="@if($totalPos === 1) 2 @else {{$totalPos}} @endif" class="bg-success text-center text-white">{{ $item->city }}</th>
+                          <th rowspan="1" colspan="2" class="bg-success text-center text-white">{{ $item->city }}</th>
                           @endforeach
                           <th rowspan="2" class="bg-warning text-white">Clock</th>
                           <th rowspan="2" class="bg-warning text-white" style="width: 5%;">Kecepatan Rata-rata</th>
@@ -154,7 +154,6 @@
     <script>
         $(document).ready(function() {
             var t = $('#table-1').DataTable({
-                responsive: true,
                 order: [[5+(@JSON($totalPos)*2), 'desc'], [4+(@JSON($totalPos)*2), 'desc']],
                 dom: 'lBfrtip',
                 lengthMenu: [

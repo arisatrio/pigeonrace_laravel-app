@@ -51,7 +51,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($rank as $item)
+                            @foreach($pos->clock as $item)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td @if ($item->user->id === auth()->user()->id)  class="bg-primary text-white" @endif>

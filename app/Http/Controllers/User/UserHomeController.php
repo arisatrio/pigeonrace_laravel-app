@@ -38,19 +38,28 @@ class UserHomeController extends Controller
 
     public function posMode($id)
     {
-        $pos = RacePos::with([
-            'basketing' => function ($q) use ($id) {
-                $q->with(['user', 'club', 'basketingKelas' => function ($q) use($id) {
-                    $q->where('race_pos_id', $id);
-                }])->where('user_id', auth()->user()->id)->where('race_pos_id', $id)->groupBy('id');
-            }
-        ])->find($id);
 
-        $burungClock = $pos->basketing()
-            ->where('user_id', auth()->user()->id)
+        $pos = RacePos::find($id);
+        $user = auth()->user();
+        $burung = $user->burung()->with('club');
+
+        $burungBasketing = $burung
+            ->whereHas('basketing', function ($q) use($user, $pos) {
+                $q->where('race_pos_id', $pos->id);
+            })
+            ->with(['basketingKelas' => function ($q) use($pos) {
+                $q->where('race_pos_id', $pos->id);
+            }])
+            ->get();
+
+        $burungClock = $burung
+            ->whereHas('basketing', function ($q) use($pos) {
+                $q->where('race_pos_id', $pos->id);
+            })
             ->whereDoesntHave('clock', function ($q) use($id) {
                 $q->where('race_pos_id', $id);
-            })->get();
+            })
+            ->get();
 
         // Helper VAR
         $now = Carbon::now();
@@ -58,7 +67,7 @@ class UserHomeController extends Controller
         $userLoc = [-Helper::DDMtoDD(auth()->user()->latitude), Helper::DDMtoDD(auth()->user()->longitude)];
         $posLoc = [-Helper::DDMtoDD($pos->latitude), Helper::DDMtoDD($pos->longitude)];
         
-        return view('user.home-race-pos', compact('pos', 'burungClock', 'now', 'jarak', 'userLoc', 'posLoc'));
+        return view('user.home-race-pos', compact('pos', 'user', 'burungBasketing', 'burungClock', 'now', 'jarak', 'userLoc', 'posLoc'));
     }
 
     public function stopJoin($race_id)
@@ -73,20 +82,15 @@ class UserHomeController extends Controller
 
     public function basketingStore($race_pos_id, Request $request)
     {
-        $this->validate($request, [
-            'burung_id' => 'required',
-            'kelas_id'  => 'required',
-        ]);
-        $input = $request->only(['burung_id', 'kelas_id']);
         $pos = RacePos::find($race_pos_id);
-        $burung = Burung::with('basketing')->find($request->burung_id);
-        
-        if($burung->basketing->contains($race_pos_id) && $burung->basketingKelas->contains($request->kelas_id)){
+        $burung = Burung::find($request->burung_id);
+
+        if(!$burung->basketing->contains($request->kelas_id)){
             return redirect()->back()->withErrors(['error' => 'Burung sudah dalam kelas Basketing!']);
+        } else {
+            $pos->basketing()->attach($request->burung_id, ['race_kelas_id' => $request->kelas_id]);
+            return redirect()->back()->with('messages', 'Burung telah ditambahkan ke dalam Basketing');
         }
-        $pos->basketing()->attach($request->burung_id, ['race_kelas_id' => $request->kelas_id]);
-        
-        return redirect()->back()->with('messages', 'Burung telah ditambahkan ke dalam Basketing');
     }
 
     public function clockStore($race_pos_id, Request $request)
@@ -100,7 +104,6 @@ class UserHomeController extends Controller
         $velocity = Helper::calculateVelocity($distance, $request->fly);
         $no_stiker = $request->no_stiker;
         $kelas = $burung->basketingKelas()->first();
-        
         $pos->clock()->attach($burung, [
             'distance'      => $distance,
             'arrival_date'  => $now->format('d-m-Y'),

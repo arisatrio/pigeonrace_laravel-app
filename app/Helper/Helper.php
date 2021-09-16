@@ -91,7 +91,7 @@ class Helper
 
     public static function getAvgSpeed($obj)
     {
-        
+        if($obj){
             $totalSpeed = 0;
             foreach($obj as $key => $item){
                 $totalSpeed +=  $item->velocity;
@@ -103,20 +103,27 @@ class Helper
             $avg = $totalSpeed / $obj->count();
             
             return $avg;
-        // } else {
-        //     return 0;
-        // }
+        } 
+        else {
+            return 0;
+        }
 
     }
 
     public static function getTotalSpeed($obj)
     {
-        $totalSpeed = 0;
-        foreach($obj as $key => $item){
-            $totalSpeed +=  $item->velocity;
-        }
+        //Wdd($obj);
+        if($obj){
+            $totalSpeed = 0;
+            foreach($obj as $key => $item){
+                dd(self::calculateVelocity($item->distance, $item->flying_time));
+                $totalSpeed += $item->velocity;
+            }
 
-        return $totalSpeed;
+            return $totalSpeed;
+        } else {
+            return 0;
+        }
     }
 
     public static function getRankInPos($pos_id, $burung_id)

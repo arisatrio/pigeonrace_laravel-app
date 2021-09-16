@@ -2,11 +2,11 @@
 @section('title', 'Hasil Race')
 @section('content')
 <div class="section-header">
-    <h1>{{ $race->nama_race }}</h1>
+    <h1>{{ $pos->race->nama_race }}</h1>
     <div class="section-header-breadcrumb">
         <div class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></div>
         <div class="breadcrumb-item"><a href="{{ route('admin.race-results.index') }}">Hasil Race</a></div>
-        <div class="breadcrumb-item"><a href="{{ route('admin.race-results.show', $race->id) }}">{{ $race->nama_race }}</a></div>
+        <div class="breadcrumb-item"><a href="{{ route('admin.race-results.show', $pos->race->id) }}">{{ $pos->race->nama_race }}</a></div>
         <div class="breadcrumb-item">POS {{ $pos->no_pos }} - {{ $pos->city }}</div>
     </div>
 </div>
@@ -28,7 +28,7 @@
                 
                 <ul class="nav nav-pills mb-3">
                   <li class="nav-item">
-                    <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('admin.race-results.show', $race->id) }}">
+                    <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('admin.race-results.show', $pos->race->id) }}">
                       <i class="fas fa-arrow-left"></i>
                     </a>
                   </li>
@@ -41,9 +41,9 @@
                 </ul>
 
                 <ul class="nav nav-pills mb-3">
-                  @foreach ($race->kelas as $item)
+                  @foreach ($pos->race->kelas as $item)
                   <li class="nav-item">
-                    <a class="nav-link text-white btn-info btn-sm mr-2" href="{{ route('admin.pos.kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
+                    <a class="nav-link text-white btn-info btn-sm mr-2" href="{{ route('admin.pos.kelas', ['race_id' => $pos->race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
                       {{ $item->nama_kelas }}
                     </a>
                   </li>
@@ -90,7 +90,7 @@
                                 <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
                                 <td>{{ $item->warna }}</td>
                                 <td>{{ $item->jenkel }}</td>
-                                <td>{{ $item->clock->no_stiker}}</td>
+                                <td><h6>{{ $item->clock->no_stiker}}</h6></td>
                                 <td>
                                   <span class="badge 
                                     @empty($item->clock->status)
@@ -157,7 +157,7 @@
     @include('layouts.datatable-js-assets')
     <script>
         $(document).ready(function() {
-            var race = @JSON($race->nama_race);
+            var race = @JSON($pos->race->nama_race);
             $('#table-1').DataTable({
               dom: 'lBfrtip',
                 lengthMenu: [

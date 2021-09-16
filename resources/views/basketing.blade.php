@@ -68,23 +68,32 @@
                                             <a onclick="goBack()" class="btn btn-grey">
                                                 <i class="fas fa-arrow-left"></i>
                                             </a>
-                                            <a class="btn btn-primary" href="#">
+                                            <a class="btn btn-primary" href="{{ route('basketing', ['race_id' => $pos->race->id, 'id' => $pos->id]) }}">
                                                 Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}
                                             </a>
+                                            @isset($kelas)
                                             <a class="btn btn-info text-white" href="#">
                                                 {{ $kelas->nama_kelas }}
                                             </a>
+                                            @endisset
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <div class="col">
                                             @foreach ($race->kelas as $item)
-                                            @if ($item->id !== $kelas->id)
-                                            <a class="btn btn-info text-white" href="{{ route('basketing-kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
-                                                {{ $item->nama_kelas }}
-                                            </a>
-                                            @endif           
+                                                @isset($kelas)
+                                                    @if ($kelas->id !== $item->id)
+                                                    <a class="btn btn-info text-white" href="{{ route('basketing-kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
+                                                        {{ $item->nama_kelas }}
+                                                    </a>                                      
+                                                    @endif
+                                                @endisset
+                                                @empty($kelas)
+                                                    <a class="btn btn-info text-white" href="{{ route('basketing-kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
+                                                        {{ $item->nama_kelas }}
+                                                    </a>
+                                                @endempty
                                             @endforeach
                                         </div>
                                     </div>
@@ -102,6 +111,7 @@
                                                       <th class="text-white">Warna</th>
                                                       <th class="text-white">Jenis Kelamin</th>
                                                       <th class="text-white">Nama Peserta / Loft</th>
+                                                      <th class="text-white">No. Stiker</th>
                                                   </tr>
                                                 </thead>
                                                 <tbody>
@@ -113,6 +123,7 @@
                                                         <td>{{ $item->warna }}</td>
                                                         <td>{{ $item->jenkel }}</td>
                                                         <td>{{ $item->user->name }}</td>
+                                                        <td></td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -180,6 +191,15 @@
                         className: 'btn btn-secondary', 
                         text: 'Excel',
                         messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                    },
+                    { 
+                        extend: 'print', 
+                        className: 'btn btn-secondary', 
+                        text: 'Print',
+                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                        exportOptions: {
+                            columns: [0,1,2,3,4,5]
+                        }
                     },
                 ],
             });

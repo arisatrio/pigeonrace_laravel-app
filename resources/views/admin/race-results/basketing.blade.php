@@ -23,26 +23,35 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-white btn-primary btn-sm mr-2">
+                    <a class="nav-link text-white btn-primary btn-sm mr-2" href="{{ route('admin.basketing.index', ['race_id' => $race->id, 'id' => $pos->id]) }}">
                       <i class="fas fa-dove"></i>
                       Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}
                     </a>
                   </li>
                   <li class="nav-item">
+                    @isset($kelas)  
                     <a class="nav-link btn btn-info text-white">
-                        {{ $kelas->nama_kelas }}
+                      {{ $kelas->nama_kelas }}
                     </a>
+                    @endisset
                 </li>
                 </ul>
 
                 <ul class="nav nav-pills mb-3">
                   @foreach ($race->kelas as $item)
                   <li class="nav-item">
-                    @if ($item->id !== $kelas->id)
-                    <a class="nav-link text-white btn-info btn-sm mr-2" href="{{ route('admin.basketing-kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
-                      {{ $item->nama_kelas }}
-                    </a>  
-                    @endif
+                    @isset($kelas)  
+                      @if ($item->id !== $kelas->id)
+                      <a class="nav-link text-white btn-info btn-sm mr-2" href="{{ route('admin.basketing-kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
+                        {{ $item->nama_kelas }}
+                      </a>
+                      @endif
+                    @endisset
+                    @empty($kelas)
+                      <a class="nav-link text-white btn-info btn-sm mr-2" href="{{ route('admin.basketing-kelas', ['race_id' => $race->id, 'id' => $pos->id, 'kelas_id' => $item->id]) }}">
+                        {{ $item->nama_kelas }}
+                      </a>
+                    @endempty
                   </li>
                   @endforeach
                 </ul>
@@ -63,7 +72,7 @@
                       <table class="table table-striped" id="table-1">
                           <thead>
                             <tr class="text-center bg-dark">
-                              <th class="text-white" colspan="6">Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }} - {{ $kelas->nama_kelas }}</th>
+                              <th class="text-white" colspan="7">Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
                             </tr>
                             <tr class="bg-warning">
                                 <th style="width: 5%;" class="text-white">No</th>
@@ -72,6 +81,7 @@
                                 <th class="text-white">Jenis Kelamin</th>
                                 <th class="text-white">Nama Peserta / Loft</th>
                                 <th style="width: 5%;" class="text-white">Validasi</th>
+                                <th class="text-white">No. Stiker</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -92,6 +102,7 @@
                                       </button>
                                     </form>
                                   </td>
+                                  <td></td>
                               </tr>
                               @endforeach
                           </tbody>
@@ -125,18 +136,27 @@
                     [10, 25, 50, "All"]
                 ],
                 buttons: [
-                    { 
-                        extend: 'pdf', 
-                        className: 'btn btn-secondary', 
-                        text: 'PDF',
-                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
-                    },
-                    { 
-                        extend: 'excel', 
-                        className: 'btn btn-secondary', 
-                        text: 'Excel',
-                        messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
-                    },
+                  { 
+                      extend: 'pdf', 
+                      className: 'btn btn-secondary', 
+                      text: 'PDF',
+                      messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                  },
+                  { 
+                      extend: 'excel', 
+                      className: 'btn btn-secondary', 
+                      text: 'Excel',
+                      messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                  },
+                  { 
+                    extend: 'print', 
+                    className: 'btn btn-secondary', 
+                    text: 'Print',
+                    messageTop: 'Data Basketing Pos '+ @JSON($pos->no_pos) + ' - ' + @JSON($pos->city),
+                    exportOptions: {
+                        columns: [0,1,2,3,4,6]
+                    }
+                  },
                 ],
             });
         } );

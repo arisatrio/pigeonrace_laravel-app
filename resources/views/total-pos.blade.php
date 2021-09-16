@@ -70,7 +70,7 @@
                                                 <i class="fas fa-arrow-left"></i>
                                             </a>
                                             <button type="button" class="btn btn-primary">
-                                                TOTAL POS
+                                                TOTAL POS - {{ $race->nama_race }}
                                             </button>
                                             <button type="button" class="btn btn-info text-white">
                                                 {{ $kelas->nama_kelas }}
@@ -107,7 +107,7 @@
                                                       <th rowspan="2" class="bg-info text-white">Kota</th>
                                                       <th rowspan="2" class="bg-info text-white">No. Ring</th>
                                                       @foreach ($race->pos as $item)
-                                                      <th rowspan="1" colspan="@if($totalPos === 1) 2 @else {{$totalPos}} @endif" class="bg-success text-center text-white">{{ $item->city }}</th>
+                                                      <th rowspan="1" colspan="2" class="bg-success text-center text-white">{{ $item->city }}</th>
                                                       @endforeach
                                                       <th rowspan="2" class="bg-warning text-white">Clock</th>
                                                       <th rowspan="2" class="bg-warning text-white" style="width: 5%;">Kecepatan Rata-rata</th>

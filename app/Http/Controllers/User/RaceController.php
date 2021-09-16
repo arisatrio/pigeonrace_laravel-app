@@ -53,10 +53,11 @@ class RaceController extends Controller
 
     public function posRank($id)
     {
-        $pos = RacePos::with('clock')->find($id);
-        $rank = $pos->clock()->orderBy('race_clocks.velocity', 'DESC')->get();
+        $pos = RacePos::with(['clock' => function ($q) {
+            $q->orderBy('race_clocks.velocity');
+        }])->find($id);
 
-        return view('user.riwayat-pos-rank', compact('pos', 'rank'));
+        return view('user.riwayat-pos-rank', compact('pos'));
     }
 
     public function totalPos($race_id)

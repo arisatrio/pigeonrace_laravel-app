@@ -19,6 +19,12 @@
                       <i class="fas fa-home"></i> 
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white btn-danger btn-sm btn-icon mr-2" href="{{ route('user.pos-rank', $pos->id) }}">
+                        <i class="fas fa-flag-checkered"></i>
+                        Cek Hasil Race
+                    </a>
+                </li>
             </ul>
 
             @if (session('messages'))
@@ -90,52 +96,52 @@
                 </div>
                 <div class="collapse" id="basketing">
                     <div class="card-body">
-                        @if (auth()->user()->burung->count() === 0)
+                        @if ($user->burung->count() === 0)
                             <div class="alert alert-danger alert-dismissible">
                                 Silahkan tambah data Burung untuk mendaftarkan burung ke Basketing.
                             </div>
                         @else
-                        @if ($now->lessThan($pos->tgl_lepasan))
-                        <form action="{{ route('user.store-basketing', $pos->id) }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label>Tambah Burung Basketing</label>
-                                <select name="burung_id" class="form-control select2" id="burung" required>
-                                    <option selected disabled>--Pilih Burung--</option>
-                                    @foreach (auth()->user()->burung as $item)
-                                    <option value="{{ $item->id }}">{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}-{{ $item->warna }}-{{ $item->jenkel }}</option>
-                                    @endforeach 
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <select name="kelas_id" class="form-control select2" id="kelas" required>
-                                    <option selected disabled>--Pilih Kelas--</option>
-                                    @foreach ($pos->race->kelas as $item)
-                                    <option value="{{ $item->id }}">{{ $item->nama_kelas }}</option>
-                                    @endforeach 
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-success btn-icon float-right mb-4" id="btn" hidden>Tambah Burung</button>
-                            </div>
-                        </form>
-                        @endif
-                        
-                        <br><br>
-                        <hr>
+                            @if ($now->lessThan($pos->tgl_lepasan))
+                            <form action="{{ route('user.store-basketing', $pos->id) }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label>Tambah Burung Basketing</label>
+                                    <select name="burung_id" class="form-control select2" id="burung" required>
+                                        <option selected disabled>--Pilih Burung--</option>
+                                        @foreach ($user->burung as $item)
+                                        <option value="{{ $item->id }}">{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}-{{ $item->warna }}-{{ $item->jenkel }}</option>
+                                        @endforeach 
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select name="kelas_id" class="form-control select2" id="kelas" required>
+                                        <option selected disabled>--Pilih Kelas--</option>
+                                        @foreach ($pos->race->kelas as $item)
+                                        <option value="{{ $item->id }}">{{ $item->nama_kelas }}</option>
+                                        @endforeach 
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-success btn-icon float-right mb-4" id="btn" hidden>Tambah Burung</button>
+                                </div>
+                            </form>
+                            @endif
+                            
+                            <br><br>
+                            <hr>
 
-                        <span class="mb-2"><b>Total Burung Basketing : </b>{{ $pos->basketing->count() }}</span>
+                            <span class="mb-2"><b>Total Burung Basketing : </b>{{ $burungBasketing->count() }}</span>
 
-                        @foreach ($pos->basketing as $burung)
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                {{ Helper::noRing($burung->club->nama_club, $burung->tahun, $burung->no_ring) }}-{{ $burung->warna }}-{{ $burung->jenkel }}
-                                @foreach ($burung->basketingKelas as $item)
-                                <span class="badge badge-info">{{$item->nama_kelas}}</span>
-                                @endforeach
-                            </li>
-                        </ul>
-                        @endforeach
+                            @foreach ($burungBasketing as $burung)
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    {{ Helper::noRing($burung->club->nama_club, $burung->tahun, $burung->no_ring) }}-{{ $burung->warna }}-{{ $burung->jenkel }}
+                                    @foreach ($burung->basketingKelas as $item)
+                                    <span class="badge badge-info">{{$item->nama_kelas}}</span>
+                                    @endforeach
+                                </li>
+                            </ul>
+                            @endforeach
 
                         @endif
                     </div>
@@ -192,7 +198,7 @@
                         <p class="mb-0"><b>Koordinat :</b></p>
                         <p>{{ $pos->latitude }}, {{ $pos->longitude }}</p>
                         <p class="mb-0"><b>Jarak Pos ke Kandang</b> :</p>
-                        <p>{{ Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $pos->latitude, $pos->longitude) }} KM</p>
+                        <p>{{ Helper::calculateDistance($user->latitude, $user->longitude, $pos->latitude, $pos->longitude) }} KM</p>
                         @include('components.maps')
                         @push('js_script')
                         <script>
