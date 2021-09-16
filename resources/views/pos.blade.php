@@ -135,19 +135,19 @@
                                                         <td>{{ $item->clock->no_stiker}}</td>
                                                         <td>
                                                           <span class="badge 
-                                                            @empty($item->status)
+                                                            @empty($item->clock->status)
                                                             badge-warning
                                                             @endempty
-                                                            @if($item->status === 'TIDAK SAH') 
+                                                            @if($item->clock->status === 'TIDAK SAH') 
                                                             badge-danger  
-                                                            @elseif($item->status === 'SAH')
+                                                            @elseif($item->clock->status === 'SAH')
                                                             badge-success
                                                             @endif
                                                             ">
-                                                            @empty($item->status)
+                                                            @empty($item->clock->status)
                                                             Belum Validasi
                                                             @endempty
-                                                            {{ $item->status }}
+                                                            {{ $item->clock->status }}
                                                           </span>
                                                         </td>
                                                     </tr>
