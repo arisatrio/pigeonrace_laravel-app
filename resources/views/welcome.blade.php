@@ -49,7 +49,7 @@
     </section>
 
     <!-- App features section-->
-    <section id="features">
+    {{-- <section id="features">
         <div class="container px-5">
             <div class="row gx-5 align-items-center">
                 <div class="col-lg-12 order-lg-1 mb-5 mb-lg-0">
@@ -84,7 +84,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Footer-->
     <footer class="bg-black text-center py-5">
