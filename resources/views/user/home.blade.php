@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="article-details">
-                    <small><b> {{ $item->tgl_race->diffForHumans() }} </b></small>
+                    <small><b> {{ $item->tgl_race->format('d F Y') }} </b></small>
                     <p>{{ $item->deskripsi }}</p>
                     <div class="article-cta">
                         <a href="{{ route('user.race-mode', $item->id) }}" class="btn btn-lg btn-primary">Buka</a>
