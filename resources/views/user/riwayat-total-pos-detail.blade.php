@@ -10,7 +10,7 @@
 
             <ul class="nav nav-pills mb-3">
                 <li class="nav-item">
-                    <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#">
+                    <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('user.riwayat-pos', $race->id) }}">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </li>
@@ -76,10 +76,3 @@
     </div>
 </div>
 @endsection
-@push('js_script')
-    <script>
-        function goBack() {
-          window.history.back();
-        }
-    </script>
-@endpush

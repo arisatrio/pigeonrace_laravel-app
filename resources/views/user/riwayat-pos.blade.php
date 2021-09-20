@@ -31,7 +31,12 @@
             @endif
 
             @foreach ($race->pos as $item)
-            <a href="{{ route('user.pos-rank', $item->id) }}" class="btn btn-success btn-block btn-lg text-white"><h6 class="mb-0">POS {{ $item->no_pos }} - {{ $item->city }}</h6></a>
+            <a href="{{ route('user.basketing-pos', $item->id) }}" class="btn btn-warning btn-block btn-lg text-white"><h6 class="mb-0">
+                Basketing POS {{ $item->no_pos }} - {{ $item->city }}
+            </h6></a>
+            <a href="{{ route('user.pos-rank', $item->id) }}" class="btn btn-success btn-block btn-lg text-white"><h6 class="mb-0">
+                POS {{ $item->no_pos }} - {{ $item->city }}
+            </h6></a>
             @endforeach
             <a href="{{ route('user.total-pos', $race->id) }}" class="btn btn-danger btn-block btn-lg text-white"><h6 class="mb-0">TOTAL POS</h6></a>
 

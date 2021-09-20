@@ -60,7 +60,7 @@
                   <div class="tab-pane fade active show">
 
                     
-                    <table class="table table-striped" id="table-1">
+                    <table class="table table-striped display-nowrap" cellspacing="0" width="100%" id="table-1">
                         <thead>
                           <tr class="text-center bg-dark">
                             <th colspan="9" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
@@ -73,6 +73,12 @@
                               <th rowspan="2" class="text-white">Stiker</th>
                               <th rowspan="2" class="text-white">Status</th>
                               <th rowspan="2" style="width: 10%;" class="text-white">Action</th>
+                              <th rowspan="2" class="text-white none">Jarak</th>
+                              <th rowspan="2" class="text-white none">Tanggal</th>
+                              <th rowspan="2" class="text-white none">H</th>
+                              <th rowspan="2" class="text-white none">Jam</th>
+                              <th rowspan="2" class="text-white none">Waktu Terbang</th>
+                              <th rowspan="2" class="text-white none">Kecepatan</th>
                             </tr>
                             <tr class="bg-info">
                               <th class="text-white">No. Ring</th>
@@ -132,6 +138,12 @@
                                   </div>
                                   @endempty
                                 </td>
+                                <td>{{$item->clock->distance}} KM</td>
+                                <td>{{$item->clock->arrival_date->format('d/m/Y')}}</td>
+                                <td>+{{$item->clock->arrival_day}}</td>
+                                <td>{{$item->clock->arrival_clock->format('H:i:s')}}</td>
+                                <td>{{$item->clock->flying_time}}</td>
+                                <td>{{$item->clock->velocity}} (M/Menit)</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -159,6 +171,7 @@
         $(document).ready(function() {
             var race = @JSON($pos->race->nama_race);
             $('#table-1').DataTable({
+              responsive: true,
               dom: 'lBfrtip',
                 lengthMenu: [
                     [10, 25, 50, -1],

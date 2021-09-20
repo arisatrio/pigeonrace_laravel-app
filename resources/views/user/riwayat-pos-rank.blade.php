@@ -6,11 +6,11 @@
 </div>
 <div class="section-body">
     <div class="row">
-        <div class="col">
+        <div class="col-12">
 
             <ul class="nav nav-pills mb-3">
                 <li class="nav-item">
-                    <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#home3">
+                    <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('user.riwayat-pos', $pos->race->id) }}">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </li>
@@ -19,24 +19,36 @@
                       <i class="fas fa-home"></i> 
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white btn-success btn-sm btn-icon mr-2" href="{{ route('user.basketing-pos', $pos->id) }}">
+                        POS {{$pos->no_pos}} - {{$pos->city}}
+                    </a>
+                </li>
             </ul>
-
-            @if (session('messages'))
-            <div class="alert alert-success alert-dismissible">
-                {{ session('messages') }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            @endif
 
             <div class="card">
                 <div class="card-body">
 
-                    <table class="table table-striped display" cellspacing="0" width="100%" id="table-1">
+                    <ul class="nav nav-pills mb-3">
+                        @foreach ($pos->race->kelas as $item)
+                        <li class="nav-item">
+                            <a class="nav-link text-white 
+                            @if ($item->id === $kelas->id)
+                            btn-info
+                            @else
+                            btn-secondary
+                            @endif 
+                            btn-sm btn-icon mr-2" href="{{ route('user.pos-kelas-rank', ['id' => $pos->id, 'kelas_id' => $item->id]) }}">
+                              {{$item->nama_kelas}}
+                            </a>
+                        </li>           
+                        @endforeach
+                    </ul>
+
+                    <table class="table table-striped display-nowrap" cellspacing="0" width="100%" id="table-1">
                         <thead>
                             <tr class="text-center bg-dark">
-                                <th colspan="9" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }}</th>
+                                <th colspan="9" class="text-white">Pos {{ $pos->no_pos }} - {{ $pos->city }} - {{$kelas->nama_kelas}}</th>
                             </tr>
                             <tr class="bg-info">
                                 <th class="bg-danger text-white all" style="width: 2%;">Rank</th>
@@ -85,6 +97,11 @@
 @endsection
 @push('css_script')
     @include('layouts.datatable-css-assets')
+    <style>
+        .main-sidebar{
+            left: -250px !important;
+        }
+    </style>
 @endpush
 @push('js_script')
     @include('layouts.datatable-js-assets')
@@ -94,8 +111,5 @@
                 responsive: true,
             });
         });
-        function goBack() {
-          window.history.back();
-        }
     </script>
 @endpush

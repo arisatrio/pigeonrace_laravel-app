@@ -14,6 +14,20 @@ use App\Models\RacePos;
 
 class UserHomeController extends Controller
 {
+    
+    public function joinRace($race_id)
+    {
+        $race = Race::find($race_id);
+        $user = auth()->user();
+
+        if (!$race->join->contains($user)) {
+            $race->join()->attach($user, ['status' => 1]);
+        }
+
+        return redirect()->route('user.home')->with('messages', 'Anda telah mengikuti race');
+    }
+
+    
     public function home()
     {
         $race = Race::where('status', 'AKTIF')->whereDoesntHave('join', function ($query){

@@ -8,6 +8,7 @@ use App\Helper\Helper;
 
 use App\Models\Burung;
 use App\Models\Race;
+use App\Models\RaceKelas;
 use App\Models\RacePos;
 use App\Models\ClockModel;
 
@@ -51,13 +52,43 @@ class RaceController extends Controller
         return view('user.riwayat-pos', compact('race'));
     }
 
-    public function posRank($id)
+    public function basketingPos($id)
     {
-        $pos = RacePos::with(['clock' => function ($q) {
-            $q->orderBy('race_clocks.velocity');
+        $pos = RacePos::with(['basketing' => function ($q) {
+            $q->with(['user', 'club'])->groupBy('burung_id')->orderBy('user_id');
         }])->find($id);
 
-        return view('user.riwayat-pos-rank', compact('pos'));
+        return view('user.riwayat-basketing-pos', compact('pos'));
+    }
+
+    public function basketingKelas($id, $kelas_id)
+    {
+        $kelas = RaceKelas::find($kelas_id);
+        $pos = RacePos::with(['basketing' => function ($q) use($kelas) {
+            $q->with(['user', 'club'])->where('race_kelas_id', $kelas->id)->groupBy('burung_id')->orderBy('user_id');
+        }])->find($id);
+
+        return view('user.riwayat-basketing-kelas', compact('pos', 'kelas'));
+    }
+
+    public function posRank($id)
+    {
+        $kelas = RaceKelas::first();
+        $pos = RacePos::with(['clock' => function ($q) use($kelas) {
+            $q->with('user', 'club')->where('race_kelas_id', $kelas->id)->orderByDesc('velocity');
+        }])->find($id);
+
+        return view('user.riwayat-pos-rank', compact('pos', 'kelas'));
+    }
+
+    public function posKelasRank($id, $kelas_id)
+    {
+        $kelas = RaceKelas::find($kelas_id);
+        $pos = RacePos::with(['clock' => function ($q) use($kelas) {
+            $q->with('user', 'club')->where('race_kelas_id', $kelas->id)->orderByDesc('velocity');
+        }])->find($id);
+
+        return view('user.riwayat-pos-rank', compact('pos', 'kelas'));
     }
 
     public function totalPos($race_id)
@@ -94,51 +125,5 @@ class RaceController extends Controller
         }, 'user', 'club'])->find($burung_id);
 
         return view('user.riwayat-total-pos-detail', compact('race', 'burung'));
-    }
-
-    public function joinRace($race_id)
-    {
-        $race = Race::find($race_id);
-        $user = auth()->user();
-
-        if (!$race->join->contains($user)) {
-            $race->join()->attach($user, ['status' => 1]);
-        }
-
-        return redirect()->route('user.home')->with('messages', 'Anda telah mengikuti race');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

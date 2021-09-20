@@ -28,33 +28,23 @@
                                 TOTAL POS - {{ $race->nama_race }}
                             </button>
                         </li>
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-info text-white">
-                                {{ $kelas->nama_kelas }}
-                            </button>
-                        </li>
                     </ul>
-                    
-                    @if (session('messages'))
-                    <div class="alert alert-success alert-dismissible">
-                        {{ session('messages') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    @endif
-                    
-                    <div class="row mb-4">
-                        <div class="col">
-                            @foreach ($race->kelas as $item)
-                            @if ($item->id !== $kelas->id)
-                            <a class="btn btn-info text-white" href="{{ route('admin.total-pos-kelas', ['race_id' => $race->id, 'kelas_id' => $item->id]) }}">
-                                {{ $item->nama_kelas }}
-                            </a>
-                            @endif
-                            @endforeach
-                        </div>
-                    </div>
+
+                    <ul class="nav nav-pills mb-3">
+                        @foreach ($race->kelas as $item)
+                            <li class="nav-item">
+                                <a class="nav-link btn 
+                                @if ($item->id === $kelas->id)
+                                btn-info
+                                @else
+                                btn-secondary
+                                @endif
+                                text-white mr-2" href="{{ route('admin.total-pos-kelas', ['race_id' => $race->id, 'kelas_id' => $item->id]) }}">
+                                    {{ $item->nama_kelas }}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
 
 
                   <table class="table table-striped" id="table-1">
@@ -85,31 +75,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @foreach ($coll as $item)
-                        <tr>
-                            <td class="text-center">{{$loop->iteration}}</td> 
-                            <td>{{ $item->user->name }}</td>
-                            <td>{{ $item->user->city }}</td>
-                            <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
-                            @foreach ($item->clock as $key => $pos)
-                                @if ($key+1 !== $pos->no_pos)
-                                <td class="bg-danger"></td>
-                                <td class="bg-danger"></td>
-                                <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
-                                <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
-                                @elseif($item->clock->count() < $totalPos)
-                                <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
-                                <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
-                                <td class="bg-danger"></td>
-                                @else
-                                <td class="text-center"><b>{{ $pos->clock->velocity }} M/Menit</b></td>
-                                <td class="text-center">{{ Helper::getRankInPos($pos->clock->race_pos_id, $pos->clock->burung_id) }}</td>
-                                @endif
-                            @endforeach
-                            <td class="text-center">{{ $item->clock->count() }}</td>
-                            <td class="text-center"><b>{{ Helper::getAvgSpeed($item->clock) }} M/Menit</b></td>
-                        </tr>
-                        @endforeach --}}
                         @foreach ($basketing as $item)
                             <tr>
                                 <td class="text-center"></td> 

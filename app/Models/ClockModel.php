@@ -14,7 +14,7 @@ class ClockModel extends Model
 
     public function getRankAttribute()
     {
-        $collection = collect(ClockModel::orderBy('velocity', 'DESC')->get());
+        $collection = collect(ClockModel::where('race_kelas_id', $this->race_kelas_id)->orderBy('velocity', 'DESC')->get());
         $data       = $collection->where('id', $this->id);
         $value      = $data->keys()->first() + 1;
         

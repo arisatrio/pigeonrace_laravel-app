@@ -2,7 +2,7 @@
 @section('title', 'Hasil Race')
 @section('content')
 <div class="section-header">
-    <h1>TOTAL POS</h1>
+    <h1>{{ $race->nama_race }}</h1>
 </div>
 <div class="section-body">
     <div class="row">
@@ -10,7 +10,7 @@
 
             <ul class="nav nav-pills mb-3">
                 <li class="nav-item">
-                    <a onclick="goBack()" class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="#">
+                    <a class="nav-link text-white btn-secondary btn-sm btn-icon mr-2" href="{{ route('user.riwayat-pos', $race->id) }}">
                         <i class="fas fa-arrow-left"></i>
                     </a>
                 </li>
@@ -21,12 +21,7 @@
                 </li>
                 <li class="nav-item">
                     <button type="button" class="btn btn-danger text-white mr-2">
-                        TOTAL POS - {{ $race->nama_race }}
-                    </button>
-                </li>
-                <li class="nav-item">
-                    <button type="button" class="btn btn-info text-white">
-                        {{ $kelas->nama_kelas }}
+                        TOTAL POS
                     </button>
                 </li>
             </ul>
@@ -43,15 +38,21 @@
             <div class="card">
                 <div class="card-body">
 
-                    <div class="row mb-4">
-                        <div class="col">
-                            @foreach ($race->kelas as $item)
-                            <a class="btn btn-info text-white" href="{{ route('user.total-pos-kelas', ['race_id' => $race->id, 'kelas_id' => $item->id]) }}">
-                                {{ $item->nama_kelas }}
+                    <ul class="nav nav-pills mb-3">
+                        @foreach ($race->kelas as $item)
+                        <li class="nav-item">
+                            <a class="nav-link text-white 
+                            @if ($item->id === $kelas->id)
+                            btn-info
+                            @else
+                            btn-secondary
+                            @endif 
+                            text-white btn-sm btn-icon mr-2" href="{{ route('user.total-pos-kelas', ['race_id' => $race->id, 'kelas_id' => $item->id]) }}">
+                              {{$item->nama_kelas}}
                             </a>
-                            @endforeach
-                        </div>
-                    </div>
+                        </li>           
+                        @endforeach
+                    </ul>
 
                     <table class="table table-striped display" cellspacing="0" width="100%" id="table-1">
                         <thead>
@@ -103,8 +104,5 @@
                 order: [[2, 'desc'], [4, 'desc']]
             });
         });
-        function goBack() {
-          window.history.back();
-        }
     </script>
 @endpush

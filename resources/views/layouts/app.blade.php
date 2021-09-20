@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 </head>
-<body @if (Auth::user()->isAdmin()) class="sidebar-mini" @endif>
+<body class="sidebar-gone @if (Auth::user()->isAdmin()) sidebar-mini @endif">
     <div id="app">
         <div class="main-wrapper">
 

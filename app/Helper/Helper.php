@@ -116,7 +116,6 @@ class Helper
         if($obj){
             $totalSpeed = 0;
             foreach($obj as $key => $item){
-                dd(self::calculateVelocity($item->distance, $item->flying_time));
                 $totalSpeed += $item->velocity;
             }
 
