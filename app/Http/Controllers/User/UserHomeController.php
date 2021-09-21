@@ -103,7 +103,7 @@ class UserHomeController extends Controller
         $pos = RacePos::find($race_pos_id);
         $burung = Burung::find($request->burung_id);
 
-        if(!$burung->basketing->contains($request->kelas_id)){
+        if($burung->basketing->contains($request->kelas_id)){
             return redirect()->back()->withErrors(['error' => 'Burung sudah dalam kelas Basketing!']);
         } else {
             $pos->basketing()->attach($request->burung_id, ['race_kelas_id' => $request->kelas_id]);
