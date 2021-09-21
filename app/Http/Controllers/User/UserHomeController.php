@@ -101,7 +101,9 @@ class UserHomeController extends Controller
     public function basketingStore($race_pos_id, Request $request)
     {
         $pos = RacePos::find($race_pos_id);
-        $burung = Burung::find($request->burung_id);
+        $burung = Burung::with(['basketing' => function ($q) use($pos) {
+            $q->where('race_pos_id', $pos->id)->first();
+        }])->find($request->burung_id);
 
         if($burung->basketing->contains($request->kelas_id)){
             return redirect()->back()->withErrors(['error' => 'Burung sudah dalam kelas Basketing!']);
