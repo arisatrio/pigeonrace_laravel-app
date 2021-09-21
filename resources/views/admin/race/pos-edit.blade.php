@@ -24,6 +24,20 @@
                     <form action="{{ route('admin.race-pos.update', $pos->id) }}" method="POST">
                         @csrf
                         @method('PUT')
+
+                        <div class="form-group">
+                            <div class="form-group">
+                                @if (!$pos->limit_speed)
+                                <label class="form-label">Limit Hari (H+)</label>
+                                <input type="number" class="form-control" name="limit_day" value="{{$pos->limit_day}}">
+                                @else
+                                <label class="form-label">Limit Speed (M/Menit)</label>
+                                <input type="number" class="form-control" name="limit_speed" value="{{$pos->limit_speed}}">
+                                @endif
+                            </div>
+                        </div>
+
+                        <hr>
                         
                         <div class="form-group">
                             <label for="no_pos">No Pos</label>

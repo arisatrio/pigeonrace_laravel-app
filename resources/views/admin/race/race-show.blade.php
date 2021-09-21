@@ -102,7 +102,7 @@
                                             <th style="width: 5%">No</th>
                                             <th>Tanggal Inkorv</th>
                                             <th>Tanggal Lepasan</th>
-                                            <th>Kota</th>
+                                            <th>Nama Pos</th>
                                             <th>Estimasi Jarak (KM)</th>
                                             <th style="width: 25%">Action</th>
                                         </tr>
