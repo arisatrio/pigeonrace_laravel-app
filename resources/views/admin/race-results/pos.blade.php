@@ -99,23 +99,18 @@
                                 <td><h6>{{ $item->clock->no_stiker}}</h6></td>
                                 <td>
                                   <span class="badge 
-                                    @empty($item->clock->status)
-                                    badge-warning
-                                    @endempty
                                     @if($item->clock->status === 'TIDAK SAH') 
                                     badge-danger  
                                     @elseif($item->clock->status === 'SAH')
                                     badge-success
+                                    @else
+                                    badge-warning
                                     @endif
                                     ">
-                                    @empty($item->clock->status)
-                                    Belum Validasi
-                                    @endempty
                                     {{ $item->clock->status }}
                                   </span>
                                 </td>
                                 <td>
-                                  @empty($item->clock->status)
                                   <div class="row">
                                     <form class="btn" action="{{ route('admin.pos.validasi-post', ['id' => $item->id, 'pos_id' => $pos->id]) }}" method="POST">
                                       @csrf
@@ -136,7 +131,6 @@
                                       </button>
                                     </form>
                                   </div>
-                                  @endempty
                                 </td>
                                 <td>{{$item->clock->distance}} KM</td>
                                 <td>{{$item->clock->arrival_date->format('d/m/Y')}}</td>

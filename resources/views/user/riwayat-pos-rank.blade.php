@@ -71,18 +71,20 @@
                                 </td>
                                 <td>{{ $item->clock->distance }} KM</td>
                                 <td>{{ $item->clock->arrival_clock->format('d/m/Y') }}</td>
-                                <td>{{ $item->clock->arrival_day }}</td>
+                                <td>+{{ $item->clock->arrival_day }}</td>
                                 <td>{{ $item->clock->arrival_clock->format('H:i:s') }}</td>
                                 <td>{{ $item->clock->flying_time }}</td>
                                 <td><b>{{ $item->clock->velocity }} M/Menit</b></td>
                                 <td style="width: 5%;">
-                                    @if ($item->clock->status === null)
-                                        <span class="badge badge-warning">BELUM DIVALIDASI</span>
-                                    @elseif ($item->clock->status === 'SAH')
-                                        <span class="badge badge-success">{{ $item->clock->status}}</span>
-                                    @elseif ($item->clock->status === 'TIDAK SAH')
-                                        <span class="badge badge-danger">{{ $item->clock->status}}</span>
+                                    {{-- <span class="badge
+                                    badge-warning null
+                                    @if ($item->clock->status === 'SAH')
+                                        badge-success
                                     @endif
+                                    ">
+                                        {{$item->clock->status}}
+                                    </span> --}}
+                                    {{$item->clock->status}}
                                 </td>
                             </tr>
                             @endforeach
@@ -97,11 +99,6 @@
 @endsection
 @push('css_script')
     @include('layouts.datatable-css-assets')
-    <style>
-        .main-sidebar{
-            left: -250px !important;
-        }
-    </style>
 @endpush
 @push('js_script')
     @include('layouts.datatable-js-assets')

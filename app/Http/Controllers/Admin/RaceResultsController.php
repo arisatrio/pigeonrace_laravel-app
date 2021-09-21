@@ -90,7 +90,7 @@ class RaceResultsController extends Controller
             $q->with('club', 'user');
         }])->find($id);
 
-        $validated = $pos->clock()->where('race_clocks.status', null)->count();
+        $validated = $pos->clock()->where('race_clocks.status', 'BELUM VALIDASI')->count();
 
         return view('admin.race-results.pos', compact('pos', 'validated'));
     }

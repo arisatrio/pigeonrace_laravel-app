@@ -75,7 +75,7 @@ class RaceController extends Controller
     {
         $kelas = RaceKelas::first();
         $pos = RacePos::with(['clock' => function ($q) use($kelas) {
-            $q->with('user', 'club')->where('race_kelas_id', $kelas->id)->orderByDesc('velocity');
+            $q->with('user', 'club')->where('race_kelas_id', $kelas->id)->where('status', '!=', 'TIDAK SAH')->orWhereNull('status')->orderByDesc('velocity');
         }])->find($id);
 
         return view('user.riwayat-pos-rank', compact('pos', 'kelas'));
@@ -85,7 +85,7 @@ class RaceController extends Controller
     {
         $kelas = RaceKelas::find($kelas_id);
         $pos = RacePos::with(['clock' => function ($q) use($kelas) {
-            $q->with('user', 'club')->where('race_kelas_id', $kelas->id)->orderByDesc('velocity');
+            $q->with('user', 'club')->where('race_kelas_id', $kelas->id)->where('status', '!=', 'TIDAK SAH')->orWhereNull('status')->orderByDesc('velocity');
         }])->find($id);
 
         return view('user.riwayat-pos-rank', compact('pos', 'kelas'));
