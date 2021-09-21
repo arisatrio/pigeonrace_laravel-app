@@ -17,6 +17,8 @@ class RacePos extends Model
         'tgl_lepasan',
         'close_time',
         'restart_time',
+        'limit_day',
+        'limit_speed',
         'city',
         'latitude',
         'longitude',

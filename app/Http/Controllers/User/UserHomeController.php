@@ -27,7 +27,6 @@ class UserHomeController extends Controller
         return redirect()->route('user.home')->with('messages', 'Anda telah mengikuti race');
     }
 
-    
     public function home()
     {
         $race = Race::where('status', 'AKTIF')->whereDoesntHave('join', function ($query){
@@ -52,7 +51,6 @@ class UserHomeController extends Controller
 
     public function posMode($id)
     {
-
         $pos = RacePos::find($id);
         $user = auth()->user();
         $burung = $user->burung()->with('club');
@@ -80,8 +78,14 @@ class UserHomeController extends Controller
         $jarak = Helper::calculateDistance(auth()->user()->latitude, auth()->user()->longitude, $pos->latitude, $pos->longitude);
         $userLoc = [-Helper::DDMtoDD(auth()->user()->latitude), Helper::DDMtoDD(auth()->user()->longitude)];
         $posLoc = [-Helper::DDMtoDD($pos->latitude), Helper::DDMtoDD($pos->longitude)];
+
+        if(!$pos->limit_speed){
+            $limit = $pos->tgl_lepasan->addDays($pos->limit_day);
+        } else {
+            $limit = Helper::limitBySpeed($jarak, $pos->limit_speed, $pos->tgl_lepasan);
+        }
         
-        return view('user.home-race-pos', compact('pos', 'user', 'burungBasketing', 'burungClock', 'now', 'jarak', 'userLoc', 'posLoc'));
+        return view('user.home-race-pos', compact('pos', 'user', 'burungBasketing', 'burungClock', 'now', 'jarak', 'userLoc', 'posLoc', 'limit'));
     }
 
     public function stopJoin($race_id)

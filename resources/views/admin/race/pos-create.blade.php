@@ -23,6 +23,34 @@
                     
                     <form action="{{ route('admin.race-pos.store') }}" method="POST">
                         @csrf
+
+                        <div class="form-group">
+                            <label class="form-label">Jenis Lomba <span class="text-danger">*</span></label>
+                            <div class="selectgroup w-100">
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="value" class="selectgroup-input" id="marathon">
+                                    <span class="selectgroup-button">Marathon</span>
+                                </label>
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="value" class="selectgroup-input" id="drag">
+                                    <span class="selectgroup-button">Drag</span>
+                                </label>
+                            </div>
+                            <div class="w-100" id="limit_day" hidden>
+                                <div class="form-group">
+                                    <label class="form-label">Limit Hari (H+)</label>
+                                    <input type="number" class="form-control" name="limit_day">
+                                </div>
+                            </div>
+                            <div class="w-100" id="limit_speed" hidden>
+                                <div class="form-group">
+                                    <label class="form-label">Limit Speed (M/Menit)</label>
+                                    <input type="number" class="form-control" name="limit_speed">
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
                         
                         <div class="form-group">
                             <label for="no_pos">No Pos</label>
@@ -64,9 +92,6 @@
                             </div>
                         </div>
 
-                        {{-- Select2 City --}}
-                        {{-- @include('components.select-city') --}}
-
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -98,11 +123,23 @@
 @endsection
 @push('js_script')
 <script>
-    $("#longitude").inputmask({
-        mask: "99[9]° 99.999'",
-    });
-    $("#latitude").inputmask({
-        mask: "99° 99.999'",
+    $(document).ready(function() {
+
+        $("#longitude").inputmask({
+            mask: "99[9]° 99.999'",
+        });
+        $("#latitude").inputmask({
+            mask: "99° 99.999'",
+        });
+
+        $('#marathon').change(function() {
+            $('#limit_day').prop('hidden', false);
+            $('#limit_speed').prop('hidden', true);
+        });
+        $('#drag').change(function() {
+            $('#limit_day').prop('hidden', true);
+            $('#limit_speed').prop('hidden', false);
+        });
     });
 </script>
 @endpush

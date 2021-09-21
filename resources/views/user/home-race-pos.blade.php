@@ -47,6 +47,8 @@
             </div>
             @endif
 
+            @if ($now->lessThan($limit))
+            {{-- CLOCK --}}
             <div class="card">
                 <div class="card-header">
                     <h4>Clock</h4>
@@ -228,6 +230,11 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="alert alert-success alert-dismissible">
+                Race telah selesai.
+            </div>  
+            @endif
 
         </div>
     </div>

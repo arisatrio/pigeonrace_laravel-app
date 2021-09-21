@@ -67,6 +67,22 @@ class Helper
         return $fly->locale('id')->isoFormat('LLLL');
     }
 
+    public static function limitBySpeed($jarak, $speed, $start_time)
+    {
+        $waktu = ($jarak * 1000) / $speed; // in minute
+        $dayFly = round($waktu / 720);
+        if($waktu > 720 && $waktu <= 1440){
+            $waktu += 720;
+        } else if($waktu > 1440){
+			$waktu += (720 * $dayFly);
+		} else {
+            $waktu = $waktu;
+        }
+        $fly = Carbon::parse($start_time)->addMinutes($waktu);
+
+        return $fly;
+    }
+
     public static function calculateVelocity($jarak, $waktu)
     {
         $waktu = CarbonInterval::fromString($waktu);
