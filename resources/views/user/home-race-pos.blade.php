@@ -47,44 +47,50 @@
             </div>
             @endif
 
-            @if ($now->lessThan($limit))
+            
             {{-- CLOCK --}}
             <div class="card">
                 <div class="card-header">
                     <h4>Clock</h4>
                 </div>
                 <div class="card-body">
-                    @if ($now->greaterThanOrEqualTo($pos->tgl_lepasan))
-                    <p class="mb-0 text-center">Waktu Terbang</p>
-                    <h2 id="span" class="text-center mb-4"></h2>
-                    <p class="mb-0"><b>Tanggal dan Jam Lepasan</b> :</p>
-                    <p>{{ $pos->tgl_lepasan->isoFormat('LLLL') }}</p>
-                    <p class="mb-0"><b>Close Time</b></p>
-                    <p>{{ $pos->close_time->format('H:i') }}</p>
-                    <p class="mb-0"><b>Re Start Time</b></p>
-                    <p>{{ $pos->restart_time->format('H:i') }}</p>
+                    @if ($now->lessThan($limit))
+                        @if ($now->greaterThanOrEqualTo($pos->tgl_lepasan))
+                        <p class="mb-0 text-center">Waktu Terbang</p>
+                        <h2 id="span" class="text-center mb-4"></h2>
+                        <p class="mb-0"><b>Tanggal dan Jam Lepasan</b> :</p>
+                        <p>{{ $pos->tgl_lepasan->isoFormat('LLLL') }}</p>
+                        <p class="mb-0"><b>Close Time</b></p>
+                        <p>{{ $pos->close_time->format('H:i') }}</p>
+                        <p class="mb-0"><b>Re Start Time</b></p>
+                        <p>{{ $pos->restart_time->format('H:i') }}</p>
 
-                    <form action="{{ route('user.store-clock', $pos->id) }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <select name="burung_id" class="form-control select2" required id="clock">
-                                <option selected disabled>--Pilih Burung Clock--</option>
-                                @foreach ($burungClock as $item)
-                                    <option value="{{ $item->id }}">{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}-{{ $item->warna }}-{{ $item->jenkel }}</option>
-                                @endforeach
-                            </select>
+                        <form action="{{ route('user.store-clock', $pos->id) }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <select name="burung_id" class="form-control select2" required id="clock">
+                                    <option selected disabled>--Pilih Burung Clock--</option>
+                                    @foreach ($burungClock as $item)
+                                        <option value="{{ $item->id }}">{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}-{{ $item->warna }}-{{ $item->jenkel }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group" id="no_stiker" hidden>
+                                <label for="no_stiker">No Stiker</label>
+                                <input type="text" name="no_stiker" class="form-control" required>
+                            </div>
+                            <input type="hidden" name="flying_time" id="flying_time">
+                            <input type="hidden" name="fly" id="fly">
+                            <button class="btn btn-success btn-icon float-right mt-2 mb-3" id="btn-clock" hidden>Input Angka</button>
+                        </form>
+                        @else
+                        <div class="alert alert-danger alert-dismissible">
+                            Clock belum dibuka
                         </div>
-                        <div class="form-group" id="no_stiker" hidden>
-                            <label for="no_stiker">No Stiker</label>
-                            <input type="text" name="no_stiker" class="form-control" required>
-                        </div>
-                        <input type="hidden" name="flying_time" id="flying_time">
-                        <input type="hidden" name="fly" id="fly">
-                        <button class="btn btn-success btn-icon float-right mt-2 mb-3" id="btn-clock" hidden>Input Angka</button>
-                    </form>
+                        @endif
                     @else
-                    <div class="alert alert-danger alert-dismissible">
-                        Clock belum dibuka
+                    <div class="alert alert-success alert-dismissible">
+                        Race telah selesai.
                     </div>
                     @endif
                 </div>
@@ -230,11 +236,6 @@
                     </div>
                 </div>
             </div>
-            @else
-            <div class="alert alert-success alert-dismissible">
-                Race telah selesai.
-            </div>  
-            @endif
 
         </div>
     </div>
