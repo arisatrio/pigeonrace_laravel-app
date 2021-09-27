@@ -29,7 +29,7 @@ class HomeController extends Controller
     
     public function admin()
     {
-        $race = Race::with('pos' , 'join')->where('status', 'AKTIF')->where('status', 'SELESAI')->latest()->first();
+        $race = Race::with('pos' , 'join')->where('status', '!=', 'PENDING')->latest()->first();
         if($race){
             $userLoc = [];
             $posLoc = [];

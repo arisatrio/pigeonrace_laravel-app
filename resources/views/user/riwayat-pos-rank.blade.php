@@ -59,6 +59,7 @@
                                 <th class="text-white none">Jam</th>
                                 <th class="text-white none">Waktu Terbang</th>
                                 <th class="text-white none">Kecepatan</th>
+                                <th class="text-white none" style="width: 5%;">No Stiker</th>
                                 <th class="text-white none" style="width: 5%;">Status</th>
                             </tr>
                         </thead>
@@ -75,17 +76,8 @@
                                 <td>{{ $item->clock->arrival_clock->format('H:i:s') }}</td>
                                 <td>{{ $item->clock->flying_time }}</td>
                                 <td><b>{{ $item->clock->velocity }} M/Menit</b></td>
-                                <td style="width: 5%;">
-                                    {{-- <span class="badge
-                                    badge-warning null
-                                    @if ($item->clock->status === 'SAH')
-                                        badge-success
-                                    @endif
-                                    ">
-                                        {{$item->clock->status}}
-                                    </span> --}}
-                                    {{$item->clock->status}}
-                                </td>
+                                <td style="width: 5%;">{{$item->clock->no_stiker}}</td>
+                                <td style="width: 5%;">{{$item->clock->status}}</td>
                             </tr>
                             @endforeach
                         </tbody>
