@@ -91,8 +91,10 @@ class Helper
     {
         $waktu = CarbonInterval::fromString($waktu);
         $kecepatan = ($jarak * 1000) / $waktu->totalMinutes;
+        $hasil = round($kecepatan,2);
+        $toInt = str_replace('.', '', $hasil);
 
-        return $kecepatan;
+        return $toInt;
     }
 
     public static function birdName($obj, $pemilik)
