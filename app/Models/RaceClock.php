@@ -24,8 +24,8 @@ class RaceClock extends Pivot
 
     protected $dates = ['arrival_date', 'arrival_clock'];
 
-    // public function getVelocityAttribute($value)
-    // {
-    //     return $value.' M/Menit';
-    // }
+    public function getVelocityAttribute($value)
+    {
+        return substr($value, 0, -2).','.substr($value, -2);
+    }
 }

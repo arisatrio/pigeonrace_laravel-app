@@ -10,15 +10,19 @@ class Helper
 {
     public static function DDMtoDD($input)
     {
-        $new = explode("°", $input);
-        $new2 = $new[1];
+        if($input != null){
+            $new = explode("°", $input);
+            $new2 = $new[1];
 
-        $deg = $new[0];
-        $min = rtrim($new[1], " ' ");
-        
-        $dec = $deg+($min/60);
+            $deg = $new[0];
+            $min = rtrim($new[1], " ' ");
+            
+            $dec = $deg+($min/60);
 
-        return number_format($dec, 6);
+            return number_format($dec, 6);
+        } else {
+            return $input;
+        }
     }
 
     public static function jarakDariBunderanWaru($lat, $long)
@@ -88,7 +92,7 @@ class Helper
         $waktu = CarbonInterval::fromString($waktu);
         $kecepatan = ($jarak * 1000) / $waktu->totalMinutes;
 
-        return number_format($kecepatan, 2);
+        return $kecepatan;
     }
 
     public static function birdName($obj, $pemilik)
