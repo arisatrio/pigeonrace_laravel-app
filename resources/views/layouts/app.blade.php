@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 </head>
-<body class="@if (Auth::user()->isAdmin()) sidebar-mini @endif sidebar-gone ">
+<body class="@if (Auth::user()->isUser()) sidebar-gone @endif">
     <div id="app">
         <div class="main-wrapper">
 
@@ -54,15 +54,15 @@
                                 <span>Home</span>
                             </a>
                         </li>
+                        <li class="nav-item @if(Route::currentRouteName()==='user.riwayat-index') active @endif">
+                            <a href="{{ route('user.riwayat-index') }}" class="nav-link"><i class="fas fa-history">
+                                </i><span>Riwayat</span>
+                            </a>
+                        </li>
                         <li class="menu-header">Race</li>
                         <li class="nav-item @if(Route::currentRouteName()==='user.race.index') active @endif">
                             <a href="{{ route('user.race.index') }}" class="nav-link"><i class="fas fa-calendar-alt"></i>
                                 <span>Jadwal Race</span>
-                            </a>
-                        </li>
-                        <li class="nav-item @if(Route::currentRouteName()==='user.riwayat-index') active @endif">
-                            <a href="{{ route('user.riwayat-index') }}" class="nav-link"><i class="fas fa-history">
-                                </i><span>Riwayat</span>
                             </a>
                         </li>
                         <li class="menu-header">Profile</li>
@@ -123,8 +123,14 @@
                         </li>
                         <li class="nav-item @if(Route::currentRouteName()==='admin.club.index') active @endif">
                             <a class="nav-link" href="{{ route('admin.club.index') }}">
-                                <i class="fas fa-users"></i>
+                                <i class="fas fa-database"></i>
                                 <span>Data Club</span>
+                            </a>
+                        </li>
+                        <li class="nav-item @if(Route::currentRouteName()==='admin.warna.index') active @endif">
+                            <a class="nav-link" href="{{ route('admin.warna.index') }}">
+                                <i class="fas fa-database"></i>
+                                <span>Data Warna Burung</span>
                             </a>
                         </li>
                         <li class="nav-item">

@@ -42,6 +42,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'admin'])->name('dashboard');
         //CLUB CRUD
         Route::resource('club', App\Http\Controllers\Admin\ClubController::class)->except(['show']);
+        //WARNA BURUNG CRUD
+        Route::resource('warna', App\Http\Controllers\Admin\WarnaController::class)->except(['show']);
         //HASIL RACE
         Route::get('/race-results', [App\Http\Controllers\Admin\RaceResultsController::class, 'index'])->name('race-results.index');
         Route::get('/race-results/{race_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'show'])->name('race-results.show');

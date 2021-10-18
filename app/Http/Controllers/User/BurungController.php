@@ -8,6 +8,7 @@ use Illuminate\Support\Carbon;
 
 use App\Models\Club;
 use App\Models\Burung;
+use App\Models\BWarna;
 
 class BurungController extends Controller
 {
@@ -34,7 +35,9 @@ class BurungController extends Controller
     {
         $tahun = range(Carbon::now()->year, 2018);
         $club = Club::all();
-        return view('user.burung-create', compact('tahun', 'club'));
+        $warna = BWarna::all();
+
+        return view('user.burung-create', compact('tahun', 'club', 'warna'));
     }
 
     /**

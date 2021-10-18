@@ -24,7 +24,7 @@ class CreateRaceClocksTable extends Migration
             $table->string('arrival_day');
             $table->string('arrival_clock');
             $table->string('flying_time');
-            $table->float('velocity');
+            $table->integer('velocity');
             $table->string('no_stiker');
             $table->string('status')->default('BELUM VALIDASI');
             $table->timestamps();

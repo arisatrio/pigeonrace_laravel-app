@@ -65,19 +65,9 @@
                                     <label for="warna">Pilih Warna</label>
                                     <select name="warna" class="form-control">
                                         <option selected disabled>--Pilih Warna--</option>
-                                        <option value="BB">BB (Megan)</option>
-                                        <option value="BBPD">BBPD (Megan Selap)</option>
-                                        <option value="BC">BC (Tritis)</option>
-                                        <option value="VAL">VAL (Pal)</option>
-                                        <option value="W">W (Putih)</option>
-                                        <option value="SL">SL (Slate)</option>
-                                        <option value="RC">RC (Tritis Merah)</option>
-                                        <option value="BCWP">BCWP (Tritis Slap)</option>
-                                        <option value="ZK">ZK (Tritis Gelap)</option>
-                                        <option value="D">D (Hitam)</option>
-                                        <option value="GZ">GZ (Grizzle)</option>
-                                        <option value="BP">BP (Megan Slap)</option>
-                                        <option value="RED">RED (Merah)</option>
+                                        @foreach ($warna as $item)
+                                        <option value="{{ $item->kode_warna }}">{{$item->kode_warna}} ({{ $item->warna }})</option>
+                                        @endforeach
                                     </select>
                                     @error('warna')
                                     <span class="invalid-feedback" role="alert">

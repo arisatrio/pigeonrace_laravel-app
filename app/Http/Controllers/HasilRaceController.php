@@ -15,9 +15,9 @@ class HasilRaceController extends Controller
 {
     public function index()
     {
-        $race = Race::where('status', 'AKTIF')->orWhere('status', 'SELESAI')->orderBy('tgl_race', 'DESC')->get();
+        // $race = Race::where('status', 'AKTIF')->orWhere('status', 'SELESAI')->orderBy('tgl_race', 'DESC')->get();
 
-        return view('welcome', compact('race'));
+        return view('welcome');
     }
 
     public function show($slug)
