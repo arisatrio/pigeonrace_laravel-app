@@ -28,13 +28,13 @@
                       Basketing Pos {{ $pos->no_pos }} - {{ $pos->city }}
                     </a>
                   </li>
-                  <li class="nav-item">
-                    @isset($kelas)  
-                    <a class="nav-link btn btn-info text-white">
-                      {{ $kelas->nama_kelas }}
-                    </a>
-                    @endisset
-                </li>
+                    <li class="nav-item">
+                      @isset($kelas)  
+                      <a class="nav-link btn btn-info text-white">
+                        {{ $kelas->nama_kelas }}
+                      </a>
+                      @endisset
+                    </li>
                 </ul>
 
                 <ul class="nav nav-pills mb-3">
@@ -55,6 +55,10 @@
                   </li>
                   @endforeach
                 </ul>
+                <button type="submit" class="btn btn-danger btn-sm btn icon mb-2" onclick="event.preventDefault(); document.getElementById('delete').submit();">
+                  <i class="fas fa-times ml-2"></i>
+                  Delete selected data
+                </button>
 
                 @if (session('messages'))
                 <div class="alert alert-success alert-dismissible">
@@ -69,6 +73,10 @@
                   <div class="tab-pane fade active show">
 
                     <div class="table-responsive">
+                      
+                      <form action={{ route('admin.basketing-hapus') }} method="POST" id="delete">
+                        @csrf
+                        @method('delete')
                       <table class="table table-striped" id="table-1">
                           <thead>
                             <tr class="text-center bg-dark">
@@ -81,32 +89,27 @@
                                 <th class="text-white">Jenis Kelamin</th>
                                 <th class="text-white">Nama Peserta / Loft</th>
                                 <th style="width: 5%;" class="text-white">Validasi</th>
-                                <th class="text-white">No. Stiker</th>
                             </tr>
                           </thead>
                           <tbody>
-                              @php $no = 1 @endphp
-                              @foreach($pos->basketing as $item)
-                              <tr>
-                                  <td>{{ $no++ }}</td>
-                                  <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
-                                  <td>{{ $item->warna }}</td>
-                                  <td>{{ $item->jenkel }}</td>
-                                  <td>{{ $item->user->name }}</td>
-                                  <td class="text-center">
-                                    <form action={{ route('admin.basketing-hapus', ['pos_id' => $pos->id, 'id' => $item->id]) }} method="POST">
-                                      @csrf
-                                      @method('delete')
-                                      <button type="submit" class="btn btn-danger btn-sm btn icon">
-                                        <i class="fas fa-times"></i>
-                                      </button>
-                                    </form>
-                                  </td>
-                                  <td></td>
-                              </tr>
-                              @endforeach
+                                @foreach($pos->basketing as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
+                                    <td>{{ $item->warna }}</td>
+                                    <td>{{ $item->jenkel }}</td>
+                                    <td>{{ $item->user->name }}</td>
+                                    <td class="text-center">
+                                      <input type="hidden" name="pos_id" value="{{$pos->id}}">
+                                      <input type="checkbox" class="form-check-input" name="burung[]" value="{{$item->id}}">
+                                    </td>
+                                </tr>
+                                @endforeach
+                              
                           </tbody>
                       </table>
+                      
+                    </form>
                     </div>
 
                   </div>
@@ -129,7 +132,8 @@
     <script>
         $(document).ready(function() {
             var race = @JSON($race->nama_race);
-            $('#table-1').DataTable({
+            var t = $('#table-1').DataTable({
+              "order": [[ 4, 'asc' ]],
               dom: 'lBfrtip',
                 lengthMenu: [
                     [10, 25, 50, -1],
@@ -159,6 +163,11 @@
                   },
                 ],
             });
+            t.on( 'order.dt search.dt', function () {
+              t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                  cell.innerHTML = i+1;
+              } );
+            }).draw();
         } );
     </script>
      <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>

@@ -49,7 +49,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::get('/race-results/{race_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'show'])->name('race-results.show');
         Route::get('/race-results/{race_id}/basketing/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketing'])->name('basketing.index');
         Route::get('/race-results/{race_id}/basketing/{id}/kelas/{kelas_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketingKelas'])->name('basketing-kelas');
-        Route::delete('/race-results/basketing/{pos_id}/delete/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketingHapus'])->name('basketing-hapus');
+
+        Route::delete('/race-results/basketing/delete/', [App\Http\Controllers\Admin\RaceResultsController::class, 'basketingHapus'])->name('basketing-hapus');
+
         Route::get('/race-results/{race_id}/pos/{id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'pos'])->name('pos.index');
         Route::put('/race-results/pos/{id}/validasi/{pos_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posValidasiPost'])->name('pos.validasi-post');
         Route::get('/race-results/{race_id}/pos/{id}/kelas/{kelas_id}', [App\Http\Controllers\Admin\RaceResultsController::class, 'posKelas'])->name('pos.kelas');

@@ -59,7 +59,7 @@ class RaceResultsController extends Controller
     {
         $race   = Race::find($race_id);
         $pos = RacePos::with(['basketing' => function ($q) {
-            $q->with(['user', 'club'])->groupBy('burung_id')->orderBy('user_id');
+            $q->with(['user', 'club'])->groupBy('burung_id');
         }])->find($id);
 
         return view('admin.race-results.basketing', compact('race','pos'));
@@ -76,10 +76,12 @@ class RaceResultsController extends Controller
         return view('admin.race-results.basketing', compact('race','pos', 'kelas'));
     }
 
-    public function basketingHapus($pos_id, $burung_id)
+    public function basketingHapus(Request $request)
     {
-        $pos = RacePos::find($pos_id);
-        $pos->basketing()->detach($burung_id);
+        $ids = $request->input('burung');
+        $pos = RacePos::find($request->pos_id);
+
+        $pos->basketing()->detach($ids);
 
         return redirect()->back()->with('messages', 'Data basketing telah dihapus.');
     }
