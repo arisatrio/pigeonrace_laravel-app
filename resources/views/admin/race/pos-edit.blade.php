@@ -25,7 +25,7 @@
                         @csrf
                         @method('PUT')
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <div class="form-group">
                                 @if (!$pos->limit_speed)
                                 <label class="form-label">Limit Hari (H+)</label>
@@ -34,6 +34,31 @@
                                 <label class="form-label">Limit Speed (M/Menit)</label>
                                 <input type="number" class="form-control" name="limit_speed" value="{{$pos->limit_speed}}">
                                 @endif
+                            </div>
+                        </div> --}}
+                        <div class="form-group">
+                            <label class="form-label">Jenis Lomba <span class="text-danger">*</span></label>
+                            <div class="selectgroup w-100">
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="value" class="selectgroup-input" id="marathon" @if($pos->limit_day) checked @endif>
+                                    <span class="selectgroup-button">Marathon</span>
+                                </label>
+                                <label class="selectgroup-item">
+                                    <input type="radio" name="value" class="selectgroup-input" id="drag" @if($pos->limit_speed) checked @endif>
+                                    <span class="selectgroup-button">Drag</span>
+                                </label>
+                            </div>
+                            <div class="w-100" id="limit_day" @if(!$pos->limit_day) hidden @endif>
+                                <div class="form-group">
+                                    <label class="form-label">Limit Hari (H+)</label>
+                                    <input type="number" class="form-control" name="limit_day" value="{{$pos->limit_day}}">
+                                </div>
+                            </div>
+                            <div class="w-100" id="limit_speed" @if(!$pos->limit_speed) hidden @endif>
+                                <div class="form-group">
+                                    <label class="form-label">Limit Speed (M/Menit)</label>
+                                    <input type="number" class="form-control" name="limit_speed" value="{{$pos->limit_speed}}">
+                                </div>
                             </div>
                         </div>
 
@@ -118,6 +143,16 @@
     });
     $("#latitude").inputmask({
         mask: "99° 99.999'",
+    });
+
+    $('#marathon').change(function() {
+        $('#limit_day').prop('hidden', false);
+        $('#limit_speed').prop('hidden', true);
+    });
+
+    $('#drag').change(function() {
+        $('#limit_day').prop('hidden', true);
+        $('#limit_speed').prop('hidden', false);
     });
 </script>
 @endpush

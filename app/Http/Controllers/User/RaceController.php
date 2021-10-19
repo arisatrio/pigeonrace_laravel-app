@@ -39,7 +39,7 @@ class RaceController extends Controller
     {
         $race = Race::whereHas('join', function ($query) {
             $query->where('user_id', auth()->user()->id);
-        })->get();
+        })->latest()->get();
 
         return view('user.riwayat', compact('race'));
     }

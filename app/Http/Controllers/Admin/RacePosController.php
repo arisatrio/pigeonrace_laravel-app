@@ -59,8 +59,11 @@ class RacePosController extends Controller
             ]
         );
 
+
         $racePos = RacePos::create([
             'race_id'       => $request->race_id,
+            'limit_day'     => $request->limit_day,
+            'limit_speed'   => $request->limit_speed,
             'no_pos'        => $request->no_pos,
             'tgl_inkorv'    => $request->tgl_inkorv,
             'tgl_lepasan'   => $request->tgl_lepasan,
@@ -128,6 +131,8 @@ class RacePosController extends Controller
         $pos = RacePos::find($id);
         $pos->update([
             'race_id'       => $request->race_id,
+            'limit_day'     => $request->limit_day,
+            'limit_speed'   => $request->limit_speed,
             'no_pos'        => $request->no_pos,
             'tgl_inkorv'    => $request->tgl_inkorv,
             'tgl_lepasan'   => $request->tgl_lepasan,

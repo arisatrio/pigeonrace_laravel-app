@@ -147,6 +147,11 @@
                                     @foreach ($burung->basketingKelas as $item)
                                     <span class="badge badge-info">{{$item->nama_kelas}}</span>
                                     @endforeach
+                                    <form action="{{ route('user.hapus-basketing', ['race_pos_id' => $pos->id, 'burung_id' => $burung->id]) }}" method="POST" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" >HAPUS</button>
+                                    </form>
                                 </li>
                             </ul>
                             @endforeach

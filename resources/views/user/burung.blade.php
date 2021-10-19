@@ -25,7 +25,6 @@
                 </div>
                 <div class="card-body">
                     <a href="{{ route('user.burung.create') }}" class="btn btn-success btn-md mb-4" data-toggle="tooltip" title="Tambah Burung"><i class="fas fa-plus"></i> Tambah Burung</a>
-                    {{-- @foreach ($burung as $item) --}}
                     <table class="table table-striped display-nowrap" id="table-1">
                         <thead>
                             <tr>
@@ -48,6 +47,11 @@
                                     <a href="{{ route('user.burung.edit', $item->id) }}" class="btn btn-primary btn-sm">
                                         EDIT
                                     </a>
+                                    <form action="{{ route('user.burung.destroy', $item->id) }}" method="POST" style="display: inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" >HAPUS</button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach

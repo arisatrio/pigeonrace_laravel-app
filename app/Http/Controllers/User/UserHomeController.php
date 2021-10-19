@@ -67,11 +67,7 @@ class UserHomeController extends Controller
         $burungClock = $burung
             ->whereHas('basketing', function ($q) use($pos) {
                 $q->where('race_pos_id', $pos->id);
-            })
-            ->whereDoesntHave('clock', function ($q) use($id) {
-                $q->where('race_pos_id', $id);
-            })
-            ->get();
+            })->get();
 
         // Helper VAR
         $now = Carbon::now();
@@ -111,6 +107,16 @@ class UserHomeController extends Controller
             $pos->basketing()->attach($request->burung_id, ['race_kelas_id' => $request->kelas_id]);
             return redirect()->back()->with('messages', 'Burung telah ditambahkan ke dalam Basketing');
         }
+    }
+
+    public function basketingHapus($pos_id, $id)
+    {
+        $burung = Burung::find($id);
+        $pos = RacePos::find($pos_id);
+
+        $burung->basketing()->detach($pos);
+
+        return redirect()->back()->with('messages', 'Data basketing telah dihapus.');
     }
 
     public function clockStore($race_pos_id, Request $request)

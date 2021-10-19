@@ -107,6 +107,7 @@ Route::middleware(['auth', 'user'])->group(function () {
         Route::get('/home/race/pos/{id}', [App\Http\Controllers\User\UserHomeController::class, 'posMode'])->name('pos-mode');
         Route::post('/race/{id}/', [App\Http\Controllers\User\UserHomeController::class, 'stopJoin'])->name('stop-join');
         Route::post('/race/basketing/{race_pos_id}/', [App\Http\Controllers\User\UserHomeController::class, 'basketingStore'])->name('store-basketing');
+        Route::delete('/race/basketing/{race_pos_id}/{burung_id}', [App\Http\Controllers\User\UserHomeController::class, 'basketingHapus'])->name('hapus-basketing');
         Route::post('/race/clock/{race_pos_id}/', [App\Http\Controllers\User\UserHomeController::class, 'clockStore'])->name('store-clock');
     });
 });

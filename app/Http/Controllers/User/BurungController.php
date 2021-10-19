@@ -123,7 +123,12 @@ class BurungController extends Controller
      */
     public function destroy(Burung $burung)
     {
-        $burung->delete();
+        //kalau burung pernah clock maka softdeletes kalau tidak permanent delete
+        if($burung->clock()->exists()) {
+            $burung->delete();
+        } else {
+            $burung->forceDelete();
+        };
 
         return redirect()->route('user.burung.index')->with('messages', 'Data Burung Berhasil Dihapus');
     }

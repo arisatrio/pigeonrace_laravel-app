@@ -56,7 +56,6 @@
                                 <th class="text-white none">Jarak</th>
                                 <th class="text-white none">Clock</th>
                                 <th class="text-white none">H</th>
-                                {{-- <th class="text-white none">Jam</th> --}}
                                 <th class="text-white none">Waktu Terbang</th>
                                 <th class="text-white none">Kecepatan</th>
                                 <th class="text-white none">No Stiker</th>
@@ -73,7 +72,6 @@
                                 <td><h6>{{ $item->clock->distance }} KM</h6></td>
                                 <td><h6>{{ $item->clock->arrival_clock->format('d/m/Y') }} {{ $item->clock->arrival_clock->format('H:i:s') }}</h6></td>
                                 <td><h6>+{{ $item->clock->arrival_day }}</h6></td>
-                                {{-- <td>{{ $item->clock->arrival_clock->format('H:i:s') }}</td> --}}
                                 <td><h6>{{ $item->clock->flying_time }}</h6></td>
                                 <td><h6>{{ $item->clock->velocity }} M/Menit</h6></td>
                                 <td><h6>{{$item->clock->no_stiker}}</h6></td>
@@ -105,6 +103,7 @@
             $('#table-1').DataTable({  
                 responsive: true,
             });
+            document.body.classList.add('sidebar-gone');
         });
     </script>
 @endpush
