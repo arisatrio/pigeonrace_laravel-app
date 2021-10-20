@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helper\Helper;
 use DB;
 
+use App\Models\User;
 use App\Models\Burung;
 use App\Models\Race;
 use App\Models\RaceKelas;
@@ -55,18 +56,22 @@ class RaceController extends Controller
 
     public function basketingPos($id)
     {
-        $pos = RacePos::with(['basketing' => function ($q) {
-            $q->with(['user', 'club'])->groupBy('burung_id')->orderBy('user_id');
-        }])->find($id);
+        $pos = RacePos::find($id);
+        $burung = Burung::with('club', 'user')
+        ->join('users', 'burungs.user_id', '=', 'users.id')
+        ->whereHas('basketing', function ($q) use ($id) {
+            $q->where('race_pos_id', $id);
+        })
+        ->orderBy('users.name', 'ASC')->get();
 
-        return view('user.riwayat-basketing-pos', compact('pos'));
+        return view('user.riwayat-basketing-pos', compact('pos', 'burung'));
     }
 
     public function basketingKelas($id, $kelas_id)
     {
         $kelas = RaceKelas::find($kelas_id);
         $pos = RacePos::with(['basketing' => function ($q) use($kelas) {
-            $q->with(['user', 'club'])->where('race_kelas_id', $kelas->id)->groupBy('burung_id')->orderBy('user_id');
+            $q->with(['user', 'club'])->where('race_kelas_id', $kelas->id)->groupBy('burung_id');
         }])->find($id);
 
         return view('user.riwayat-basketing-kelas', compact('pos', 'kelas'));

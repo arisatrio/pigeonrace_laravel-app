@@ -60,6 +60,8 @@
                         <h2 id="span" class="text-center mb-4"></h2>
                         <p class="mb-0"><b>Tanggal dan Jam Lepasan</b> :</p>
                         <p>{{ $pos->tgl_lepasan->isoFormat('LLLL') }}</p>
+                        <p class="mb-0"><b>Limit</b></p>
+                        <p>@if($pos->limit_day) {{$pos->limit_day}} Hari @else {{$pos->limit_speed}} M/Menit @endif</p>
                         <p class="mb-0"><b>Close Time</b></p>
                         <p>{{ $pos->close_time->format('H:i') }}</p>
                         <p class="mb-0"><b>Re Start Time</b></p>
@@ -143,7 +145,7 @@
                             @foreach ($burungBasketing as $burung)
                             <ul class="list-group">
                                 <li class="list-group-item">
-                                    {{ Helper::noRing($burung->club->nama_club, $burung->tahun, $burung->no_ring) }}-{{ $burung->warna }}-{{ $burung->jenkel }}
+                                    {{ Helper::noRing($burung->club->nama_club, $burung->tahun, $burung->no_ring) }}-{{ $burung->warna }}-{{ $burung->jenkel }} @if($burung->titipan) / {{$burung->titipan}} @endif
                                     @foreach ($burung->basketingKelas as $item)
                                     <span class="badge badge-info">{{$item->nama_kelas}}</span>
                                     @endforeach
@@ -208,6 +210,8 @@
                         <p>{{ $pos->tgl_inkorv->locale('id')->isoFormat('LLLL') }}</p>
                         <p class="mb-0"><b>Tanggal dan Jam Lepasan</b> :</p>
                         <p>{{ $pos->tgl_lepasan->locale('id')->isoFormat('LLLL') }}</p>
+                        <p class="mb-0"><b>Limit</b></p>
+                        <p>@if($pos->limit_day) {{$pos->limit_day}} Hari @else {{$pos->limit_speed}} M/Menit @endif</p>
                         <p class="mb-0"><b>Koordinat :</b></p>
                         <p>{{ $pos->latitude }}, {{ $pos->longitude }}</p>
                         <p class="mb-0"><b>Jarak Pos ke Kandang</b> :</p>

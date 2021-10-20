@@ -91,7 +91,7 @@
                             @foreach($pos->clock as $item)
                             <tr>
                                 <td>{{ $no++ }}</td>
-                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->user->name }} @if($item->titipan) / {{$item->titipan}} @endif</td>
                                 <td>{{ $item->user->city }}</td>
                                 <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
                                 <td>{{ $item->warna }}</td>

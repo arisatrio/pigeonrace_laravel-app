@@ -98,7 +98,7 @@
                                     <td>{{ Helper::noRing($item->club->nama_club, $item->tahun, $item->no_ring) }}</td>
                                     <td>{{ $item->warna }}</td>
                                     <td>{{ $item->jenkel }}</td>
-                                    <td>{{ $item->user->name }}</td>
+                                    <td>{{ $item->user->name }} @if($item->titipan) / {{$item->titipan}} @endif</td>
                                     <td class="text-center">
                                       <input type="hidden" name="pos_id" value="{{$pos->id}}">
                                       <input type="checkbox" class="form-check-input" name="burung[]" value="{{$item->id}}">

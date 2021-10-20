@@ -63,6 +63,8 @@
                                 <p>{{ $item->tgl_inkorv->locale('id')->isoFormat('LLLL') }}</p>
                                 <p class="mb-0"><b>Tanggal dan Jam Lepasan</b> :</p>
                                 <p>{{ $item->tgl_lepasan->locale('id')->isoFormat('LLLL') }}</p>
+                                <p class="mb-0"><b>Limit</b></p>
+                                <p>@if($pos->limit_day) {{$pos->limit_day}} Hari @else {{$pos->limit_speed}} M/Menit @endif</p>
                                 <p class="mb-0"><b>Biaya Inkorv</b></p>
                                 <p>Rp. {{ number_format($item->biaya_inkorv) }}</p>
                                 <p class="mb-0"><b>Biaya Lomba</b></p>

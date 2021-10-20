@@ -55,7 +55,8 @@ class BurungController extends Controller
                 'no_ring'   => 'required',
                 'warna'     => 'required',
                 'jenkel'     => 'required',
-                'user_id'   => 'required'
+                'user_id'   => 'required',
+                'titipan'   => 'nullable'
             ]
         );
 
@@ -105,7 +106,8 @@ class BurungController extends Controller
                 'tahun'   => 'required',
                 'no_ring'   => 'required',
                 'warna'     => 'required',
-                'user_id'   => 'required'
+                'user_id'   => 'required',
+                'titipan'   => 'nullable'
             ]
         );
 

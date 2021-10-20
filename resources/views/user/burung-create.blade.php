@@ -92,6 +92,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="titip">
+                            <label class="form-check-label" for="flexCheckDefault">
+                              Burung Titipan?
+                            </label>
+                        </div>
+                        <div class="row" id="titipan" hidden>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="titipan" placeholder="Nama">
+                                </div>
+                            </div>
+                        </div>
+                        
                         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                         <button type="submit" class="float-right btn btn-primary">Simpan</button>
                     </form>
@@ -101,3 +115,12 @@
     </div>
 </div>
 @endsection
+@push('js_script')
+    <script>
+        $(document).ready(function() {
+            $('#titip').change(function() {
+                $('#titipan').prop('hidden', false);
+            });
+        });
+    </script>
+@endpush

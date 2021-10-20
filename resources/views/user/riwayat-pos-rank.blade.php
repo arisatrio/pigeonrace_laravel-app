@@ -67,7 +67,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td @if ($item->user->id === auth()->user()->id)  class="bg-primary text-white" @endif>
-                                    {{ Helper::birdName($item, $item->user->name) }}
+                                    {{ Helper::birdName($item, $item->user->name) }} @if($item->titipan) - {{$item->titipan}} @endif
                                 </td>
                                 <td><h6>{{ $item->clock->distance }} KM</h6></td>
                                 <td><h6>{{ $item->clock->arrival_clock->format('d/m/Y') }} {{ $item->clock->arrival_clock->format('H:i:s') }}</h6></td>

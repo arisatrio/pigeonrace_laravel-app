@@ -50,13 +50,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($pos->basketing as $item)
+                            @foreach($burung as $bur)
+                            
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td @if ($item->user->id === auth()->user()->id)  class="bg-primary text-white" @endif>
-                                    {{ Helper::birdName($item, $item->user->name) }}
+                                <td>
+                                    {{$bur->club->nama_club}}{{substr($bur->tahun, -2)}}-{{$bur->no_ring}}-{{$bur->jenkel}}-{{$bur->warna}} / {{$bur->user->name}} @if($bur->titipan) - {{$bur->titipan}} @endif
                                 </td>
                             </tr>
+                            
                             @endforeach
                         </tbody>
                     </table>
