@@ -40,6 +40,7 @@ Route::middleware(['auth', 'superadmin'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function (){
         Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'admin'])->name('dashboard');
+        Route::get('/dashboard/{slug}', [App\Http\Controllers\HomeController::class, 'adminReq'])->name('dashboard-select');
         //CLUB CRUD
         Route::resource('club', App\Http\Controllers\Admin\ClubController::class)->except(['show']);
         //WARNA BURUNG CRUD

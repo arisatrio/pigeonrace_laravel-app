@@ -35,6 +35,8 @@
                 Anda belum setting Koordinat.
             </div>
             @endif
+
+            @if (!auth()->user()->join()->where('races.status', 'AKTIF')->exists())
             <div class="card">
                 <form action="{{ route('user.profile.update', $user->id) }}" method="POST" accept-charset="UTF-8">
                     @csrf
@@ -61,6 +63,12 @@
                     </div>
                 </form>
             </div>
+            @else
+            <div class="alert alert-danger">
+                Anda sedang mengikuti Race Aktif. Tidak dapat mengubah koordinat !
+            </div>
+            @endif
+
         </div>
     </div>
 </div>

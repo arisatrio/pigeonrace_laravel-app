@@ -7,15 +7,27 @@
         <div class="breadcrumb-item">Dashboard</div>
     </div>
 </div>
-@isset($race)
 <div class="section-body">
     <div class="row">
         <div class="col-12">
 
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-primary btn-block dropdown-toggle text-uppercase" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{$selectedRace->nama_race}}
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start">
+                        @foreach ($allRace as $item)
+                            <a class="dropdown-item" href="{{ route('admin.dashboard-select', $item->slug) }}">{{$item->nama_race}}</a>
+                        @endforeach
+                      </div>
+                </div>
+            </div>
+
             <div class="row mb-2">
                 <div class="col-6">
-                    <h2 class="section-title">
-                        {{ $race->nama_race }}
+                    <h2 class="section-title text-uppercase">
+                        {{ $selectedRace->nama_race }}
                     </h2>
                 </div>
             </div>
@@ -101,7 +113,7 @@
                                     <h5>Peserta</h5>
                                 </div>
                                 <div class="card-body text-center">
-                                    <h1>{{ $race->join->count() }}</h1>
+                                    <h1>{{ $selectedRace->join->count() }}</h1>
                                 </div>
                             </div>
                         </div>
@@ -121,7 +133,7 @@
                                     <h5>Clock</h5>
                                 </div>
                                 <div class="card-body text-center">
-                                    <h1>{{ $race->clock->count() }}</h1>
+                                    <h1>{{ $selectedRace->clock->count() }}</h1>
                                 </div>
                             </div>
                         </div>
@@ -133,5 +145,4 @@
         </div>
     </div>
 </div>
-@endisset
 @endsection

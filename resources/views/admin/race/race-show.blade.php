@@ -166,7 +166,6 @@
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-icon btn-danger"><i class="far fa-trash-alt"></i></button>
                                                 </form>
-                                                <a href="{{ route('admin.race-pos.show', $item->id) }}" class="btn btn-icon btn-secondary"><i class="fas fa-info-circle"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach
