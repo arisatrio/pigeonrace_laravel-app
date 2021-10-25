@@ -40,7 +40,7 @@ class RaceResultsController extends Controller
                 $q->orderBy('race_pos.no_pos');
             }, 
             'join' => function ($q) {
-                $q->orderBy('user_id');
+                $q->orderBy('name');
             }
         ])->find($id);
 

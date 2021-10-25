@@ -131,7 +131,17 @@ class UserHomeController extends Controller
         $no_stiker = $request->no_stiker;
         $kelas = $burung->basketingKelas->where('race_id', $pos->race->id)->first();
 
-        if(!$pos->clock->contains($burung->id) && $pos->clockKelas->contains($kelas->id)) {
+        // Jika sudah clock maka update, jika belum maka attach
+        if($pos->clock->contains($burung->id) && $pos->clockKelas->contains($kelas->id)) {
+            $pos->clock()->updateExistingPivot($burung, [
+                'arrival_date'  => $now->format('d-m-Y'),
+                'arrival_day'   => $pos->tgl_lepasan->diffInDays($now),
+                'arrival_clock' => $now->format('H:i:s'),
+                'flying_time'   => $flying_time,
+                'velocity'      => $velocity,
+                'no_stiker'     => $request->no_stiker,
+            ]);
+        } else {
             $pos->clock()->attach($burung, [
                 'distance'      => $distance,
                 'arrival_date'  => $now->format('d-m-Y'),
@@ -142,15 +152,6 @@ class UserHomeController extends Controller
                 'no_stiker'     => $request->no_stiker,
                 'race_kelas_id' => $kelas->id,
                 'race_id'       => $pos->race->id,
-            ]);
-        } else {
-            $pos->clock()->updateExistingPivot($burung, [
-                'arrival_date'  => $now->format('d-m-Y'),
-                'arrival_day'   => $pos->tgl_lepasan->diffInDays($now),
-                'arrival_clock' => $now->format('H:i:s'),
-                'flying_time'   => $flying_time,
-                'velocity'      => $velocity,
-                'no_stiker'     => $request->no_stiker,
             ]);
         }
 

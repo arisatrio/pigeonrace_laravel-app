@@ -24,8 +24,12 @@ class RaceClock extends Pivot
 
     protected $dates = ['arrival_date', 'arrival_clock'];
 
-    public function getVelocityAttribute($value)
-    {
-        return substr($value, 0, -2).','.substr($value, -2);
-    }
+    // public function getVelocityAttribute($value)
+    // {
+    //     if (strlen($value) <= 3){
+    //         return $value;
+    //     } else{
+    //         return substr($value, 0, -2).','.substr($value, -2);
+    //     }
+    // }
 }
