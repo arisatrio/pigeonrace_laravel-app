@@ -131,6 +131,12 @@ class UserHomeController extends Controller
         $no_stiker = $request->no_stiker;
         $kelas = $burung->basketingKelas->where('race_id', $pos->race->id)->first();
 
+        //Jika di input setelah masuk close time maka redirect back
+        if($pos->limit_speed) {
+            if($velocity < $pos->limit_speed){
+                return redirect()->back();
+            }
+        }
         // Jika sudah clock maka update, jika belum maka attach
         if($pos->clock->contains($burung->id) && $pos->clockKelas->contains($kelas->id)) {
             $pos->clock()->updateExistingPivot($burung, [

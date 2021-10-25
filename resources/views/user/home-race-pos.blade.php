@@ -91,9 +91,9 @@
                         </div>
                         @endif
                     @else
-                    <div class="alert alert-success alert-dismissible">
-                        Race telah selesai.
-                    </div>
+                        <div class="alert alert-success alert-dismissible">
+                            Race telah selesai.
+                        </div>
                     @endif
                 </div>
             </div>
