@@ -33,7 +33,7 @@ class BurungController extends Controller
      */
     public function create()
     {
-        $tahun = range(Carbon::now()->year, 2018);
+        $tahun = range(Carbon::now()->year, 2015);
         $club = Club::all();
         $warna = BWarna::all();
 
